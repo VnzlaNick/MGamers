@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html class="light" lang="es">
-<head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+ <head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Donaciones y Apoyo - MGamers</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
   <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
@@ -81,242 +81,254 @@
       pointer-events: auto;
     }
   </style>
-</head>
-<body class="bg-background text-on-background font-sans min-h-screen pb-24 select-none">
-
+ </head>
+ <body class="bg-background text-on-background font-sans min-h-screen pb-24 select-none">
   <!-- Navigation Drawer Backdrop -->
-  <div class="fixed inset-0 bg-blue/50 z-[60] opacity-0 pointer-events-none transition-opacity duration-300" id="drawer-backdrop" onclick="toggleDrawer()"></div>
-  
-
+  <div class="fixed inset-0 bg-black/50 z-[60] opacity-0 pointer-events-none transition-opacity duration-300" id="drawer-backdrop" onclick="toggleDrawer()"></div>
+  <!-- Navigation Drawer -->
+  <aside class="fixed top-0 left-0 h-full w-[280px] bg-surface-container-lowest z-[70] -translate-x-full transition-transform duration-300 ease-in-out shadow-2xl flex flex-col" id="side-drawer">
+   <div class="p-6 border-b border-outline-variant/30 flex items-center justify-between bg-primary/5">
+    <div class="flex items-center gap-2">
+     <span class="material-symbols-outlined text-primary text-2xl">sports_esports</span>
+     <h2 class="text-xl font-extrabold text-primary tracking-tight">GamersPro</h2>
+    </div>
+    <button aria-label="Cerrar navegación" class="p-2 rounded-full hover:bg-surface-container transition-colors" onclick="toggleDrawer()"><span class="material-symbols-outlined text-on-surface-variant">close</span></button>
+   </div>
+   <nav class="flex-1 overflow-y-auto p-4 space-y-1.5">
+    <a class="flex items-center gap-4 p-3.5 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-colors font-semibold text-sm" href="#"> <span class="material-symbols-outlined text-primary">newspaper</span> Inicio </a> <a class="flex items-center gap-4 p-3.5 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-colors font-semibold text-sm" href="#"> <span class="material-symbols-outlined text-primary">sports_esports</span> Torneos </a> <a class="flex items-center gap-4 p-3.5 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-colors font-semibold text-sm" href="#"> <span class="material-symbols-outlined text-primary">groups</span> Comunidad </a> <a class="flex items-center gap-4 p-3.5 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-colors font-semibold text-sm" href="#"> <span class="material-symbols-outlined text-primary">leaderboard</span> Ranking </a> <a class="flex items-center gap-4 p-3.5 rounded-xl text-primary bg-primary/10 font-bold text-sm" href="#"> <span class="material-symbols-outlined text-primary">volunteer_activism</span> Donar </a>
+   </nav>
+   <div class="p-4 border-t border-outline-variant/30">
+    <button class="w-full flex items-center justify-center gap-2 p-3 text-error font-bold text-sm hover:bg-error-container/20 rounded-xl transition-colors" onclick="toggleDrawer()"><span class="material-symbols-outlined text-lg">logout</span> Cerrar Menú</button>
+   </div>
+  </aside>
   <!-- Top AppBar Header -->
   <header class="fixed top-0 w-full z-50 bg-surface-container-lowest/95 backdrop-blur-md border-b border-outline-variant/30">
-    <div class="flex items-center justify-between px-20 h-16 w-18 max-w-screen-xl mx-auto">
-      <div class="flex items-center gap-2">
-      
-        <span class="text-xl font-extrabold text-primary tracking-tighter">MGamers</span>
-      </div>
-      <div class="flex items-center gap-1">
-
-        </button>
-        <div class="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-bold text-xs">
-          Donar
-        </div>
-      </div>
+   <div class="flex items-center justify-between px-4 h-16 w-full max-w-screen-xl mx-auto">
+    <div class="flex items-center gap-2">
+     <button aria-label="Abrir menú" class="active:scale-95 transition-transform duration-200 hover:bg-surface-container-low p-2 rounded-full" onclick="toggleDrawer()"><span class="material-symbols-outlined text-primary">menu</span></button>
+     <span class="text-xl font-extrabold text-primary tracking-tighter"> MGamers</span>
     </div>
+    <div class="flex items-center gap-1">
+     <button aria-label="Buscar" class="active:scale-95 transition-transform duration-200 hover:bg-surface-container-low p-2 rounded-full text-on-surface-variant"><span class="material-symbols-outlined text-primary">search</span></button>    </div>
+   </div>
   </header>
-
   <!-- Main Content -->
   <main class="w-full pt-16">
-    <!-- Hero Banner Section -->
-    <section class="relative h-[260px] md:h-[320px] w-full flex items-center justify-center overflow-hidden border-b border-outline-variant/20 bg-[#0e141d]">
-      <div class="absolute inset-0 z-0">
-        <img class="w-full h-full object-cover opacity-35 filter brightness-90 contrast-125" alt="MGamers Banner" src="https://lh3.googleusercontent.com/aida/AP1WRLtfKDB555Ba7_5cTEh3hpgJHl3gDsEdoXZ_m3oYpsZpPAxAWQj5bInZ7qw-4A53GpljOw1k7HYDkqT7dpMgccP-E6TpQ2cMsEajxLQLw8jAnDwbu5VXPHPcMrejdBQ2kq7ciECsfwXpkrSHfg_0v3AtDjIb3pdAzRsL9XjeUrNh-JSNCJ0UJEBuRO_JBLZu7CAuzQHXO9yAsmzlIIhC3qR391e8Tfdu42e_kg4pKxeyBzB5riSo6AxC9SK7"/>
-        <div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+   <!-- Hero Banner Section -->
+   <section class="relative h-[260px] md:h-[320px] w-full flex items-center justify-center overflow-hidden border-b border-outline-variant/20 bg-[#0e141d]">
+    <div class="absolute inset-0 z-0">
+     <img alt="MGamers Banner" class="w-full h-full object-cover opacity-35 filter brightness-90 contrast-125" src="https://lh3.googleusercontent.com/aida/AP1WRLtfKDB555Ba7_5cTEh3hpgJHl3gDsEdoXZ_m3oYpsZpPAxAWQj5bInZ7qw-4A53GpljOw1k7HYDkqT7dpMgccP-E6TpQ2cMsEajxLQLw8jAnDwbu5VXPHPcMrejdBQ2kq7ciECsfwXpkrSHfg_0v3AtDjIb3pdAzRsL9XjeUrNh-JSNCJ0UJEBuRO_JBLZu7CAuzQHXO9yAsmzlIIhC3qR391e8Tfdu42e_kg4pKxeyBzB5riSo6AxC9SK7">
+     <div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+    </div>
+    <div class="relative z-10 text-center px-4 max-w-xl mx-auto -mt-4">
+     <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/15 border border-primary/30 text-primary text-xs font-bold uppercase tracking-wider mb-2"> <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span> Comunidad Gamer Móvil </span>
+     <h2 class="text-2xl md:text-3xl font-extrabold text-on-surface uppercase tracking-tight mb-2">Colabora con el Foro</h2>
+     <p class="text-xs md:text-sm text-on-surface-variant leading-relaxed max-w-md mx-auto">Tu ayuda es fundamental para mantener el servidor activo, pagar el dominio y seguir construyendo torneos y premios para todos.</p>
+    </div>
+   </section>
+   <!-- Donation Action Card -->
+   <section class="max-w-xl mx-auto px-4 -mt-10 relative z-20">
+    <div class="bg-surface-container-lowest border border-outline-variant/40 rounded-2xl p-5 md:p-8 shadow-xl">
+     <div class="text-center mb-6">
+      <div class="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary mx-auto mb-3 shadow-inner">
+       <span class="material-symbols-outlined text-3xl">volunteer_activism</span>
       </div>
-      <div class="relative z-10 text-center px-4 max-w-xl mx-auto -mt-4">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/15 border border-primary/30 text-primary text-xs font-bold uppercase tracking-wider mb-2">
-          <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-          Comunidad Gamer Móvil
-        </span>
-        <h2 class="text-2xl md:text-3xl font-extrabold text-on-surface uppercase tracking-tight mb-2">
-          Colabora con el Foro
-        </h2>
-        <p class="text-xs md:text-sm text-on-surface-variant leading-relaxed max-w-md mx-auto">
-          Tu ayuda es fundamental para mantener el servidor activo, pagar el dominio y seguir construyendo torneos y premios para todos.
-        </p>
+      <h3 class="text-lg font-bold text-on-surface mb-1">Aportación Voluntaria</h3>
+      <p class="text-xs text-outline leading-relaxed max-w-sm mx-auto">Cualquier monto, por pequeño que sea, nos ayuda directamente a cubrir los gastos mensuales de mantenimiento.</p>
+     </div>
+     <!-- Info Grid -->
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <!-- Benefits List -->
+      <div class="space-y-2.5 p-4 rounded-xl bg-surface-container-low border border-outline-variant/30">
+       <h4 class="text-xs font-bold text-on-surface uppercase tracking-wider mb-1">¿En qué se usa?</h4>
+       <div class="flex items-center gap-2.5 text-xs text-on-surface-variant">
+        <span class="material-symbols-outlined text-primary text-base shrink-0">check_circle</span> <span>Pago de hosting y base de datos</span>
+       </div>
+       <div class="flex items-center gap-2.5 text-xs text-on-surface-variant">
+        <span class="material-symbols-outlined text-primary text-base shrink-0">check_circle</span> <span>Seguridad, anti-DDoS y backups</span>
+       </div>
+       <div class="flex items-center gap-2.5 text-xs text-on-surface-variant">
+        <span class="material-symbols-outlined text-primary text-base shrink-0">check_circle</span> <span>Premios de copas y torneos</span>
+       </div>
       </div>
-    </section>
-
-    <!-- Donation Action Card -->
-    <section class="max-w-xl mx-auto px-4 -mt-10 relative z-20">
-      <div class="bg-surface-container-lowest border border-outline-variant/40 rounded-2xl p-5 md:p-8 shadow-xl">
-        <div class="text-center mb-6">
-          <div class="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary mx-auto mb-3 shadow-inner">
-            <span class="material-symbols-outlined text-3xl">volunteer_activism</span>
-          </div>
-          <h3 class="text-lg font-bold text-on-surface mb-1">Aportación Voluntaria</h3>
-          <p class="text-xs text-outline leading-relaxed max-w-sm mx-auto">
-            Cualquier monto, por pequeño que sea, nos ayuda directamente a cubrir los gastos mensuales de mantenimiento.
-          </p>
-        </div>
-
-        <!-- Info Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <!-- Benefits List -->
-          <div class="space-y-2.5 p-4 rounded-xl bg-surface-container-low border border-outline-variant/30">
-            <h4 class="text-xs font-bold text-on-surface uppercase tracking-wider mb-1">¿En qué se usa?</h4>
-            <div class="flex items-center gap-2.5 text-xs text-on-surface-variant">
-              <span class="material-symbols-outlined text-primary text-base shrink-0">check_circle</span>
-              <span>Pago de hosting y base de datos</span>
-            </div>
-            <div class="flex items-center gap-2.5 text-xs text-on-surface-variant">
-              <span class="material-symbols-outlined text-primary text-base shrink-0">check_circle</span>
-              <span>Seguridad, anti-DDoS y backups</span>
-            </div>
-            <div class="flex items-center gap-2.5 text-xs text-on-surface-variant">
-              <span class="material-symbols-outlined text-primary text-base shrink-0">check_circle</span>
-              <span>Premios de copas y torneos</span>
-            </div>
-          </div>
-
-          <!-- Suggested Amount Card -->
-          <div class="flex flex-col justify-center items-center p-4 bg-primary/5 rounded-xl border border-primary/20 text-center">
-            <span class="text-[10px] uppercase font-bold text-outline tracking-wider mb-0.5">Monto sugerido</span>
-            <div class="text-2xl font-extrabold text-primary mb-2.5">
-              $0.10 <span class="text-xs font-semibold text-outline">USD</span>
-            </div>
-            <button 
-              type="button" 
-              onclick="openModal('paypalModal')" 
-              class="w-full py-2.5 px-4 bg-primary hover:bg-primary-container text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-md hover:shadow-primary/20 transition-all active:scale-95 flex items-center justify-center gap-1.5"
-            >
-              <span>Donar Ahora</span>
-              <span class="material-symbols-outlined text-sm">arrow_forward</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Payment Buttons Section -->
-        <div class="pt-5 border-t border-outline-variant/30">
-          <h4 class="text-center mb-4 text-outline uppercase tracking-widest text-[11px] font-bold">
-            Selecciona un Método de Pago
-          </h4>
-          
-          <div class="grid grid-cols-2 gap-3.5 max-w-xs mx-auto">
-            <!-- Botón PayPal -->
-            <button 
-              type="button" 
-              onclick="openModal('paypalModal')" 
-              class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl bg-surface-container-low border border-outline-variant/40 hover:border-primary/60 hover:bg-primary/5 transition-all active:scale-95 group shadow-sm text-center"
-            >
-              <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                <span class="material-symbols-outlined text-2xl">payments</span>
-              </div>
-              <span class="text-xs font-bold text-on-surface">PayPal</span>
-              <span class="text-[10px] text-outline -mt-1 font-medium">Billetera Digital</span>
-            </button>
-
-            <!-- Botón Zinli -->
-            <button 
-              type="button" 
-              onclick="openModal('zinliModal')" 
-              class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl bg-surface-container-low border border-outline-variant/40 hover:border-primary/60 hover:bg-primary/5 transition-all active:scale-95 group shadow-sm text-center"
-            >
-              <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                <span class="material-symbols-outlined text-2xl">credit_card</span>
-              </div>
-              <span class="text-xs font-bold text-on-surface">Zinli</span>
-              <span class="text-[10px] text-outline -mt-1 font-medium">Billetera Digital</span>
-            </button>
-          </div>
-        </div>
+      <!-- Suggested Amount Card -->
+      <div class="flex flex-col justify-center items-center p-4 bg-primary/5 rounded-xl border border-primary/20 text-center">
+       <span class="text-[10px] uppercase font-bold text-outline tracking-wider mb-0.5">Monto sugerido</span>
+       <div class="text-2xl font-extrabold text-primary mb-2.5">
+        $0.10 <span class="text-xs font-semibold text-outline">USD</span>
+       </div>
+       <button class="w-full py-2.5 px-4 bg-primary hover:bg-primary-container text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-md hover:shadow-primary/20 transition-all active:scale-95 flex items-center justify-center gap-1.5" onclick="openModal('paypalModal')" type="button"><span>Donar Ahora</span> <span class="material-symbols-outlined text-sm">arrow_forward</span></button>
       </div>
-    </section>
-
-    <!-- Monthly Maintenance Goal Progress Bar -->
-    <section class="max-w-xl mx-auto px-4 mt-8">
-      <div class="bg-surface-container-lowest rounded-2xl p-5 border border-outline-variant/30 shadow-sm">
-        <div class="flex justify-between items-center mb-2.5">
-          <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-primary text-base">savings</span>
-            <span class="text-xs font-bold text-on-surface">Meta Mensual de Hosting</span>
-          </div>
-          <span class="text-primary font-extrabold text-xs">0% completado</span>
+     </div>
+     <!-- Payment Buttons Section -->
+     <div class="pt-5 border-t border-outline-variant/30">
+      <h4 class="text-center mb-4 text-outline uppercase tracking-widest text-[11px] font-bold">Selecciona un Método de Pago</h4>
+      <div class="grid grid-cols-2 gap-3.5 max-w-xs mx-auto">
+       <!-- Botón PayPal -->
+       <button class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl bg-surface-container-low border border-outline-variant/40 hover:border-primary/60 hover:bg-primary/5 transition-all active:scale-95 group shadow-sm text-center" onclick="openModal('paypalModal')" type="button">
+        <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+         <span class="material-symbols-outlined text-2xl">payments</span>
         </div>
-        <div class="w-full h-3 bg-surface-container rounded-full overflow-hidden p-0.5 border border-outline-variant/30">
-          <div class="h-full bg-gradient-to-r from-primary to-cyan-400 rounded-full transition-all duration-700" style="width: 0%"></div>
+        <span class="text-xs font-bold text-on-surface">PayPal</span> <span class="text-[10px] text-outline -mt-1 font-medium">Tarjeta / Saldo</span>
+       </button>
+       <!-- Botón Zinli -->
+       <button class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl bg-surface-container-low border border-outline-variant/40 hover:border-primary/60 hover:bg-primary/5 transition-all active:scale-95 group shadow-sm text-center" onclick="openModal('zinliModal')" type="button">
+        <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+         <span class="material-symbols-outlined text-2xl">credit_card</span>
         </div>
-        <p class="mt-2.5 text-outline text-center text-[11px] italic">
-          Cada aporte mantiene vivo a MGamers. ¡Muchas gracias por el respaldo!
-        </p>
+        <span class="text-xs font-bold text-on-surface">Zinli</span> <span class="text-[10px] text-outline -mt-1 font-medium">Billetera Digital</span>
+       </button>
       </div>
-    </section>
+     </div>
+    </div>
+   </section>
+   <!-- Monthly Maintenance Goal Progress Bar -->
+   <section class="max-w-xl mx-auto px-4 mt-8">
+    <div class="bg-surface-container-lowest rounded-2xl p-5 border border-outline-variant/30 shadow-sm">
+     <div class="flex justify-between items-center mb-2.5">
+      <div class="flex items-center gap-2">
+       <span class="material-symbols-outlined text-primary text-base">savings</span> <span class="text-xs font-bold text-on-surface">Meta Mensual de Hosting</span>
+      </div>
+      <span class="text-primary font-extrabold text-xs">0% completado</span>
+     </div>
+     <div class="w-full h-3 bg-surface-container rounded-full overflow-hidden p-0.5 border border-outline-variant/30">
+      <div class="h-full bg-gradient-to-r from-primary to-cyan-400 rounded-full transition-all duration-700" style="width: 0%"></div>
+     </div>
+     <p class="mt-2.5 text-outline text-center text-[11px] italic">Cada aporte mantiene vivo a MGamers. ¡Muchas gracias por el respaldo!</p>
+    </div>
+   </section>
   </main>
-
   <!-- Bottom Navigation Bar (Fija móvil) -->
   <nav class="fixed bottom-0 left-0 right-0 z-50 bg-surface-container-lowest/95 backdrop-blur-md border-t border-outline-variant/30 py-2 px-3 shadow-lg">
-    <div class="flex justify-around items-center max-w-md mx-auto">
-      <a href="#" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary transition-colors py-1">
-        <span class="material-symbols-outlined text-xl">home</span>
-        <span class="text-[10px] font-semibold">Inicio</span>
-      </a>
-      <a href="#" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary transition-colors py-1">
-        <span class="material-symbols-outlined text-xl">sports_esports</span>
-        <span class="text-[10px] font-semibold">Torneos</span>
-      </a>
-      <a href="#" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary transition-colors py-1">
-        <span class="material-symbols-outlined text-xl">leaderboard</span>
-        <span class="text-[10px] font-semibold">Rangos</span>
-      </a>
-      <a href="#" class="flex flex-col items-center gap-1 text-primary py-1 font-bold">
-        <div class="relative">
-          <span class="material-symbols-outlined text-xl">volunteer_activism</span>
-          <span class="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full"></span>
-        </div>
-        <span class="text-[10px]">Donar</span>
-      </a>
-      <a href="#" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary transition-colors py-1">
-        <span class="material-symbols-outlined text-xl">account_circle</span>
-        <span class="text-[10px] font-semibold">Ingreso</span>
-      </a>
-    </div>
+   <div class="flex justify-around items-center max-w-md mx-auto">
+    <a class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary transition-colors py-1" href="#"> <span class="material-symbols-outlined text-xl">home</span> <span class="text-[10px] font-semibold">Inicio</span> </a> <a class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary transition-colors py-1" href="#"> <span class="material-symbols-outlined text-xl">sports_esports</span> <span class="text-[10px] font-semibold">Torneos</span> </a> <a class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary transition-colors py-1" href="#"> <span class="material-symbols-outlined text-xl">leaderboard</span> <span class="text-[10px] font-semibold">Rangos</span> </a> <a class="flex flex-col items-center gap-1 text-primary py-1 font-bold" href="#"> 
+     <div class="relative">
+      <span class="material-symbols-outlined text-xl">volunteer_activism</span> <span class="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full"></span>
+     </div> 
+     <span class="text-[10px]">Donar</span> 
+    </a> <a class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary transition-colors py-1" href="#"> <span class="material-symbols-outlined text-xl">account_circle</span> <span class="text-[10px] font-semibold">Ingreso</span> </a>
+   </div>
   </nav>
-
   <!-- ================= MODAL PAYPAL ================= -->
-  <div 
-    id="paypalModal" 
-    class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4 transition-all duration-200"
-    onclick="handleBackdropClick(event, 'paypalModal')"
-  >
-    <div class="relative w-full max-w-[320px] bg-surface-container-lowest text-on-surface rounded-2xl border border-outline-variant/50 shadow-2xl p-5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-      
-      <!-- Modal Header -->
-      <div class="flex items-center justify-between pb-3 border-b border-outline-variant/30">
-        <div class="flex items-center gap-2">
-          <span class="material-symbols-outlined text-primary text-xl">payments</span>
-          <h3 class="text-xs font-bold uppercase tracking-wider text-on-surface">Donar con PayPal</h3>
-        </div>
-        <button 
-          type="button" 
-          onclick="closeModal('paypalModal')" 
-          class="text-outline hover:text-on-surface p-1 rounded-lg hover:bg-surface-container transition-colors"
-          aria-label="Cerrar modal"
-        >
-          <span class="material-symbols-outlined text-lg leading-none">close</span>
-        </button>
+  <div class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4 transition-all duration-200" id="paypalModal" onclick="handleBackdropClick(event, 'paypalModal')">
+   <div class="relative w-full max-w-[320px] bg-surface-container-lowest text-on-surface rounded-2xl border border-outline-variant/50 shadow-2xl p-5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+    <!-- Modal Header -->
+    <div class="flex items-center justify-between pb-3 border-b border-outline-variant/30">
+     <div class="flex items-center gap-2">
+      <span class="material-symbols-outlined text-primary text-xl">payments</span>
+      <h3 class="text-xs font-bold uppercase tracking-wider text-on-surface">Donar con PayPal</h3>
+     </div>
+     <button aria-label="Cerrar modal" class="text-outline hover:text-on-surface p-1 rounded-lg hover:bg-surface-container transition-colors" onclick="closeModal('paypalModal')" type="button"><span class="material-symbols-outlined text-lg leading-none">close</span></button>
+    </div>
+    <!-- Modal Body -->
+    <div class="mt-4 flex flex-col items-center text-center">
+     <div class="w-12 h-12 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary mb-2 shadow-inner">
+      <span class="material-symbols-outlined text-2xl">payments</span>
+     </div>
+     <p class="text-xs text-on-surface-variant font-medium leading-relaxed">Tu aporte apoya los servidores, copas y eventos de <strong class="text-primary font-bold">MGamers</strong>.</p>
+     <!-- Correo PayPal para copiar -->
+     <div class="w-full mt-3.5 p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 flex items-center justify-between gap-2">
+      <div class="text-left overflow-hidden">
+       <span class="text-[9px] uppercase tracking-widest text-outline block font-bold">Cuenta Oficial</span> <span class="text-xs font-mono text-primary font-bold truncate block" id="paypalEmailText">aularvnzlar@gmail.com</span>
       </div>
+      <button class="shrink-0 p-1.5 rounded-lg bg-surface-container hover:bg-primary/20 text-on-surface hover:text-primary transition-colors flex items-center justify-center" onclick="copyText('paypalEmailText', 'copyPaypalIcon')" title="Copiar correo" type="button"><span class="material-symbols-outlined text-base" id="copyPaypalIcon">content_copy</span></button>
+     </div>
+     <!-- Enlace Directo PayPal.me -->
+     <a class="w-full mt-4 py-2.5 px-4 rounded-xl bg-primary hover:bg-primary-container text-white font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-primary/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98]" href="https://paypal.me/TU_USUARIO" rel="noopener noreferrer" target="_blank"> <span>Ir a PayPal.me</span> <span class="material-symbols-outlined text-sm">open_in_new</span> </a> <span class="text-[10px] text-outline mt-2 block font-medium">Pago seguro y directo vía PayPal</span>
+    </div>
+   </div>
+  </div>
+  <!-- ================= MODAL ZINLI ================= -->
+  <div class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4 transition-all duration-200" id="zinliModal" onclick="handleBackdropClick(event, 'zinliModal')">
+   <div class="relative w-full max-w-[320px] bg-surface-container-lowest text-on-surface rounded-2xl border border-outline-variant/50 shadow-2xl p-5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+    <!-- Modal Header -->
+    <div class="flex items-center justify-between pb-3 border-b border-outline-variant/30">
+     <div class="flex items-center gap-2">
+      <span class="material-symbols-outlined text-primary text-xl">credit_card</span>
+      <h3 class="text-xs font-bold uppercase tracking-wider text-on-surface">Donar con Zinli</h3>
+     </div>
+     <button aria-label="Cerrar modal" class="text-outline hover:text-on-surface p-1 rounded-lg hover:bg-surface-container transition-colors" onclick="closeModal('zinliModal')" type="button"><span class="material-symbols-outlined text-lg leading-none">close</span></button>
+    </div>
+   <!-- Modal Body -->
+    <div class="mt-4 flex flex-col items-center text-center">
+     <div class="w-12 h-12 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary mb-2 shadow-inner">
+      <span class="material-symbols-outlined text-2xl">credit_card</span>
+     </div>
+     <p class="text-xs text-on-surface-variant font-medium leading-relaxed">Envía tu aporte directamente desde tu app móvil <strong class="text-primary font-bold">Zinli</strong> al correo registrado.</p>
+     <!-- Correo Zinli para copiar -->
+     <div class="w-full mt-3.5 p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 flex items-center justify-between gap-2">
+      <div class="text-left overflow-hidden">
+       <span class="text-[9px] uppercase tracking-widest text-outline block font-bold">Correo Zinli</span> <span class="text-xs font-mono text-primary font-bold truncate block" id="zinliEmailText">aularvnzlar@gmail.com</span>
+      </div>
+      <button class="shrink-0 p-1.5 rounded-lg bg-surface-container hover:bg-primary/20 text-on-surface hover:text-primary transition-colors flex items-center justify-center" onclick="copyText('zinliEmailText', 'copyZinliIcon')" title="Copiar correo" type="button"><span class="material-symbols-outlined text-base" id="copyZinliIcon">content_copy</span></button>
+     </div>
+     <div class="w-full mt-3.5 p-2.5 rounded-xl bg-surface-container text-outline text-[11px] leading-snug">
+      Abre tu app Zinli &gt; <strong class="text-on-surface">Enviar dinero</strong> &gt; Pega este correo
+     </div>
+     <span class="text-[10px] text-outline mt-2 block font-medium">Rápido y sin comisiones extras</span>
+    </div>
+   </div>
+  </div>
+  <!-- Interactive JavaScript logic -->
+  <script>
+    function toggleDrawer() {
+      document.body.classList.toggle('overflow-hidden');
+      document.body.classList.toggle('drawer-open');
+    }
 
-      <!-- Modal Body -->
-      <div class="mt-4 flex flex-col items-center text-center">
-        <div class="w-12 h-12 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary mb-2 shadow-inner">
-          <span class="material-symbols-outlined text-2xl">payments</span>
-        </div>
-        <p class="text-xs text-on-surface-variant font-medium leading-relaxed">
-          Tu aporte apoya los servidores, copas y eventos de <strong class="text-primary font-bold">MGamers</strong>.
-        </p>
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.classList.add('overflow-hidden');
+      }
+    }
 
-        <!-- Correo PayPal para copiar -->
-        <div class="w-full mt-3.5 p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 flex items-center justify-between gap-2">
-          <div class="text-left overflow-hidden">
-            <span class="text-[9px] uppercase tracking-widest text-outline block font-bold">Cuenta Oficial</span>
-            <span id="paypalEmailText" class="text-xs font-mono text-primary font-bold truncate block">donaciones@mgamers.com</span>
-          </div>
-          <button 
-            type="button" 
-            onclick="copyText('paypalEmailText', 'copyPaypalIcon')" 
-            title="Copiar correo" 
-            class="shrink-0 p-1.5 rounded-lg bg-surface-container hover:bg-primary/20 text-on-surface hover:text-primary transition-colors flex items-center justify-center"
-          >
-            <span id="copyPaypalIcon" class="material-symbols-outlined text-base">content_copy</span>
-          </button>
-        </div>
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.classList.remove('overflow-hidden');
+      }
+    }
 
-        <!-- Enlace Directo PayPal.me -->
-        <a 
-          href="https://paypal.me/TU_USUARIO" 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          class="w-full mt-4 py-2.5 px-4 rounded-xl bg-primary hover:bg-primary-container text-white font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-primary/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
-        >
-          <span>Ir a PayPal.me</span>
-          <span class="material-symbols-outlined text-sm">open_in_new</sp
+    function handleBackdropClick(e, modalId) {
+      if (e.target.id === modalId) {
+        closeModal(modalId);
+      }
+    }
+
+    function copyText(elementId, iconId) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const text = el.innerText.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        const icon = document.getElementById(iconId);
+        if (icon) {
+          icon.innerText = 'check';
+          setTimeout(() => {
+            icon.innerText = 'content_copy';
+          }, 2000);
+        }
+      }).catch(() => {
+        // Fallback para selección estándar
+        const range = document.createRange();
+        range.selectNode(el);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+        window.getSelection().removeAllRanges();
+        const icon = document.getElementById(iconId);
+        if (icon) {
+          icon.innerText = 'check';
+          setTimeout(() => {
+            icon.innerText = 'content_copy';
+          }, 2000);
+        }
+      });
+    }
+  </script>
+ </body>
+</html>
