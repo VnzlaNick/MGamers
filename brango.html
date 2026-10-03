@@ -128,7 +128,7 @@
 <div class="fixed inset-0 bg-black/50 z-[60] opacity-0 pointer-events-none transition-opacity duration-300" id="drawer-backdrop" onclick="toggleDrawer()"></div>
 <aside class="fixed top-0 left-0 h-full w-[280px] bg-surface-container-lowest z-[70] -translate-x-full transition-transform duration-300 ease-in-out shadow-2xl flex flex-col" id="side-drawer">
 <div class="p-6 border-b border-outline-variant flex items-center justify-between bg-primary-container/10">
-<h2 class="text-display-lg font-display-lg text-primary tracking-tighter">GamersPro</h2>
+<h2 class="text-display-lg font-display-lg text-primary tracking-tighter">MGamers</h2>
 <button class="p-2 rounded-full hover:bg-surface-container-low transition-colors" onclick="toggleDrawer()">
 <span class="material-symbols-outlined text-on-surface-variant">close</span>
 </button>
@@ -168,7 +168,7 @@
 <button class="active:scale-95 transition-transform duration-200 hover:bg-surface-container-low p-2 rounded-full" onclick="toggleDrawer()">
 <span class="material-symbols-outlined text-primary">menu</span>
 </button>
-<h1 class="text-display-lg font-display-lg text-primary tracking-tighter">Ranking</h1>
+<h1 class="text-display-lg font-display-lg text-primary tracking-tighter">Rangos</h1>
 <button class="active:scale-95 transition-transform duration-200 hover:bg-surface-container-low p-2 rounded-full">
 <span class="material-symbols-outlined text-primary">search</span>
 </button>
@@ -177,385 +177,904 @@
 
 
 
-<!-- Main Content Canvas -->
-<main class="px-margin-18 flex flex-col gap-stack-28 mt-20">
-<!-- Header Section -->
-<section class="flex flex-col gap-2 py-2">
-<h2 class="font-headline-lg text-headline-lg text-on-surface">Estado de la Comunidad</h2>
-<p class="font-body-md text-body-md text-on-surface-variant">Sube en la jerarquía contribuyendo en los foros y manteniéndote activo en la comunidad.</p>
+
+
+
+<!-- Main Content -->
+<main class="flex-1 flex flex-col relative w-full pt-16 pb-24 bg-[#f8fafc] overflow-x-hidden min-h-screen">
+<!-- Hero / Top Banner -->
+<section class="relative px-4 pt-5 pb-4 bg-gradient-to-b from-white via-blue-50/40 to-[#f8fafc] border-b border-slate-200/60">
+<div class="flex flex-col items-start gap-1">
+<!-- Pill Badge -->
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200/80 text-blue-700 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+<span class="text-[11px] uppercase tracking-wider font-extrabold font-['Plus_Jakarta_Sans']">Sistema de Progresión Gamer</span>
+</div>
+<!-- Hierarchy Title -->
+<h1 class="text-2xl font-black text-slate-900 tracking-tight mt-1 font-['Plus_Jakarta_Sans']">
+          Jerarquía de Rangos
+        </h1>
+<p class="text-xs text-slate-600 max-w-sm font-medium leading-relaxed">
+          Sube de rango sumando aportes de calidad, victorias en copas oficiales, actividad diaria y respeto en la comunidad MGamers.
+        </p>
+<!-- Player Showcase Spotlight Card (Light Luxury) -->
+<div class="w-full mt-3 p-3.5 rounded-2xl bg-white border border-amber-200/90 shadow-[0_8px_24px_-4px_rgba(217,119,6,0.12)] relative overflow-hidden">
+<div class="absolute -right-10 -bottom-10 w-36 h-36 bg-amber-100/60 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-center gap-3.5 relative z-10">
+<!-- Eagle Trophy Avatar -->
+<div class="relative w-20 h-20 shrink-0 rounded-2xl bg-gradient-to-b from-amber-50 to-amber-100/50 p-1 flex items-center justify-center border border-amber-300/80 shadow-md">
+<img alt="Águila Imperial Rango Supremo" class="w-full h-full object-contain drop-shadow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUKhxkgbTNBGpoNQVNXGLQEZdkh3Ty-C0-uxwk3mIiNiY3guhDYhQ2QuKka0OBgvNgI_R0Lzob1jbDronMX9Zto-YoBGnH5lYT2jRMs63RhKIi24ggqk3HzbuLWZENkQifcNRM7BlEDTjTg3UEKsuZWMr9bDkWc4UE54M6oZqhXUXw7j5baoKS_XwQe2KNF98D_NdHVFWZHmAGmZcXIqbvtY6E_jJmE4h-T2KsZGfrp7DSY-cvFAHESwe5TMrWu08GQV0"/>
+<div class="absolute -bottom-1 -right-1 px-1.5 py-0.5 rounded-md bg-amber-500 text-white text-[9px] font-black uppercase tracking-wider shadow-sm">
+                TOP 1
+              </div>
+</div>
+<!-- User Stats Details -->
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1">
+<span class="text-[10px] uppercase text-amber-700 tracking-wider font-extrabold">Rango Máximo Actual</span>
+<span class="text-[11px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200/60">Nivel 99</span>
+</div>
+<h2 class="text-base font-extrabold text-slate-900 truncate mt-0.5 font-['Plus_Jakarta_Sans']">Águila Imperial / Gran Campeón</h2>
+<p class="text-xs text-slate-500 truncate">VnzlaNick • 28,450 XP • 14 Trofeos</p>
+<!-- XP Progress Bar -->
+<div class="mt-2 w-full">
+<div class="flex justify-between items-center text-slate-500 mb-1 text-[10px] font-semibold">
+<span>Progreso de Prestigio</span>
+<span class="text-amber-700 font-bold">100% COMPLETADO</span>
+</div>
+<div class="w-full h-2 rounded-full bg-slate-100 border border-slate-200 overflow-hidden">
+<div class="h-full bg-gradient-to-r from-blue-600 via-amber-500 to-amber-400 rounded-full w-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
-<!-- Current User Progress (Asymmetric Highlight) -->
-<div class="glass-card rounded-xl flex items-center gap-4 border-l-4 border-primary shadow-sm mb-2 p-3">
-<div class="h-12 w-12 rounded-full bg-primary-container/20 flex items-center justify-center">
-<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">stars</span>
+<!-- Interactive Quick-Filter Chips Carousel -->
+<section class="sticky top-16 z-40 px-4 py-2.5 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth py-0.5" id="filter-container">
+<button class="tier-tab shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-blue-600 text-white shadow-sm transition-all" data-tier-btn="all" onclick="filterTier('all')">
+          Todos (24)
+        </button>
+<button class="tier-tab shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200 transition-all" data-tier-btn="iniciado" onclick="filterTier('iniciado')">
+          Iniciados (4)
+        </button>
+<button class="tier-tab shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200 transition-all" data-tier-btn="veterano" onclick="filterTier('veterano')">
+          Veteranos (5)
+        </button>
+<button class="tier-tab shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200 transition-all" data-tier-btn="elite" onclick="filterTier('elite')">
+          Élite Neón (5)
+        </button>
+<button class="tier-tab shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200 transition-all" data-tier-btn="maestria" onclick="filterTier('maestria')">
+          Maestría (4)
+        </button>
+<button class="tier-tab shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200 transition-all" data-tier-btn="legendario" onclick="filterTier('legendario')">
+          Legendarios (3)
+        </button>
+<button class="tier-tab shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200 transition-all" data-tier-btn="staff" onclick="filterTier('staff')">
+          Staff (3)
+        </button>
 </div>
-<div class="flex-1">
-<p class="font-label-md text-label-md text-primary uppercase tracking-wider">TU ESTADO ACTUAL</p>
-<div class="flex justify-between items-end">
-<h3 class="font-headline-md text-headline-md">Rango Oro</h3>
-<span class="font-label-lg text-label-lg text-primary">78% para Diamante</span>
+</section>
+<!-- Complete 24 Ranks Directory -->
+<div class="px-4 py-4 flex flex-col gap-6" id="ranks-feed">
+<!-- ================= 1. TIER INICIADO ================= -->
+<section class="tier-section flex flex-col gap-3" data-tier-group="iniciado">
+<div class="flex items-center justify-between pb-0.5">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-sm bg-slate-400 rotate-45"></span>
+<h2 class="text-sm font-extrabold text-slate-800 uppercase tracking-wider font-['Plus_Jakarta_Sans']">Tier I: Iniciado</h2>
 </div>
+<span class="text-[11px] font-bold text-slate-500 px-2.5 py-0.5 rounded-full bg-slate-100 border border-slate-200">0 - 200 Posts</span>
 </div>
+<!-- Rank 01: Novato Callejero -->
+<div class="w-full p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-slate-300 transition-colors">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<!-- Custom SVG Emblem 01: Bronze Novato Shield -->
+<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-50 to-orange-100 border border-amber-200/80 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+<path d="M24 6L11 12V22C11 31.5 16.5 39.5 24 42C31.5 39.5 37 31.5 37 22V12L24 6Z" fill="url(#bronzeGrad1)" stroke="#b45309" stroke-width="1.5"></path>
+<path d="M19 23L22 26L29 19" stroke="#78350f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+<defs>
+<lineargradient gradientunits="userSpaceOnUse" id="bronzeGrad1" x1="11" x2="37" y1="6" y2="42">
+<stop stop-color="#fde68a"></stop>
+<stop offset="1" stop-color="#d97706"></stop>
+</lineargradient>
+</defs>
+</svg>
 </div>
-<!-- Ranks List (Vertical Stack) -->
-<div class="flex flex-col gap-2">
-<!-- Rank 11: Grandmaster -->
-<div class="bg-surface-container-lowest rounded-xl border-2 border-outline-variant hover:border-primary transition-all duration-300 group p-1">
-<div class="flex items-start gap-4">
-<img alt="Grandmaster Rank" class="object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-300 w-12 h-12" src="https://lh3.googleusercontent.com/aida/AP1WRLvw2zIVRvm_L-a4N-ZyKqrZ1xgnrJLKO7xCbcoGp40WoT3A5T_McuipgqyqjSvJEdP7JZOK2mk-YzBQFTJMAo-l1pSsgESFpt9EBrPqJxwR4pyb4t9tsr43FOfe8d3qrVQFlb22rT9yznN3T8SkEmJlh3xWar4A-6Ua2QisnDmXQG3_ydbInKWF-Ra9sfZxSzjcuoyIg0qb-LTek294Kj0gRcGNJj0GRW-7WtK9cAbGnqW-0Rw9ndd7xT0"/>
-<div class="flex-1">
-<div class="flex justify-between items-start">
 <div>
-<h4 class="font-headline-md text-on-surface text-body-lg">Grandmaster</h4>
-<p class="font-body-md text-on-surface-variant text-label-lg">Máxima autoridad </p>
+<div class="flex items-center gap-1.5">
+<h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Novato Callejero</h3>
+<span class="text-[11px] font-bold text-slate-400">#01</span>
 </div>
-<span class="bg-primary/10 text-primary px-2 py-1 rounded-lg text-[10px] font-bold uppercase">Élite</span>
-</div>
-<div class="mt-3 flex flex-col gap-2">
-<p class="font-label-md text-label-md text-tertiary text-label-lg">Requisitos: 50,000+ mensajes, Leyenda de la Comunidad</p>
-<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
-<div class="h-full bg-primary-container w-[5%] rounded-full shadow-[0_0_8px_rgba(0,160,233,0.5)]"></div>
+<p class="text-xs text-slate-500 font-normal">0 - 15 posts en la comunidad</p>
 </div>
 </div>
+<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wider">Base</span>
+</div>
+<div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+<span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium">
+<span class="material-symbols-outlined text-[15px] text-blue-600">lock_open</span> Desbloqueo:
+            </span>
+<span class="text-slate-800 font-medium text-[11px]">Comentar en hilos públicos &amp; avatar 64px</span>
 </div>
 </div>
+<!-- Rank 02: Aprendiz Móvil -->
+<div class="w-full p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-slate-300 transition-colors">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<!-- Custom SVG Emblem 02: Smartphone Wings -->
+<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-50 to-orange-100 border border-amber-200/80 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+<rect fill="url(#bronzeGrad2)" height="28" rx="3" stroke="#b45309" stroke-width="1.5" width="14" x="17" y="10"></rect>
+<path d="M12 18L7 22L12 26" stroke="#b45309" stroke-linecap="round" stroke-width="2"></path>
+<path d="M36 18L41 22L36 26" stroke="#b45309" stroke-linecap="round" stroke-width="2"></path>
+<circle cx="24" cy="33" fill="#78350f" r="1.5"></circle>
+<defs>
+<lineargradient gradientunits="userSpaceOnUse" id="bronzeGrad2" x1="17" x2="31" y1="10" y2="38">
+<stop stop-color="#fed7aa"></stop>
+<stop offset="1" stop-color="#ea580c"></stop>
+</lineargradient>
+</defs>
+</svg>
 </div>
-<!-- Rank 10: Master -->
-<div class="bg-surface-container-lowest rounded-xl border-2 border-outline-variant hover:border-primary transition-all duration-300 group p-1">
-<div class="flex items-start gap-4">
-<img alt="Master Rank" class="object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-300 w-12 h-12" src="https://i.wpfc.ml/js/y4o375.png"/>
-<div class="flex-1">
-<div class="flex justify-between items-start">
 <div>
-<h4 class="font-headline-md text-on-surface text-body-lg">Master</h4>
-<p class="font-body-md text-on-surface-variant text-label-lg">Maestro de la Arena</p>
+<div class="flex items-center gap-1.5">
+<h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Aprendiz Móvil</h3>
+<span class="text-[11px] font-bold text-slate-400">#02</span>
+</div>
+<p class="text-xs text-slate-500 font-normal">16 - 50 posts en el foro</p>
 </div>
 </div>
-<div class="mt-3 flex flex-col gap-2">
-<p class="font-label-md text-label-md text-tertiary text-label-lg">Requisitos: 25,000+ mensajes, Estado Élite</p>
-<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
-<div class="h-full bg-primary-container w-[8%] rounded-full"></div>
+<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wider">Nvl 2</span>
+</div>
+<div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+<span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium">
+<span class="material-symbols-outlined text-[15px] text-blue-600">check_circle</span> Ventaja:
+            </span>
+<span class="text-slate-800 font-medium text-[11px]">Votación en encuestas y reacciones a temas</span>
 </div>
 </div>
+<!-- Rank 03: Explorador de Foros -->
+<div class="w-full p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-slate-300 transition-colors">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<!-- Custom SVG Emblem 03: Compass Crest -->
+<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-50 to-orange-100 border border-amber-200/80 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+<circle cx="24" cy="24" fill="url(#bronzeGrad3)" r="16" stroke="#b45309" stroke-width="1.5"></circle>
+<path d="M28 16L22 22L16 28L22 26L28 16Z" fill="#78350f"></path>
+<circle cx="24" cy="24" fill="#fef3c7" r="2.5"></circle>
+<defs>
+<lineargradient gradientunits="userSpaceOnUse" id="bronzeGrad3" x1="8" x2="40" y1="8" y2="40">
+<stop stop-color="#ffedd5"></stop>
+<stop offset="1" stop-color="#c2410c"></stop>
+</lineargradient>
+</defs>
+</svg>
 </div>
-</div>
-</div>
-<!-- Rank 9: Legendary -->
-<div class="bg-surface-container-lowest rounded-xl border-2 border-outline-variant hover:border-primary transition-all duration-300 group p-1">
-<div class="flex items-start gap-4">
-<img alt="Legendary Rank" class="object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-300 w-12 h-12" src="https://lh3.googleusercontent.com/aida/AP1WRLt7pNl0NoMnzV6SbMjiYpHEY_nTG2M4E6at00LPRL8aZ1aqiWW7yw5zphUQrM0TgVgHKJ3HEL-igYIxz5jdooMjdMvi2JzkSnR9St8m-0d9Ep_IeJ1TaxIYBxn_JsjkYfC1dxkhhEadjGqMc6Mm9etsQ3GosDQb_rl4XOSqAuEBYKmfOyj37EJANMrbdK_SCxt3yL-Wnxxzi0xjq8O0BIf6jkSONfCDJxmoLLvGKamd2ZOPbTSFuqeKu3w"/>
-<div class="flex-1">
-<div class="flex justify-between items-start">
 <div>
-<h4 class="font-headline-md text-on-surface text-body-lg">Legendary</h4>
-<p class="font-body-md text-on-surface-variant text-label-lg">El nivel de élite absoluto</p>
-</div>
-</div>
-<div class="mt-3 flex flex-col gap-2">
-<p class="font-label-md text-label-md text-tertiary text-label-lg">Requisitos: 15,000+ mensajes, Activo por 3 años</p>
-<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
-<div class="h-full bg-primary-container w-[12%] rounded-full"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Rank 8: Ruby -->
-<div class="bg-surface-container-lowest rounded-xl border-2 border-outline-variant hover:border-primary transition-all duration-300 group p-1">
-<div class="flex items-start gap-4">
-<img alt="Ruby Rank" class="object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-300 w-12 h-12" src="https://lh3.googleusercontent.com/aida/AP1WRLt89r3N-M-3fFDgbFTGTAICw9TwvtVpRu_Du3qwBKpmx2H39uOFeM09LFtS1v3RUga9U-sPgZgTJiVDUex0yL6ymit5ZsVmS_3-wuE7zrHF_GJHTKbYqORkgPA0XT8ClfQFQhCYOExos6JlXL1cgSOrGt256AD9kvniXIEsy9P2H-4tG_vQ1a-yiyJWDbUVIHaBVpumigRffZaqHqtCzH69LGtxFTy70RJDNcwtVsQE1AUKLXxveUh0Nl4"/>
-<div class="flex-1">
-<div class="flex justify-between items-start">
-<div>
-<h4 class="font-headline-md text-on-surface text-body-lg">Ruby</h4>
-<p class="font-body-md text-on-surface-variant text-label-lg">Estado Élite</p>
-</div>
-</div>
-<div class="mt-3 flex flex-col gap-2">
-<p class="font-label-md text-label-md text-tertiary text-label-lg">Requisitos: 10,000+ mensajes, Colaborador Experto</p>
-<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
-<div class="h-full bg-primary-container w-[25%] rounded-full"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Rank 7: Diamond -->
-<div class="bg-surface-container-lowest rounded-xl border-2 border-outline-variant hover:border-primary transition-all duration-300 group p-1">
-<div class="flex items-start gap-4">
-<img alt="Diamond Rank" class="object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-300 w-12 h-12" src="https://i.wpfc.ml/js/y5pj31.png"/>
-<div class="flex-1">
-<div class="flex justify-between items-start">
-<div>
-<h4 class="font-headline-md text-on-surface text-body-lg">Diamante</h4>
-<p class="font-body-md text-on-surface-variant text-label-lg">Líder experto</p>
-</div>
-</div>
-<div class="mt-3 flex flex-col gap-2">
-<p class="font-label-md text-label-md text-tertiary text-label-lg">Requisitos: 7,500+ mensajes, Activo por 2 años</p>
-<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
-<div class="h-full bg-primary-container w-[45%] rounded-full"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Rank 6: Emerald -->
-<div class="bg-surface-container-lowest rounded-xl border-2 border-outline-variant hover:border-primary transition-all duration-300 group p-1">
-<div class="flex items-start gap-4">
-<img alt="Emerald Rank" class="object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-300 w-12 h-12" src="https://i.wpfc.ml/js/y5n0xb.png"/>
-<div class="flex-1">
-<div class="flex justify-between items-start">
-<div>
-<h4 class="font-headline-md text-on-surface text-body-lg">Esmeralda</h4>
-<p class="font-body-md text-on-surface-variant text-label-lg">Membresía: PROFESIONAL</p>
-</div>
-</div>
-<div class="mt-3 flex flex-col gap-2">
-<p class="font-label-md text-label-md text-tertiary text-label-lg">Requisitos: 5,000+ mensajes, Estado Veterano</p>
-<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
-<div class="h-full bg-primary-container w-[45%] rounded-full"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Rank 5: Platinum -->
-<div class="bg-surface-container-lowest rounded-xl border-2 border-outline-variant hover:border-primary transition-all duration-300 group p-1">
-<div class="flex items-start gap-4">
-<img alt="Platinum Rank" class="object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-300 w-12 h-12" src="https://i.wpfc.ml/js/y5lng6.png"/>
-<div class="flex-1">
-<div class="flex justify-between items-start">
-<div>
-<h4 class="font-headline-md text-on-surface text-body-lg">Platinum</h4>
-<p class="font-body-md text-on-surface-variant text-label-lg">Membresía: FUERZA ESPECIAL</p>
-</div>
-</div>
-<div class="mt-3 flex flex-col gap-2">
-<p class="font-label-md text-label-md text-tertiary text-label-lg">Requisitos: +350 Post</p>
-<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
-<div class="h-full bg-primary-container w-[35%] rounded-full"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Rank 3: Cetro -->
-<div class="bg-surface-container-lowest rounded-xl border-2 border-outline-variant hover:border-primary transition-all duration-300 group p-1">
-<div class="flex items-start gap-4">
-<img alt="Silver Rank" class="object-contain w-12 h-12" src="https://i.wpfc.ml/js/y5av9z.jpg"/>
-<div class="flex-1">
-<div class="flex justify-between items-start">
-<div>
-<h4 class="font-headline-md text-on-surface text-body-lg">Cetro Safiro</h4>
-<p class="font-body-md text-on-surface-variant text-label-lg">Membresía: Lider de escuadron</p>
-</div>
-</div>
-<div class="mt-3 flex flex-col gap-2">
-<p class="font-label-md text-label-md text-tertiary text-label-lg">Requisitos: +280 Post</p>
-<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
-<div class="h-full bg-primary-container w-[30%] rounded-full"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Rank 3: Oro + -->
-<div class="bg-surface-container-lowest rounded-xl border-2 border-outline-variant hover:border-primary transition-all duration-300 group p-1">
-<div class="flex items-start gap-4">
-<img alt="Silver Rank" class="object-contain w-12 h-12" src="https://i.wpfc.ml/js/y5t997.jpg"/>
-<div class="flex-1">
-<div class="flex justify-between items-start">
-<div>
-<h4 class="font-headline-md text-on-surface text-body-lg">Oro +</h4>
-<p class="font-body-md text-on-surface-variant text-label-lg">Membresía: Asesino Oscuro</p>
-</div>
-</div>
-<div class="mt-3 flex flex-col gap-2">
-<p class="font-label-md text-label-md text-tertiary text-label-lg">Requisitos: +220 Post</p>
-<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
-<div class="h-full bg-primary-container w-[27%] rounded-full"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Rank 4: Oro (Active User State) -->
-<div class="bg-primary-container/2 rounded-xl border-2 border-primary transition-all duration-300 relative overflow-hidden p-1">
-<div class="absolute top-0 right-0 p-2">
-<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-</div>
-<div class="flex items-start gap-4">
-<img alt="Gold Rank" class="object-contain drop-shadow-xl scale-105 w-12 h-12" src="https://i.wpfc.ml/js/y55hj9.jpg"/>
-<div class="flex-1">
-<div class="flex justify-between items-start">
-<div>
-<h4 class="font-headline-md text-headline-md text-primary">Oro</h4>
-<p class="font-body-md text-body-md text-on-surface-variant">Membresía: Asesino</p>
-</div>
-</div>
-<div class="mt-3 flex flex-col gap-2">
-<p class="font-label-md text-label-md text-primary-fixed-variant">Requisitos: +180 Post</p>
-<div class="h-2 w-full bg-surface-variant rounded-full overflow-hidden border border-primary/20">
-<div class="h-full bg-primary-container w-[24%] rounded-full"></div>
-</div>
-<p class="font-label-md text-label-md text-primary font-semibold">¡Rango Alcanzado!</p>
-</div>
-</div>
-</div>
-</div>
-<!-- Rank 3: Silver + -->
-<div class="bg-surface-container-lowest rounded-xl border-2 border-outline-variant hover:border-primary transition-all duration-300 group p-1">
-<div class="flex items-start gap-4">
-<img alt="Silver Rank" class="object-contain w-12 h-12" src="https://i.wpfc.ml/js/y53zsi.jpg"/>
-<div class="flex-1">
-<div class="flex justify-between items-start">
-<div>
-<h4 class="font-headline-md text-on-surface text-body-lg">Plata +</h4>
-<p class="font-body-md text-on-surface-variant text-label-lg">Membresía: Experto en armas</p>
-</div>
-</div>
-<div class="mt-3 flex flex-col gap-2">
-<p class="font-label-md text-label-md text-tertiary text-label-lg">Requisitos: +140 Post</p>
-<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
-<div class="h-full bg-primary-container w-[20%] rounded-full"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Rank 3: Silver -->
-<div class="bg-surface-container-lowest rounded-xl border-2 border-outline-variant hover:border-primary transition-all duration-300 group p-1">
-<div class="flex items-start gap-4">
-<img alt="Silver Rank" class="object-contain w-12 h-12" src="https://i.wpfc.ml/js/y4pgag.png"/>
-<div class="flex-1">
-<div class="flex justify-between items-start">
-<div>
-<h4 class="font-headline-md text-on-surface text-body-lg">Plata</h4>
-<p class="font-body-md text-on-surface-variant text-label-lg">Membresía: Experto en soporte</p>
-</div>
-</div>
-<div class="mt-3 flex flex-col gap-2">
-<p class="font-label-md text-label-md text-tertiary text-label-lg">Requisitos: +110 Post</p>
-<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
-<div class="h-full bg-primary-container w-[17%] rounded-full"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Rank 2: Bronze +-->
-<div class="bg-surface-container-lowest rounded-xl border-2 border-outline-variant hover:border-primary transition-all duration-300 group p-1">
-<div class="flex items-start gap-4">
-<img alt="Bronze Rank" class="object-contain w-12 h-12" src="https://i.wpfc.ml/js/y52d2z.png"/>
-<div class="flex-1">
-<div class="flex justify-between items-start">
-<div>
-<h4 class="font-headline-md text-on-surface text-body-lg">Bronze +</h4>
-<p class="font-body-md text-on-surface-variant text-label-lg">Membresía: Guerrero Elite</p>
-</div>
-</div>
-<div class="mt-3 flex flex-col gap-2">
-<p class="font-label-md text-label-md text-tertiary text-label-lg">Requisitos: +85 Post</p>
-<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
-<div class="h-full bg-primary-container w-[13%] rounded-full"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Rank 2: Bronze -->
-<div class="bg-surface-container-lowest rounded-xl border-2 border-outline-variant hover:border-primary transition-all duration-300 group p-1">
-<div class="flex items-start gap-4">
-<img alt="Bronze Rank" class="object-contain w-12 h-12" src="https://i.wpfc.ml/js/y4xvlg.png"/>
-<div class="flex-1">
-<div class="flex justify-between items-start">
-<div>
-<h4 class="font-headline-md text-on-surface text-body-lg">Bronze</h4>
-<p class="font-body-md text-on-surface-variant text-label-lg">Membresía: Guerrero</p>
-</div>
-</div>
-<div class="mt-3 flex flex-col gap-2">
-<p class="font-label-md text-label-md text-tertiary text-label-lg">Requisitos: +60 Post</p>
-<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
-<div class="h-full bg-primary-container w-[9%] rounded-full"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
+<div class="flex items-center gap-1.5">
+<h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Explorador de Foros</h3>
+<span class="text-[11px] font-bold text-slate-400">#03</span>
+</div>
+<p class="text-xs text-slate-500 font-normal">51 - 100 posts • 10 likes recibidos</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wider">Nvl 3</span>
+</div>
+<div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+<span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium">
+<span class="material-symbols-outlined text-[15px] text-blue-600">verified</span> Recompensa:
+            </span>
+<span class="text-slate-800 font-medium text-[11px]">Subir capturas HD sin compresión externa</span>
+</div>
+</div>
+     <!-- Rank 04: Táctico Jr. -->
+     <div class="w-full p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-slate-300 transition-colors">
+      <div class="flex items-start justify-between gap-3">
+       <div class="flex items-center gap-3">
+        <!-- Custom SVG Emblem 04: Target Crosshair Bronze -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-50 to-orange-100 border border-amber-200/80 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+         <svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+          <circle cx="24" cy="24" r="15" stroke="#b45309" stroke-dasharray="3 3" stroke-width="1.5"></circle> <circle cx="24" cy="24" fill="url(#bronzeGrad4)" r="9" stroke="#78350f" stroke-width="1.5"></circle> <path d="M24 6V12M24 36V42M6 24H12M36 24H42" stroke="#b45309" stroke-linecap="round" stroke-width="2"></path> <circle cx="24" cy="24" fill="#fef3c7" r="2.5"></circle>
+          <defs>
+           <lineargradient gradientunits="userSpaceOnUse" id="bronzeGrad4" x1="15" x2="33" y1="15" y2="33">
+            <stop stop-color="#fde68a"></stop> <stop offset="1" stop-color="#b45309"></stop>
+           </lineargradient>
+          </defs>
+         </svg>
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Táctico Jr.</h3>
+          <span class="text-[11px] font-bold text-slate-400">#04</span>
+         </div>
+         <p class="text-xs text-slate-500 font-normal">101 - 200 posts comunitarios</p>
+        </div>
+       </div>
+       <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wider">Nvl 4</span>
+      </div>
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+       <span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium"> <span class="material-symbols-outlined text-[15px] text-blue-600">edit_note</span> Ventaja: </span> <span class="text-slate-800 font-medium text-[11px]">Firma de texto fija (hasta 120 caracteres)</span>
+      </div>
+     </div>
+    </section>
+    <!-- ================= 2. TIER VETERANO ================= -->
+    <section class="tier-section flex flex-col gap-3" data-tier-group="veterano">
+     <div class="flex items-center justify-between pb-0.5">
+      <div class="flex items-center gap-2">
+       <span class="w-3 h-3 rounded-sm bg-sky-500 rotate-45"></span>
+       <h2 class="text-sm font-extrabold text-slate-800 uppercase tracking-wider font-['Plus_Jakarta_Sans']">Tier II: Veterano</h2>
+      </div>
+      <span class="text-[11px] font-bold text-sky-700 px-2.5 py-0.5 rounded-full bg-sky-50 border border-sky-200">201 - 1,500 Posts</span>
+     </div>
+     <!-- Rank 05: Soldado Digital -->
+     <div class="w-full p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-sky-300 transition-colors">
+      <div class="flex items-start justify-between gap-3">
+       <div class="flex items-center gap-3">
+        <!-- Custom SVG Emblem 05: Iron Shield & Wing tips -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-50 to-blue-100 border border-sky-200 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+         <svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+          <path d="M24 7L10 13V24C10 33 16 39 24 42C32 39 38 33 38 24V13L24 7Z" fill="url(#skyGrad5)" stroke="#0284c7" stroke-width="1.5"></path> <path d="M24 14V34M17 21L24 16L31 21" stroke="#0369a1" stroke-linecap="round" stroke-width="2"></path>
+          <defs>
+           <lineargradient gradientunits="userSpaceOnUse" id="skyGrad5" x1="10" x2="38" y1="7" y2="42">
+            <stop stop-color="#e0f2fe"></stop> <stop offset="1" stop-color="#38bdf8"></stop>
+           </lineargradient>
+          </defs>
+         </svg>
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Soldado Digital</h3>
+          <span class="text-[11px] font-bold text-sky-600">#05</span>
+         </div>
+         <p class="text-xs text-slate-500 font-normal">201 - 350 posts • Racha 7 días</p>
+        </div>
+       </div>
+       <span class="px-2 py-0.5 rounded bg-sky-50 text-sky-700 text-[10px] font-bold uppercase tracking-wider">Veterano</span>
+      </div>
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+       <span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium"> <span class="material-symbols-outlined text-[15px] text-sky-600">groups</span> Beneficio: </span> <span class="text-slate-800 font-medium text-[11px]">Inscripción directa en clanes y torneos MG</span>
+      </div>
+     </div>
+     <!-- Rank 06: Estratega Móvil -->
+     <div class="w-full p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-sky-300 transition-colors">
+      <div class="flex items-start justify-between gap-3">
+       <div class="flex items-center gap-3">
+        <!-- Custom SVG Emblem 06: Tactical Brain Gear -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-50 to-blue-100 border border-sky-200 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+         <svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+          <rect fill="url(#skyGrad6)" height="24" rx="6" stroke="#0284c7" stroke-width="1.5" width="24" x="12" y="12"></rect> <path d="M24 16V20M24 28V32M16 24H20M28 24H32" stroke="#0369a1" stroke-linecap="round" stroke-width="2.5"></path> <circle cx="24" cy="24" fill="#0284c7" r="4"></circle>
+          <defs>
+           <lineargradient gradientunits="userSpaceOnUse" id="skyGrad6" x1="12" x2="36" y1="12" y2="36">
+            <stop stop-color="#bae6fd"></stop> <stop offset="1" stop-color="#0ea5e9"></stop>
+           </lineargradient>
+          </defs>
+         </svg>
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Estratega Móvil</h3>
+          <span class="text-[11px] font-bold text-sky-600">#06</span>
+         </div>
+         <p class="text-xs text-slate-500 font-normal">351 - 500 posts publicados</p>
+        </div>
+       </div>
+       <span class="px-2 py-0.5 rounded bg-sky-50 text-sky-700 text-[10px] font-bold uppercase tracking-wider">Estratega</span>
+      </div>
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+       <span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium"> <span class="material-symbols-outlined text-[15px] text-sky-600">badge</span> Título: </span> <span class="text-slate-800 font-medium text-[11px]">Creación de guías con chincheta temporal</span>
+      </div>
+     </div>
+     <!-- Rank 07: Cazador de Trofeos -->
+     <div class="w-full p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-sky-300 transition-colors">
+      <div class="flex items-start justify-between gap-3">
+       <div class="flex items-center gap-3">
+        <!-- Custom SVG Emblem 07: Winged Trophy -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-50 to-blue-100 border border-sky-200 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+         <svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+          <path d="M16 11H32V21C32 25.5 28.5 29 24 29C19.5 29 16 25.5 16 21V11Z" fill="url(#skyGrad7)" stroke="#0284c7" stroke-width="1.5"></path> <path d="M16 15H10C8.5 15 7 16.5 8 19C9 21.5 12 23 16 23" stroke="#0284c7" stroke-width="1.5"></path> <path d="M32 15H38C39.5 15 41 16.5 40 19C39 21.5 36 23 32 23" stroke="#0284c7" stroke-width="1.5"></path> <path d="M24 29V36M18 36H30" stroke="#0369a1" stroke-linecap="round" stroke-width="2"></path>
+          <defs>
+           <lineargradient gradientunits="userSpaceOnUse" id="skyGrad7" x1="16" x2="32" y1="11" y2="29">
+            <stop stop-color="#7dd3fc"></stop> <stop offset="1" stop-color="#0284c7"></stop>
+           </lineargradient>
+          </defs>
+         </svg>
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Cazador de Trofeos</h3>
+          <span class="text-[11px] font-bold text-sky-600">#07</span>
+         </div>
+         <p class="text-xs text-slate-500 font-normal">501 - 750 posts • 1 podio torneo</p>
+        </div>
+       </div>
+       <span class="px-2 py-0.5 rounded bg-sky-50 text-sky-700 text-[10px] font-bold uppercase tracking-wider">Hunter</span>
+      </div>
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+       <span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium"> <span class="material-symbols-outlined text-[15px] text-sky-600">palette</span> Cosmético: </span> <span class="text-slate-800 font-medium text-[11px]">Borde cobalto en avatar de perfil</span>
+      </div>
+     </div>
+     <!-- Rank 08: Gladiador de Arena -->
+     <div class="w-full p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-sky-300 transition-colors">
+      <div class="flex items-start justify-between gap-3">
+       <div class="flex items-center gap-3">
+        <!-- Custom SVG Emblem 08: Crossed Swords & Shield -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-50 to-blue-100 border border-sky-200 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+         <svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+          <path d="M11 11L37 37M37 11L11 37" stroke="#0284c7" stroke-linecap="round" stroke-width="2.5"></path> <circle cx="24" cy="24" fill="url(#skyGrad8)" r="7" stroke="#0369a1" stroke-width="1.5"></circle> <path d="M9 13L13 9M35 9L39 13M9 35L13 39M35 39L39 35" stroke="#0369a1" stroke-width="2"></path>
+          <defs>
+           <lineargradient gradientunits="userSpaceOnUse" id="skyGrad8" x1="17" x2="31" y1="17" y2="31">
+            <stop stop-color="#bae6fd"></stop> <stop offset="1" stop-color="#0284c7"></stop>
+           </lineargradient>
+          </defs>
+         </svg>
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Gladiador de Arena</h3>
+          <span class="text-[11px] font-bold text-sky-600">#08</span>
+         </div>
+         <p class="text-xs text-slate-500 font-normal">751 - 1,000 posts en hilos</p>
+        </div>
+       </div>
+       <span class="px-2 py-0.5 rounded bg-sky-50 text-sky-700 text-[10px] font-bold uppercase tracking-wider">PvP</span>
+      </div>
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+       <span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium"> <span class="material-symbols-outlined text-[15px] text-sky-600">campaign</span> Ventaja: </span> <span class="text-slate-800 font-medium text-[11px]">Salas de scrim privadas y retos directos</span>
+      </div>
+     </div>
+     <!-- Rank 09: As de Pantalla -->
+     <div class="w-full p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-sky-300 transition-colors">
+      <div class="flex items-start justify-between gap-3">
+       <div class="flex items-center gap-3">
+        <!-- Custom SVG Emblem 09: 5-Point Star Crest -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-50 to-blue-100 border border-sky-200 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+         <svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+          <path d="M24 6L29 17L41 19L32 27L35 39L24 33L13 39L16 27L7 19L19 17L24 6Z" fill="url(#skyGrad9)" stroke="#0284c7" stroke-linejoin="round" stroke-width="1.5"></path> <circle cx="24" cy="24" fill="#ffffff" r="3"></circle>
+          <defs>
+           <lineargradient gradientunits="userSpaceOnUse" id="skyGrad9" x1="7" x2="41" y1="6" y2="39">
+            <stop stop-color="#38bdf8"></stop> <stop offset="1" stop-color="#0369a1"></stop>
+           </lineargradient>
+          </defs>
+         </svg>
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">As de Pantalla</h3>
+          <span class="text-[11px] font-bold text-sky-600">#09</span>
+         </div>
+         <p class="text-xs text-slate-500 font-normal">1,001 - 1,500 posts comunitarios</p>
+        </div>
+       </div>
+       <span class="px-2 py-0.5 rounded bg-sky-50 text-sky-700 text-[10px] font-bold uppercase tracking-wider">Master V</span>
+      </div>
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+       <span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium"> <span class="material-symbols-outlined text-[15px] text-sky-600">auto_awesome</span> Insignia: </span> <span class="text-slate-800 font-medium text-[11px]">Nick tintado en azul metálico en el chat</span>
+      </div>
+     </div>
+    </section>
+    <!-- ================= 3. TIER ÉLITE NEÓN ================= -->
+    <section class="tier-section flex flex-col gap-3" data-tier-group="elite">
+     <div class="flex items-center justify-between pb-0.5">
+      <div class="flex items-center gap-2">
+       <span class="w-3 h-3 rounded-sm bg-blue-600 rotate-45 shadow-sm"></span>
+       <h2 class="text-sm font-extrabold text-slate-800 uppercase tracking-wider font-['Plus_Jakarta_Sans']">Tier III: Élite Neón</h2>
+      </div>
+      <span class="text-[11px] font-bold text-blue-700 px-2.5 py-0.5 rounded-full bg-blue-50 border border-blue-200">1,501 - 7,000 Posts</span>
+     </div>
+     <!-- Rank 10: Campeón de Servidor -->
+     <div class="w-full p-3.5 rounded-xl bg-white border-l-4 border-l-blue-600 border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-slate-300 transition-colors">
+      <div class="flex items-start justify-between gap-3">
+       <div class="flex items-center gap-3">
+        <!-- Custom SVG Emblem 10: Server Crown Medal -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-100 border border-blue-200 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+         <svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+          <path d="M12 9L24 16L36 9L33 28C33 34 24 39 24 39C24 39 15 34 15 28L12 9Z" fill="url(#blueGrad10)" stroke="#1d4ed8" stroke-width="1.5"></path> <circle cx="24" cy="22" fill="#ffffff" r="4" stroke="#1d4ed8" stroke-width="1.5"></circle>
+          <defs>
+           <lineargradient gradientunits="userSpaceOnUse" id="blueGrad10" x1="12" x2="36" y1="9" y2="39">
+            <stop stop-color="#60a5fa"></stop> <stop offset="1" stop-color="#1d4ed8"></stop>
+           </lineargradient>
+          </defs>
+         </svg>
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Campeón de Servidor</h3>
+          <span class="text-[11px] font-bold text-blue-600">#10</span>
+         </div>
+         <p class="text-xs text-slate-500 font-normal">1,501 - 2,200 posts en MGamers</p>
+        </div>
+       </div>
+       <span class="px-2 py-0.5 rounded bg-blue-100 text-blue-700 text-[10px] font-extrabold uppercase tracking-wider">Élite</span>
+      </div>
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+       <span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium"> <span class="material-symbols-outlined text-[15px] text-blue-600">stars</span> Privilegio: </span> <span class="text-blue-700 font-bold text-[11px]">Acceso a Sala VIP y Torneos Relámpago</span>
+      </div>
+     </div>
+     <!-- Rank 11: Maestro de Mazmorras -->
+     <div class="w-full p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-slate-300 transition-colors">
+      <div class="flex items-start justify-between gap-3">
+       <div class="flex items-center gap-3">
+        <!-- Custom SVG Emblem 11: Castle Fortress -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-100 border border-blue-200 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+         <svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+          <path d="M10 38V16L15 13V18L21 13V18L27 13V18L33 13V18L38 16V38H10Z" fill="url(#blueGrad11)" stroke="#1d4ed8" stroke-width="1.5"></path> <path d="M21 38V28C21 26.5 22.5 25 24 25C25.5 25 27 26.5 27 28V38" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.5"></path>
+          <defs>
+           <lineargradient gradientunits="userSpaceOnUse" id="blueGrad11" x1="10" x2="38" y1="13" y2="38">
+            <stop stop-color="#93c5fd"></stop> <stop offset="1" stop-color="#2563eb"></stop>
+           </lineargradient>
+          </defs>
+         </svg>
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Maestro de Mazmorras</h3>
+          <span class="text-[11px] font-bold text-blue-600">#11</span>
+         </div>
+         <p class="text-xs text-slate-500 font-normal">2,201 - 3,000 posts • 100 respuestas</p>
+        </div>
+       </div>
+       <span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 text-[10px] font-bold uppercase tracking-wider">Élite</span>
+      </div>
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+       <span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium"> <span class="material-symbols-outlined text-[15px] text-blue-600">animation</span> Ventaja: </span> <span class="text-slate-800 font-medium text-[11px]">Avatar animado en formato GIF/WebP</span>
+      </div>
+     </div>
 
-<!-- Rank 2: Piedra -->
-<div class="bg-surface-container-lowest rounded-xl border-2 border-outline-variant hover:border-primary transition-all duration-300 group p-1">
-<div class="flex items-start gap-4">
-<img alt="Bronze Rank" class="object-contain w-12 h-12" src="https://i.wpfc.ml/js/y4wprp.jpg"/>
-<div class="flex-1">
-<div class="flex justify-between items-start">
-<div>
-<h4 class="font-headline-md text-on-surface text-body-lg">Piedra</h4>
-<p class="font-body-md text-on-surface-variant text-label-lg">Membresía: Humano avanzado  </p>
-</div>
-</div>
-<div class="mt-3 flex flex-col gap-2">
-<p class="font-label-md text-label-md text-tertiary text-label-lg">Requisitos: +25 Post</p>
-<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
-<div class="h-full bg-primary-container w-[4%] rounded-full"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
+<!-- Rank 12: Conquistador Cyber -->
+     <div class="w-full p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-slate-300 transition-colors">
+      <div class="flex items-start justify-between gap-3">
+       <div class="flex items-center gap-3">
+        <!-- Custom SVG Emblem 12: Cyber Hex Shield -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-100 border border-blue-200 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+         <svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+          <path d="M24 7L38 15V33L24 41L10 33V15L24 7Z" fill="url(#blueGrad12)" stroke="#1d4ed8" stroke-width="1.5"></path> <path d="M18 20L24 24L30 20M24 24V32" stroke="#ffffff" stroke-linecap="round" stroke-width="2"></path>
+          <defs>
+           <lineargradient gradientunits="userSpaceOnUse" id="blueGrad12" x1="10" x2="38" y1="7" y2="41">
+            <stop stop-color="#38bdf8"></stop> <stop offset="1" stop-color="#1e40af"></stop>
+           </lineargradient>
+          </defs>
+         </svg>
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Conquistador Cyber</h3>
+          <span class="text-[11px] font-bold text-blue-600">#12</span>
+         </div>
+         <p class="text-xs text-slate-500 font-normal">3,001 - 4,000 posts aportados</p>
+        </div>
+       </div>
+       <span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 text-[10px] font-bold uppercase tracking-wider">Cyber</span>
+      </div>
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+       <span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium"> <span class="material-symbols-outlined text-[15px] text-blue-600">shield</span> Recompensa: </span> <span class="text-slate-800 font-medium text-[11px]">Bypass de tiempo de espera en mensajes</span>
+      </div>
+     </div>
+     <!-- Rank 13: Titán de Torneos -->
+     <div class="w-full p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-slate-300 transition-colors">
+      <div class="flex items-start justify-between gap-3">
+       <div class="flex items-center gap-3">
+        <!-- Custom SVG Emblem 13: Winged Medal Crest -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-100 border border-blue-200 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+         <svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+          <circle cx="24" cy="28" fill="url(#blueGrad13)" r="11" stroke="#1d4ed8" stroke-width="1.5"></circle> <path d="M18 9L24 18L30 9" stroke="#2563eb" stroke-linecap="round" stroke-width="3"></path> <path d="M21 28L23 30L27 26" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+          <defs>
+           <lineargradient gradientunits="userSpaceOnUse" id="blueGrad13" x1="13" x2="35" y1="17" y2="39">
+            <stop stop-color="#60a5fa"></stop> <stop offset="1" stop-color="#1d4ed8"></stop>
+           </lineargradient>
+          </defs>
+         </svg>
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Titán de Torneos</h3>
+          <span class="text-[11px] font-bold text-blue-600">#13</span>
+         </div>
+         <p class="text-xs text-slate-500 font-normal">4,001 - 5,500 posts • 2 trofeos oficiales</p>
+        </div>
+       </div>
+       <span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 text-[10px] font-bold uppercase tracking-wider">Titán</span>
+      </div>
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+       <span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium"> <span class="material-symbols-outlined text-[15px] text-blue-600">hotel_class</span> Ventaja: </span> <span class="text-slate-800 font-medium text-[11px]">Creación de torneos aprobados por MGamers</span>
+      </div>
+     </div>
+     <!-- Rank 14: Comandante Neón -->
+     <div class="w-full p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-slate-300 transition-colors">
+      <div class="flex items-start justify-between gap-3">
+       <div class="flex items-center gap-3">
+        <!-- Custom SVG Emblem 14: Double Chevron Wings -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-50 to-blue-100 border border-cyan-200 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+         <svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+          <path d="M12 18L24 10L36 18L24 26L12 18Z" fill="url(#cyanGrad14)" stroke="#0284c7" stroke-width="1.5"></path> <path d="M12 28L24 20L36 28L24 36L12 28Z" fill="url(#cyanGrad14B)" stroke="#0284c7" stroke-width="1.5"></path>
+          <defs>
+           <lineargradient gradientunits="userSpaceOnUse" id="cyanGrad14" x1="12" x2="36" y1="10" y2="26">
+            <stop stop-color="#38bdf8"></stop> <stop offset="1" stop-color="#0284c7"></stop>
+           </lineargradient>
+           <lineargradient gradientunits="userSpaceOnUse" id="cyanGrad14B" x1="12" x2="36" y1="20" y2="36">
+            <stop stop-color="#06b6d4"></stop> <stop offset="1" stop-color="#0369a1"></stop>
+           </lineargradient>
+          </defs>
+         </svg>
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Comandante Neón</h3>
+          <span class="text-[11px] font-bold text-sky-600">#14</span>
+         </div>
+         <p class="text-xs text-slate-500 font-normal">5,501 - 7,000 posts en la plataforma</p>
+        </div>
+       </div>
+       <span class="px-2 py-0.5 rounded bg-cyan-50 text-cyan-700 text-[10px] font-extrabold uppercase tracking-wider">Comandante</span>
+      </div>
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+       <span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium"> <span class="material-symbols-outlined text-[15px] text-blue-600">flare</span> Cosmético: </span> <span class="text-slate-800 font-medium text-[11px]">Glow cian perimetral en tarjeta de perfil</span>
+      </div>
+     </div>
+    </section>
+    <!-- ================= 4. TIER MAESTRÍA MÍTICA ================= -->
+    <section class="tier-section flex flex-col gap-3" data-tier-group="maestria">
+     <div class="flex items-center justify-between pb-0.5">
+      <div class="flex items-center gap-2">
+       <span class="w-3 h-3 rounded-sm bg-purple-600 rotate-45 shadow-sm"></span>
+       <h2 class="text-sm font-extrabold text-slate-800 uppercase tracking-wider font-['Plus_Jakarta_Sans']">Tier IV: Maestría Mítica</h2>
+      </div>
+      <span class="text-[11px] font-bold text-purple-700 px-2.5 py-0.5 rounded-full bg-purple-50 border border-purple-200">7,001 - 20,000 Posts</span>
+     </div>
+     <!-- Rank 15: Señor de la Grieta -->
+     <div class="w-full p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-purple-300 transition-colors">
+      <div class="flex items-start justify-between gap-3">
+       <div class="flex items-center gap-3">
+        <!-- Custom SVG Emblem 15: Vortex Crest -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-50 to-indigo-100 border border-purple-200 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+         <svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+          <circle cx="24" cy="24" r="16" stroke="#9333ea" stroke-width="1.5"></circle> <path d="M24 10C16.27 10 10 16.27 10 24C10 28 12 32 15 34L24 24L33 34C36 32 38 28 38 24C38 16.27 31.73 10 24 10Z" fill="url(#purpleGrad15)"></path> <circle cx="24" cy="24" fill="#ffffff" r="3"></circle>
+          <defs>
+           <lineargradient gradientunits="userSpaceOnUse" id="purpleGrad15" x1="10" x2="38" y1="10" y2="38">
+            <stop stop-color="#c084fc"></stop> <stop offset="1" stop-color="#7e22ce"></stop>
+           </lineargradient>
+          </defs>
+         </svg>
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Señor de la Grieta</h3>
+          <span class="text-[11px] font-bold text-purple-600">#15</span>
+         </div>
+         <p class="text-xs text-slate-500 font-normal">7,001 - 9,000 posts verificados</p>
+        </div>
+       </div>
+       <span class="px-2 py-0.5 rounded bg-purple-50 text-purple-700 text-[10px] font-bold uppercase tracking-wider">Mítico</span>
+      </div>
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+       <span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium"> <span class="material-symbols-outlined text-[15px] text-purple-600">bolt</span> Habilidad: </span> <span class="text-slate-800 font-medium text-[11px]">Cerrar o reabrir hilos propios en el foro</span>
+      </div>
+     </div>
+     <!-- Rank 16: Señor Supremo -->
+     <div class="w-full p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-purple-300 transition-colors">
+      <div class="flex items-start justify-between gap-3">
+       <div class="flex items-center gap-3">
+        <!-- Custom SVG Emblem 16: Infinity Overlord Crest -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-50 to-indigo-100 border border-purple-200 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+         <svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+          <path d="M16 18C12.7 18 10 20.7 10 24C10 27.3 12.7 30 16 30C20 30 22 25 24 24C26 23 28 18 32 18C35.3 18 38 20.7 38 24C38 27.3 35.3 30 32 30C28 30 26 25 24 24C22 23 20 18 16 18Z" stroke="url(#purpleGrad16)" stroke-linecap="round" stroke-width="4"></path> <circle cx="24" cy="24" fill="#7e22ce" r="2"></circle>
+          <defs>
+           <lineargradient gradientunits="userSpaceOnUse" id="purpleGrad16" x1="10" x2="38" y1="18" y2="30">
+            <stop stop-color="#c084fc"></stop> <stop offset="1" stop-color="#6b21a8"></stop>
+           </lineargradient>
+          </defs>
+         </svg>
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Señor Supremo</h3>
+          <span class="text-[11px] font-bold text-purple-600">#16</span>
+         </div>
+         <p class="text-xs text-slate-500 font-normal">9,001 - 12,000 publicaciones</p>
+        </div>
+       </div>
+       <span class="px-2 py-0.5 rounded bg-purple-50 text-purple-700 text-[10px] font-bold uppercase tracking-wider">Supremo</span>
+      </div>
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+       <span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium"> <span class="material-symbols-outlined text-[15px] text-purple-600">bookmark</span> Insignia: </span> <span class="text-slate-800 font-medium text-[11px]">Medalla "Overlord" fija en comentarios</span>
+      </div>
+     </div>
+     <!-- Rank 17: Inmortal del Pixel -->
+     <div class="w-full p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-purple-300 transition-colors">
+      <div class="flex items-start justify-between gap-3">
+       <div class="flex items-center gap-3">
+        <!-- Custom SVG Emblem 17: Sacred Diamond Wings -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-50 to-indigo-100 border border-purple-200 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+         <svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+          <path d="M24 7L38 19L24 41L10 19L24 7Z" fill="url(#purpleGrad17)" stroke="#7e22ce" stroke-width="1.5"></path> <path d="M10 19H38M24 7V41M16 19L24 41M32 19L24 41" stroke="#ffffff" stroke-opacity="0.8" stroke-width="1"></path>
+          <defs>
+           <lineargradient gradientunits="userSpaceOnUse" id="purpleGrad17" x1="10" x2="38" y1="7" y2="41">
+            <stop stop-color="#e9d5ff"></stop> <stop offset="0.5" stop-color="#a855f7"></stop> <stop offset="1" stop-color="#581c87"></stop>
+           </lineargradient>
+          </defs>
+         </svg>
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Inmortal del Pixel</h3>
+          <span class="text-[11px] font-bold text-purple-600">#17</span>
+         </div>
+         <p class="text-xs text-slate-500 font-normal">12,001 - 16,000 posts aportados</p>
+        </div>
+       </div>
+       <span class="px-2 py-0.5 rounded bg-purple-50 text-purple-700 text-[10px] font-bold uppercase tracking-wider">Inmortal</span>
+      </div>
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+       <span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium"> <span class="material-symbols-outlined text-[15px] text-purple-600">star_half</span> Beneficio: </span> <span class="text-slate-800 font-medium text-[11px]">Firma animada con video HTML5 embebido</span>
+      </div>
+     </div>
+     <!-- Rank 18: Semidiós Gamer -->
+     <div class="w-full p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-purple-300 transition-colors">
+      <div class="flex items-start justify-between gap-3">
+       <div class="flex items-center gap-3">
+        <!-- Custom SVG Emblem 18: Divine Lightning Wings -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-50 to-indigo-100 border border-purple-200 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+         <svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+          <path d="M24 6L28 18H36L22 42L25 27H16L24 6Z" fill="url(#purpleGrad18)" stroke="#6b21a8" stroke-linejoin="round" stroke-width="1.5"></path> <path d="M12 18L7 24L12 30M36 18L41 24L36 30" stroke="#9333ea" stroke-linecap="round" stroke-width="2"></path>
+          <defs>
+           <lineargradient gradientunits="userSpaceOnUse" id="purpleGrad18" x1="16" x2="36" y1="6" y2="42">
+            <stop stop-color="#f3e8ff"></stop> <stop offset="0.4" stop-color="#c084fc"></stop> <stop offset="1" stop-color="#6b21a8"></stop>
+           </lineargradient>
+          </defs>
+         </svg>
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Semidiós Gamer</h3>
+          <span class="text-[11px] font-bold text-purple-600">#18</span>
+         </div>
+         <p class="text-xs text-slate-500 font-normal">16,001 - 20,000 posts</p>
+        </div>
+       </div>
+       <span class="px-2 py-0.5 rounded bg-purple-50 text-purple-700 text-[10px] font-bold uppercase tracking-wider">Semidiós</span>
+      </div>
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+       <span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium"> <span class="material-symbols-outlined text-[15px] text-purple-600">wb_twilight</span> Halo: </span> <span class="text-slate-800 font-medium text-[11px]">Efecto estelar cósmico en perfil y mensajes</span>
+      </div>
+     </div>
+    </section>
+    <!-- ================= 5. TIER LEYENDA DORADA ================= -->
+    <section class="tier-section flex flex-col gap-3" data-tier-group="legendario">
+     <div class="flex items-center justify-between pb-0.5">
+      <div class="flex items-center gap-2">
+       <span class="w-3 h-3 rounded-sm bg-amber-500 rotate-45 shadow-sm"></span>
+       <h2 class="text-sm font-extrabold text-slate-800 uppercase tracking-wider font-['Plus_Jakarta_Sans']">Tier V: Leyenda Dorada</h2>
+      </div>
+      <span class="text-[11px] font-bold text-amber-700 px-2.5 py-0.5 rounded-full bg-amber-50 border border-amber-200">Prestigio Absoluto</span>
+     </div>
+     <!-- Rank 19: Leyenda Viviente -->
+     <div class="w-full p-3.5 rounded-xl bg-white border-l-4 border-l-amber-500 border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-slate-300 transition-colors">
+      <div class="flex items-start justify-between gap-3">
+       <div class="flex items-center gap-3">
+        <!-- Custom SVG Emblem 19: Golden Imperial Crown -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-50 to-amber-100 border border-amber-300 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+         <svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+          <path d="M10 34L13 16L20 25L24 12L28 25L35 16L38 34H10Z" fill="url(#goldGrad19)" stroke="#b45309" stroke-linejoin="round" stroke-width="1.5"></path> <circle cx="13" cy="15" fill="#fef08a" r="2"></circle> <circle cx="24" cy="11" fill="#fef08a" r="2.5"></circle> <circle cx="35" cy="15" fill="#fef08a" r="2"></circle> <rect fill="#b45309" height="4" rx="2" width="28" x="10" y="34"></rect>
+          <defs>
+           <lineargradient gradientunits="userSpaceOnUse" id="goldGrad19" x1="10" x2="38" y1="12" y2="38">
+            <stop stop-color="#fde047"></stop> <stop offset="0.6" stop-color="#eab308"></stop> <stop offset="1" stop-color="#b45309"></stop>
+           </lineargradient>
+          </defs>
+         </svg>
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Leyenda Viviente</h3>
+          <span class="text-[11px] font-bold text-amber-600">#19</span>
+         </div>
+         <p class="text-xs text-slate-500 font-normal">20,001+ posts comunitarios históricos</p>
+        </div>
+       </div>
+       <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-[10px] font-extrabold uppercase tracking-wider">Oro</span>
+      </div>
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+       <span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium"> <span class="material-symbols-outlined text-[15px] text-amber-600">verified_user</span> Privilegio: </span> <span class="text-amber-800 font-bold text-[11px]">Título de perfil 100% libre y editable</span>
+      </div>
+     </div>
+     <!-- Rank 20: Héroe del Olimpo Móvil -->
+     <div class="w-full p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-slate-300 transition-colors">
+      <div class="flex items-start justify-between gap-3">
+       <div class="flex items-center gap-3">
+        <!-- Custom SVG Emblem 20: Olympus Laurel Trophy -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-50 to-amber-100 border border-amber-300 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+         <svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+          <path d="M16 12H32V23C32 27.4 28.4 31 24 31C19.6 31 16 27.4 16 23V12Z" fill="url(#goldGrad20)" stroke="#b45309" stroke-width="1.5"></path> <path d="M10 16C9 22 13 28 17 30M38 16C39 22 35 28 31 30" stroke="#f59e0b" stroke-linecap="round" stroke-width="2"></path> <path d="M24 31V37M18 39H30" stroke="#b45309" stroke-linecap="round" stroke-width="2.5"></path>
+          <defs>
+           <lineargradient gradientunits="userSpaceOnUse" id="goldGrad20" x1="16" x2="32" y1="12" y2="31">
+            <stop stop-color="#fef08a"></stop> <stop offset="0.5" stop-color="#f59e0b"></stop> <stop offset="1" stop-color="#b45309"></stop>
+           </lineargradient>
+          </defs>
+         </svg>
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Héroe del Olimpo</h3>
+          <span class="text-[11px] font-bold text-amber-600">#20</span>
+         </div>
+         <p class="text-xs text-slate-500 font-normal">Copa MGamers Campeón + Votación Staff</p>
+        </div>
+       </div>
+       <span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 text-[10px] font-bold uppercase tracking-wider">Olimpo</span>
+      </div>
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+       <span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium"> <span class="material-symbols-outlined text-[15px] text-amber-600">workspace_premium</span> Honorífico: </span> <span class="text-slate-800 font-medium text-[11px]">Entrada perpetua en el Salón de la Fama MG</span>
+      </div>
+     </div>
+          <!-- Rank 21: Águila Imperial / Gran Campeón -->
+     <div class="w-full p-4 rounded-2xl bg-gradient-to-br from-amber-50/80 via-white to-amber-50/40 border-2 border-amber-300 shadow-md flex flex-col gap-2 relative overflow-hidden">
+      <div class="absolute -right-8 -bottom-8 w-28 h-28 bg-amber-200/50 rounded-full blur-xl pointer-events-none"></div>
+      <div class="flex items-start justify-between gap-3 relative z-10">
+       <div class="flex items-center gap-3">
+        <!-- Ultimate Golden Eagle Trophy Image -->
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-b from-amber-100 to-amber-200 p-1 shrink-0 shadow-md border border-amber-400 flex items-center justify-center">
+         <img alt="Águila Imperial Ícono" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhNdDC53NZSGreP4GxlBUye-OnNsFeByLUddbsG43anIF5l1dq1lvZjGcpLuKg7h9GJmpe_vTVm4h6qxf9x0JO3afukzDT9i_-sfXv-XV5PykGmTX8MghV0N4h8FzyLbF7-MQxEwRRgPRBQHTfHuYUMq1-xTMnD6BmV9IeMvF57rCU4oELG6ASeBS7mYG5RkGO4pYMIDUdVey3JdVBLA-F6FFgxAfMTzuHHj-QQzoIrXy_mTQKxC-_huN2nqyYguvNyjU">
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-base font-black text-amber-900 font-['Plus_Jakarta_Sans']">Águila Imperial</h3>
+          <span class="text-[10px] font-extrabold text-amber-800 px-1.5 py-0.5 rounded bg-amber-200/70">#21 MAX</span>
+         </div>
+         <p class="text-xs font-semibold text-amber-800">Gran Campeón • Cúspide Máxima</p>
+        </div>
+       </div>
+       <span class="px-2.5 py-1 rounded-md bg-amber-500 text-white text-[10px] font-black uppercase tracking-wider shadow-sm">SUPREMO</span>
+      </div>
+      <div class="mt-1 pt-2.5 border-t border-amber-200 flex items-center justify-between text-xs relative z-10">
+       <span class="text-amber-900 flex items-center gap-1.5 font-bold text-[11px]"> <span class="material-symbols-outlined text-[17px] text-amber-600">bolt</span> Emblema Oficial: </span> <span class="text-slate-800 font-semibold text-[11px]">Acceso total a juntas directivas de eSports</span>
+      </div>
+     </div>
+    </section>
+    <!-- ================= 6. TIER STAFF & GOBERNANZA ================= -->
+    <section class="tier-section flex flex-col gap-3" data-tier-group="staff">
+     <div class="flex items-center justify-between pb-0.5">
+      <div class="flex items-center gap-2">
+       <span class="w-3 h-3 rounded-sm bg-emerald-600 rotate-45 shadow-sm"></span>
+       <h2 class="text-sm font-extrabold text-slate-800 uppercase tracking-wider font-['Plus_Jakarta_Sans']">Tier VI: Staff &amp; Gobernanza</h2>
+      </div>
+      <span class="text-[11px] font-bold text-emerald-700 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200">Equipo MGamers</span>
+     </div>
+     <!-- Rank 22: Moderador de Prueba -->
+     <div class="w-full p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-emerald-300 transition-colors">
+      <div class="flex items-start justify-between gap-3">
+       <div class="flex items-center gap-3">
+        <!-- Custom SVG Emblem 22: Green Gavel Crest -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-50 to-teal-100 border border-emerald-200 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+         <svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+          <path d="M20 12L32 24M24 8L36 20M14 26L34 6M10 40L24 26" stroke="#059669" stroke-linecap="round" stroke-width="2.5"></path> <rect fill="#047857" height="4" rx="2" width="10" x="7" y="37"></rect> <circle cx="27" cy="17" fill="#34d399" r="3"></circle>
+         </svg>
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Moderador de Prueba</h3>
+          <span class="text-[11px] font-bold text-emerald-600">#22</span>
+         </div>
+         <p class="text-xs text-slate-500 font-normal">Postulación aprobada por administración</p>
+        </div>
+       </div>
+       <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase tracking-wider">Trial Mod</span>
+      </div>
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+       <span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium"> <span class="material-symbols-outlined text-[15px] text-emerald-600">security</span> Poder: </span> <span class="text-slate-800 font-medium text-[11px]">Limpieza de spam y revisión de reportes</span>
+      </div>
+     </div>
+     <!-- Rank 23: Moderador Global -->
+     <div class="w-full p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-2 hover:border-emerald-300 transition-colors">
+      <div class="flex items-start justify-between gap-3">
+       <div class="flex items-center gap-3">
+        <!-- Custom SVG Emblem 23: Global Shield Crest -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-50 to-teal-100 border border-emerald-200 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+         <svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+          <path d="M24 7L10 13V24C10 33 16 39 24 42C32 39 38 33 38 24V13L24 7Z" fill="url(#emeraldGrad23)" stroke="#059669" stroke-width="1.5"></path> <path d="M18 24L22 28L30 20" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+          <defs>
+           <lineargradient gradientunits="userSpaceOnUse" id="emeraldGrad23" x1="10" x2="38" y1="7" y2="42">
+            <stop stop-color="#6ee7b7"></stop> <stop offset="1" stop-color="#059669"></stop>
+           </lineargradient>
+          </defs>
+         </svg>
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Moderador Global</h3>
+          <span class="text-[11px] font-bold text-emerald-600">#23</span>
+         </div>
+         <p class="text-xs text-slate-500 font-normal">Staff Oficial Verificado • 6+ meses</p>
+        </div>
+       </div>
+       <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase tracking-wider">Mod Global</span>
+      </div>
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+       <span class="text-slate-500 flex items-center gap-1 text-[11px] font-medium"> <span class="material-symbols-outlined text-[15px] text-emerald-600">admin_panel_settings</span> Poder: </span> <span class="text-slate-800 font-medium text-[11px]">Sanciones, mover foros y supervisión de chats</span>
+      </div>
+     </div>
+     <!-- Rank 24: Administrador / Fundador -->
+     <div class="w-full p-3.5 rounded-xl bg-gradient-to-br from-red-50/70 via-white to-red-50/40 border border-red-200 shadow-sm flex flex-col gap-2 hover:border-red-300 transition-colors">
+      <div class="flex items-start justify-between gap-3">
+       <div class="flex items-center gap-3">
+        <!-- Custom SVG Emblem 24: Root Founder Crown Key -->
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-red-100 to-rose-200 border border-red-300 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+         <svg class="w-full h-full" fill="none" viewbox="0 0 48 48">
+          <path d="M12 20L24 10L36 20V36C36 37.1 35.1 38 34 38H14C12.9 38 12 37.1 12 36V20Z" fill="url(#redGrad24)" stroke="#b91c1c" stroke-width="1.5"></path> <path d="M24 22V28M24 32H24.02" stroke="#ffffff" stroke-linecap="round" stroke-width="2.5"></path>
+          <defs>
+           <lineargradient gradientunits="userSpaceOnUse" id="redGrad24" x1="12" x2="36" y1="10" y2="38">
+            <stop stop-color="#f87171"></stop> <stop offset="1" stop-color="#dc2626"></stop>
+           </lineargradient>
+          </defs>
+         </svg>
+        </div>
+        <div>
+         <div class="flex items-center gap-1.5">
+          <h3 class="text-sm font-bold text-slate-900 font-['Plus_Jakarta_Sans']">Administrador / Fundador</h3>
+          <span class="text-[11px] font-bold text-red-600">#24</span>
+         </div>
+         <p class="text-xs text-slate-500 font-normal">VnzlaNick  • Dueño de Red</p>
+        </div>
+       </div>
+       <span class="px-2.5 py-1 rounded bg-red-600 text-white text-[10px] font-black uppercase tracking-wider shadow-sm">ROOT</span>
+      </div>
+      <div class="pt-2 border-t border-red-100 flex items-center justify-between text-xs">
+       <span class="text-red-700 flex items-center gap-1 text-[11px] font-bold"> <span class="material-symbols-outlined text-[15px]">vpn_key</span> Autoridad: </span> <span class="text-slate-800 font-semibold text-[11px]">Acceso total al servidor, base de datos y eventos</span>
+      </div>
+     </div>
+    </section>
+    <!-- Bottom Interactive CTA Panel (Light Theme) -->
+    <section class="mt-2 p-5 rounded-2xl bg-gradient-to-br from-blue-50 via-white to-blue-50/70 border border-blue-200/80 shadow-sm flex flex-col items-center text-center gap-2.5">
+     <div class="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-md">
+      <span class="material-symbols-outlined text-[26px]">rocket_launch</span>
+     </div>
+     <h3 class="text-base font-extrabold text-slate-900 font-['Plus_Jakarta_Sans']">¿Listo para ascender al siguiente rango?</h3>
+     <p class="text-xs text-slate-600 max-w-xs font-normal leading-relaxed">Participa en los debates diarios, reporta infracciones y únete a los torneos oficiales de fin de semana.</p>
+     <a class="mt-1 px-6 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-bold shadow-md hover:bg-blue-700 active:scale-95 transition-all" href="storneo.html"> Explorar Torneos Disponibles </a>
+    </section>
+   </div>
+  </main>
 
-<!-- Rank 2: Pollo -->
-<div class="bg-surface-container-lowest rounded-xl border-2 border-outline-variant hover:border-primary transition-all duration-300 group p-1">
-<div class="flex items-start gap-4">
-<img alt="Bronze Rank" class="object-contain w-12 h-12" src="https://i.wpfc.ml/js/y4yt76.jpg"/>
-<div class="flex-1">
-<div class="flex justify-between items-start">
-<div>
-<h4 class="font-headline-md text-on-surface text-body-lg">Pollo</h4>
-<p class="font-body-md text-on-surface-variant text-label-lg">Membresía: Humano Comun</p>
-</div>
-</div>
-<div class="mt-3 flex flex-col gap-2">
-<p class="font-label-md text-label-md text-tertiary text-label-lg">Requisitos: Inicial</p>
-<div class="h-1.5 w-full bg-surface-variant rounded-full overflow-hidden">
-<div class="h-full bg-primary-container w-[0%] rounded-full"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
+  <!-- Bottom Navigation Bar (Light Theme) -->
+  <nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-white/95 backdrop-blur-xl border-t border-slate-200 shadow-[0_-4px_16px_rgba(0,0,0,0.04)]">
+   <div class="flex justify-around items-center h-16 px-4">
+    <a class="flex flex-col items-center justify-center w-16 h-12 gap-0.5 text-slate-500 hover:text-blue-600 transition-colors" data-path="inicio" href="#"> <span class="material-symbols-outlined text-[22px]">home</span> <span class="text-[10px] font-semibold tracking-tight">Inicio</span> </a> <a class="flex flex-col items-center justify-center w-16 h-12 gap-0.5 text-slate-500 hover:text-blue-600 transition-colors" data-path="torneos" href="#"> <span class="material-symbols-outlined text-[22px]">military_tech</span> <span class="text-[10px] font-semibold tracking-tight">Torneos</span> </a> <!-- Active Tab: Rangos -->
+    <a class="flex flex-col items-center justify-center w-16 h-12 gap-0.5 text-blue-600 font-bold transition-colors relative" data-path="rangos" href="#"> <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">leaderboard</span> <span class="text-[10px] tracking-tight">Rangos</span> <span class="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-blue-600"></span> </a> <a class="flex flex-col items-center justify-center w-16 h-12 gap-0.5 text-slate-500 hover:text-blue-600 transition-colors" data-path="donar" href="#"> <span class="material-symbols-outlined text-[22px]">volunteer_activism</span> <span class="text-[10px] font-semibold tracking-tight">Donar</span> </a> <a class="flex flex-col items-center justify-center w-16 h-12 gap-0.5 text-slate-500 hover:text-blue-600 transition-colors" data-path="ingreso" href="#"> <span class="material-symbols-outlined text-[22px]">account_circle</span> <span class="text-[10px] font-semibold tracking-tight">Ingreso</span> </a>
+   </div>
+  </nav>
+  <script>
+    // Filter Tabs logic for light mode
+    function filterTier(tierName) {
+      const sections = document.querySelectorAll('.tier-section');
+      const buttons = document.querySelectorAll('.tier-tab');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script>
-    function toggleDrawer() {
-        document.body.classList.toggle('overflow-hidden');
-        document.body.classList.toggle('drawer-open');
-    }
-
-    window.addEventListener('scroll', () => {
-        const header = document.querySelector('header');
-        if (window.scrollY > 20) {
-            header.classList.add('shadow-md');
+      // Update active tab buttons styling
+      buttons.forEach(btn => {
+        if (btn.dataset.tierBtn === tierName) {
+          btn.className = 'tier-tab shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-blue-600 text-white shadow-sm transition-all';
         } else {
-            header.classList.remove('shadow-md');
+          btn.className = 'tier-tab shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200 transition-all';
         }
-    });
-</script>
-</body></html>
+      });
+
+      // Display or hide corresponding tier categories
+      sections.forEach(sec => {
+        if (tierName === 'all' || sec.dataset.tierGroup === tierName) {
+          sec.style.display = 'flex';
+        } else {
+          sec.style.display = 'none';
+        }
+      });
+    }
+  </script>
+ </body>
+</html>
+
+
+
+
+
+
