@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Formulario de Posts</title>
+    <!-- Cargamos la librería oficial desde CDN -->
+    <script src="https://jsdelivr.net"></script>
+</head>
+<body>
+
+    <!-- Tu formato de Post en HTML -->
+    <form id="miFormularioPost">
+        <input type="text" id="tituloPost" placeholder="Título de la publicación" required>
+        <textarea id="contenidoPost" placeholder="Contenido del post..." required></textarea>
+        <button type="submit">Guardar en Supabase</button>
+    </form>
+
+    <p id="estadoEnvio"></p>
+
+    <script>
+        // Configuración con tus datos de Supabase
+        const SUPABASE_URL = "https://zrrpjbqduwtaxsfbsuum.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp"; 
+
+        // Inicializar la conexión
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Escuchar cuando el usuario envíe el formulario HTML
+        document.getElementById('miFormularioPost').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const titulo = document.getElementById('tituloPost').value;
+            const contenido = document.getElementById('contenidoPost').value;
+            const estado = document.getElementById('estadoEnvio');
+
+            estado.innerText = "Enviando al panel...";
+
+            // Insertar directamente en la tabla 'posts' que creamos en el panel
+            const { data, error } = await supabase
+                .from('posts')
+                .insert([{ title: titulo, content: contenido }]);
+
+            if (error) {
+                estado.innerText = "❌ Error: " + error.message;
+            } else {
+                estado.innerText = "🚀 ¡Guardado! Revisa tu Table Editor en Supabase.";
+                document.getElementById('miFormularioPost').reset();
+            }
+        });
+    </script>
+</body>
+</html>
