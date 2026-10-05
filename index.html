@@ -843,9 +843,25 @@
     await cargarMuroDelForo(); // Recarga los textos automáticamente en la pantalla de inicio
   }
 
-  // Enlazar todos los eventos al cargar el documento
+    // Enlazar todos los eventos correctamente al cargar el documento
   document.addEventListener('DOMContentLoaded', () => {
-    cargarMuroDelForo();
+    try {
+      cargarMuroDelForo();
+
+      // Conectar evento del formulario de envíos
+      const formulario = document.getElementById('form-nuevo-post');
+      if (formulario) {
+        formulario.addEventListener('submit', guardarPostEnSupabase);
+        // Quitemos dudas: avisar al código si detectó el formulario
+        console.log("Formulario detectado con éxito");
+      } else {
+        alert("⚠️ Alerta Código: No se encontró el formulario con ID 'form-nuevo-post' en el HTML.");
+      }
+    } catch (error/nativomovil) {
+      alert("💥 Error al inicializar el foro: " + error/nativomovil.message);
+    }
+  });
+ 
 
     // Conectar eventos del formulario de envíos
     const formulario = document.getElementById('form-nuevo-post');
