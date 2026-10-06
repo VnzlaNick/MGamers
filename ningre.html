@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Sora:wght@600;700;800&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "primary-container": "#0099ff",
+        "on-secondary": "#ffffff",
+        "on-secondary-fixed": "#001d31",
+        "on-primary-fixed": "#001d36",
+        "surface-tint": "#0061a5",
+        "on-error-container": "#93000a",
+        "inverse-on-surface": "#eaf1ff",
+        "surface-bright": "#f8f9ff",
+        "on-surface-variant": "#475569",
+        "error-container": "#ffdad6",
+        "surface-container-lowest": "#ffffff",
+        "tertiary": "#006c49",
+        "on-primary-container": "#002f54",
+        "on-tertiary-fixed-variant": "#005236",
+        "secondary-fixed": "#cce5ff",
+        "inverse-surface": "#213145",
+        "tertiary-container": "#00aa76",
+        "on-secondary-fixed-variant": "#004b73",
+        "secondary-fixed-dim": "#93ccff",
+        "on-error": "#ffffff",
+        "surface-container-highest": "#dce9ff",
+        "secondary-container": "#e0f2fe",
+        "on-tertiary-fixed": "#002113",
+        "surface-variant": "#e2e8f0",
+        "outline": "#707884",
+        "inverse-primary": "#9fcaff",
+        "tertiary-fixed": "#6ffbbe",
+        "on-primary": "#ffffff",
+        "tertiary-fixed-dim": "#4edea3",
+        "surface-dim": "#cbdbf5",
+        "on-background": "#0f172a",
+        "secondary": "#006398",
+        "surface-container": "#f1f5f9",
+        "background": "#f8faff",
+        "primary-fixed-dim": "#9fcaff",
+        "primary": "#0061a5",
+        "surface-container-high": "#e2e8f0",
+        "surface": "#f8faff",
+        "outline-variant": "#cbd5e1",
+        "on-primary-fixed-variant": "#00497e",
+        "on-tertiary-container": "#003522",
+        "primary-fixed": "#d2e4ff",
+        "on-surface": "#0f172a",
+        "on-secondary-container": "#0369a1",
+        "error": "#ba1a1a",
+        "surface-container-low": "#f8fafc",
+        "on-tertiary": "#ffffff",
+        "text-primary": "#0f172a",
+        "text-muted": "#64748b",
+        "surface-card": "#ffffff",
+        "surface-raised": "#f1f5f9",
+        "surface-border": "#e2e8f0",
+        "accent-electric-blue": "#0099ff",
+        "accent-hyper-violet": "#7c3aed",
+        "accent-crimson-rage": "#e11d48",
+        "accent-emerald-online": "#059669"
+      },
+      borderRadius: {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      },
+      spacing: {
+        "space-md": "1rem",
+        "margin": "2rem",
+        "gutter-mobile": "1rem",
+        "space-lg": "1.5rem",
+        "margin-mobile": "1rem",
+        "space-xs": "0.25rem",
+        "space-sm": "0.5rem",
+        "space-xl": "2.5rem",
+        "gutter": "1.5rem"
+      },
+      fontFamily: {
+        "headline-lg": ["Sora"],
+        "headline-md": ["Sora"],
+        "body-lg": ["Inter"],
+        "display-mobile": ["Sora"],
+        "body-sm": ["Inter"],
+        "label-md": ["Sora"],
+        "label-lg": ["Sora"],
+        "label-sm": ["Sora"],
+        "display": ["Sora"],
+        "body-md": ["Inter"],
+        "headline-sm": ["Sora"],
+        "headline-lg-mobile": ["Sora"]
+      },
+      fontSize: {
+        "headline-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.02em", fontWeight: "700" }],
+        "headline-md": ["22px", { lineHeight: "30px", letterSpacing: "-0.01em", fontWeight: "600" }],
+        "body-lg": ["16px", { lineHeight: "26px", fontWeight: "400" }],
+        "display-mobile": ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "800" }],
+        "body-sm": ["12px", { lineHeight: "18px", fontWeight: "400" }],
+        "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.04em", fontWeight: "600" }],
+        "label-lg": ["14px", { lineHeight: "20px", letterSpacing: "0.02em", fontWeight: "600" }],
+        "label-sm": ["10px", { lineHeight: "14px", letterSpacing: "0.06em", fontWeight: "700" }],
+        "display": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "800" }],
+        "body-md": ["14px", { lineHeight: "22px", fontWeight: "400" }],
+        "headline-sm": ["18px", { lineHeight: "26px", fontWeight: "600" }],
+        "headline-lg-mobile": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "700" }]
+      }
+    }
+  }
+};</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style></head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface-card/90 backdrop-blur-md border-b border-surface-border shadow-sm"><div class="h-16 px-gutter-mobile flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs"><button aria-label="Volver" class="w-11 h-11 flex items-center justify-center text-text-primary active:scale-90 transition-transform" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><div class="flex flex-col min-w-0"><h1 class="font-headline-sm text-headline-sm text-text-primary tracking-tight truncate">Detalle Hilo</h1><span class="font-label-sm text-label-sm text-text-muted tracking-wider uppercase truncate">MGamers Móvil</span></div></div><div class="flex items-center gap-space-xs shrink-0"><button aria-label="Cerrar" class="w-11 h-11 flex items-center justify-center text-text-muted hover:text-accent-crimson-rage active:scale-95 transition-all" onclick="history.back()"><span class="material-symbols-outlined text-[22px]">close</span></button><div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-safe bg-surface min-h-screen"><div class="flex flex-col w-full px-gutter-mobile py-space-md gap-space-lg">
+<!-- Header Banner / Hero Card -->
+<div class="relative overflow-hidden rounded-xl bg-surface-card p-space-lg border border-surface-border shadow-sm flex flex-col items-center text-center">
+<div class="absolute -top-12 -right-12 w-36 h-36 bg-primary-container/10 rounded-full blur-2xl pointer-events-none"></div>
+<div class="absolute -bottom-10 -left-10 w-32 h-32 bg-accent-hyper-violet/10 rounded-full blur-2xl pointer-events-none"></div>
+<!-- Community Icon Orb -->
+<div class="relative w-16 h-16 rounded-full bg-surface-container-low border border-surface-border flex items-center justify-center shadow-md mb-space-sm">
+<div class="absolute inset-0 rounded-full bg-gradient-to-tr from-accent-electric-blue/20 via-accent-hyper-violet/10 to-primary-container/20 opacity-70"></div>
+<div class="relative w-14 h-14 rounded-full bg-surface-card shadow-inner flex items-center justify-center border border-slate-100">
+<span class="material-symbols-outlined text-[32px] text-accent-electric-blue" style="font-variation-settings: 'FILL' 1;">sports_esports</span>
+</div>
+<span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-accent-emerald-online ring-2 ring-white shadow-sm"></span>
+</div>
+<!-- Title & Subtitle -->
+<div class="inline-flex items-center gap-space-xs px-2.5 py-0.5 rounded-full bg-blue-50 border border-blue-200 text-primary mb-space-xs">
+<span class="material-symbols-outlined text-[14px]">stars</span>
+<span class="font-label-sm text-label-sm tracking-widest uppercase font-semibold">Foro Oficial MGamers</span>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-text-primary tracking-tight">¡Únete a la comunidad!</h2>
+<p class="font-body-md text-body-md text-text-muted mt-space-xs max-w-sm">
+      Conéctate con miles de jugadores apasionados por los juegos móviles, comparte trucos, recluta clanes y participa en torneos exclusivos.
+    </p>
+<!-- Stat Pills -->
+<div class="grid grid-cols-3 w-full gap-space-xs mt-space-md pt-space-sm bg-surface-container-low border border-surface-border rounded-lg p-space-xs">
+<div class="flex flex-col items-center">
+<span class="font-label-lg text-label-lg text-accent-electric-blue font-bold">+18.5k</span>
+<span class="font-label-sm text-label-sm text-text-muted">Miembros</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-lg text-label-lg text-accent-hyper-violet font-bold">14</span>
+<span class="font-label-sm text-label-sm text-text-muted">Juegos activos</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-lg text-label-lg text-accent-emerald-online font-bold">100%</span>
+<span class="font-label-sm text-label-sm text-text-muted">Gratuito</span>
+</div>
+</div>
+</div>
+<!-- Social Registration / Fast Track -->
+<div class="flex flex-col gap-space-xs">
+<button class="relative group w-full h-12 rounded-xl bg-surface-card hover:bg-surface-raised active:scale-[0.99] border border-outline-variant transition-all flex items-center justify-center gap-space-sm px-space-md shadow-sm" type="button">
+<!-- Google SVG Icon -->
+<svg aria-hidden="true" class="w-5 h-5 shrink-0" viewbox="0 0 24 24">
+<path d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.15z" fill="#4285F4"></path>
+<path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.26v3.15C3.25 21.27 7.31 24 12 24z" fill="#34A853"></path>
+<path d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.26C.46 8.16 0 9.94 0 12s.46 3.84 1.26 5.42l4.02-3.15z" fill="#FBBC05"></path>
+<path d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.73 1.26 6.58l4.02 3.15c.95-2.83 3.6-4.98 6.72-4.98z" fill="#EA4335"></path>
+</svg>
+<span class="font-label-lg text-label-lg text-text-primary font-semibold">Continuar con Google / Gmail</span>
+<span class="material-symbols-outlined text-[18px] text-text-muted ml-auto group-hover:text-primary transition-colors">arrow_forward</span>
+</button>
+<!-- Custom Modern Divider -->
+<div class="relative flex items-center justify-center my-space-sm">
+<div class="w-full h-px bg-surface-border"></div>
+<span class="absolute px-space-sm bg-surface font-label-sm text-label-sm text-text-muted uppercase tracking-wider">o regístrate con tu correo</span>
+</div>
+</div>
+<!-- Registration Form Card -->
+<form class="flex flex-col gap-space-md" id="register-form" onsubmit="event.preventDefault();">
+<!-- Gamer Nickname -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-text-primary flex items-center gap-1 font-semibold" for="username">
+<span>Nombre de Usuario Gamer</span>
+<span class="text-accent-crimson-rage">*</span>
+</label>
+<span class="font-label-sm text-label-sm text-text-muted">Único en el foro</span>
+</div>
+<div class="relative flex items-center">
+<div class="absolute left-3.5 flex items-center pointer-events-none text-text-muted">
+<span class="material-symbols-outlined text-[20px]">sports_esports</span>
+</div>
+<input class="w-full h-12 pl-11 pr-4 bg-surface-card border border-outline-variant rounded-lg font-body-md text-body-md text-text-primary placeholder:text-slate-400 focus:outline-none focus:border-accent-electric-blue focus:ring-2 focus:ring-blue-100 transition-all shadow-sm" id="username" maxlength="20" name="username" placeholder="Ej: VnzlaPro_99" required="" type="text"/>
+</div>
+<p class="font-body-sm text-body-sm text-text-muted pl-1">Este será tu alias público en hilos, torneos y rangos.</p>
+</div>
+<!-- Email Address -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-text-primary flex items-center gap-1 font-semibold" for="email">
+<span>Correo Electrónico</span>
+<span class="text-accent-crimson-rage">*</span>
+</label>
+<span class="font-label-sm text-label-sm text-accent-emerald-online flex items-center gap-0.5 font-medium">
+<span class="material-symbols-outlined text-[13px]">verified_user</span> Privado
+        </span>
+</div>
+<div class="relative flex items-center">
+<div class="absolute left-3.5 flex items-center pointer-events-none text-text-muted">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+</div>
+<input class="w-full h-12 pl-11 pr-4 bg-surface-card border border-outline-variant rounded-lg font-body-md text-body-md text-text-primary placeholder:text-slate-400 focus:outline-none focus:border-accent-electric-blue focus:ring-2 focus:ring-blue-100 transition-all shadow-sm" id="email" name="email" placeholder="tu-correo@ejemplo.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Input & Strength Bar -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-text-primary flex items-center gap-1 font-semibold" for="password">
+<span>Contraseña</span>
+<span class="text-accent-crimson-rage">*</span>
+</label>
+<span class="font-label-sm text-label-sm text-text-muted" id="pass-strength-text">Mínimo 8 caracteres</span>
+</div>
+<div class="relative flex items-center">
+<div class="absolute left-3.5 flex items-center pointer-events-none text-text-muted">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+</div>
+<input class="w-full h-12 pl-11 pr-12 bg-surface-card border border-outline-variant rounded-lg font-body-md text-body-md text-text-primary placeholder:text-slate-400 focus:outline-none focus:border-accent-electric-blue focus:ring-2 focus:ring-blue-100 transition-all shadow-sm" id="password" name="password" oninput="checkPasswordStrength(this.value)" placeholder="••••••••••••" required="" type="password"/>
+<button aria-label="Ver contraseña" class="absolute right-3 w-8 h-8 flex items-center justify-center text-text-muted hover:text-text-primary active:scale-90 transition-transform" onclick="togglePasswordVisibility('password', 'pwd-toggle-icon')" type="button">
+<span class="material-symbols-outlined text-[20px]" id="pwd-toggle-icon">visibility</span>
+</button>
+</div>
+<!-- Password Strength Indicator -->
+<div class="grid grid-cols-4 gap-1.5 pt-1 px-1">
+<div class="h-1 rounded-full bg-slate-200 transition-colors" id="bar-1"></div>
+<div class="h-1 rounded-full bg-slate-200 transition-colors" id="bar-2"></div>
+<div class="h-1 rounded-full bg-slate-200 transition-colors" id="bar-3"></div>
+<div class="h-1 rounded-full bg-slate-200 transition-colors" id="bar-4"></div>
+</div>
+</div>
+<!-- Confirm Password -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-text-primary flex items-center gap-1 font-semibold" for="confirm-password">
+<span>Confirmar Contraseña</span>
+<span class="text-accent-crimson-rage">*</span>
+</label>
+<div class="relative flex items-center">
+<div class="absolute left-3.5 flex items-center pointer-events-none text-text-muted">
+<span class="material-symbols-outlined text-[20px]">lock_reset</span>
+</div>
+<input class="w-full h-12 pl-11 pr-12 bg-surface-card border border-outline-variant rounded-lg font-body-md text-body-md text-text-primary placeholder:text-slate-400 focus:outline-none focus:border-accent-electric-blue focus:ring-2 focus:ring-blue-100 transition-all shadow-sm" id="confirm-password" name="confirm_password" placeholder="••••••••••••" required="" type="password"/>
+<button aria-label="Ver confirmación" class="absolute right-3 w-8 h-8 flex items-center justify-center text-text-muted hover:text-text-primary active:scale-90 transition-transform" onclick="togglePasswordVisibility('confirm-password', 'confirm-pwd-icon')" type="button">
+<span class="material-symbols-outlined text-[20px]" id="confirm-pwd-icon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Favorite Mobile Game Selector (Chips Grid) -->
+<div class="flex flex-col gap-2 pt-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-text-primary flex items-center gap-1 font-semibold">
+<span>Juego Móvil Principal</span>
+<span class="font-body-sm text-body-sm text-text-muted font-normal">(Opcional)</span>
+</span>
+<span class="font-label-sm text-label-sm text-primary font-medium">Insignia inicial</span>
+</div>
+<div class="grid grid-cols-2 gap-2" id="games-grid">
+<button class="game-chip flex items-center gap-2 p-2.5 rounded-lg bg-surface-card border border-surface-border hover:bg-surface-raised active:scale-95 transition-all text-left shadow-sm" onclick="selectGame(this, 'Free Fire')" type="button">
+<span class="w-7 h-7 rounded-md bg-rose-50 border border-rose-200 text-accent-crimson-rage flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">local_fire_department</span>
+</span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-text-primary truncate font-semibold">Free Fire</span>
+<span class="font-body-sm text-[10px] text-text-muted leading-tight">Battle Royale</span>
+</div>
+</button>
+<button class="game-chip flex items-center gap-2 p-2.5 rounded-lg bg-surface-card border border-surface-border hover:bg-surface-raised active:scale-95 transition-all text-left shadow-sm" onclick="selectGame(this, 'Blood Strike')" type="button">
+<span class="w-7 h-7 rounded-md bg-sky-50 border border-sky-200 text-accent-electric-blue flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">file_download_done</span>
+</span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-text-primary truncate font-semibold">Blood Strike</span>
+<span class="font-body-sm text-[10px] text-text-muted leading-tight">FPS Táctico</span>
+</div>
+</button>
+<button class="game-chip flex items-center gap-2 p-2.5 rounded-lg bg-surface-card border border-surface-border hover:bg-surface-raised active:scale-95 transition-all text-left shadow-sm" onclick="selectGame(this, 'Mobile Legends')" type="button">
+<span class="w-7 h-7 rounded-md bg-purple-50 border border-purple-200 text-accent-hyper-violet flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">swords</span>
+</span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-text-primary truncate font-semibold">Mobile Legends</span>
+<span class="font-body-sm text-[10px] text-text-muted leading-tight">MOBA 5v5</span>
+</div>
+</button>
+<button class="game-chip flex items-center gap-2 p-2.5 rounded-lg bg-surface-card border border-surface-border hover:bg-surface-raised active:scale-95 transition-all text-left shadow-sm" onclick="selectGame(this, 'Servidores Mu')" type="button">
+<span class="w-7 h-7 rounded-md bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">shield</span>
+</span>
+<div
