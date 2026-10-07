@@ -290,4 +290,163 @@
 <span class="w-7 h-7 rounded-md bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center shrink-0">
 <span class="material-symbols-outlined text-[18px]">shield</span>
 </span>
-<div
+<!-- Completa el selector de juegos -->
+<div class="grid grid-cols-2 gap-2" id="games-grid">
+  <button class="game-chip flex items-center gap-2 p-2.5 rounded-lg bg-surface-card border border-surface-border text-left shadow-sm"
+          data-game="Free Fire" aria-pressed="false" type="button">
+    <span class="font-label-sm text-label-sm text-text-primary font-semibold">Free Fire</span>
+  </button>
+
+  <button class="game-chip flex items-center gap-2 p-2.5 rounded-lg bg-surface-card border border-surface-border text-left shadow-sm"
+          data-game="Blood Strike" aria-pressed="false" type="button">
+    <span class="font-label-sm text-label-sm text-text-primary font-semibold">Blood Strike</span>
+  </button>
+
+  <button class="game-chip flex items-center gap-2 p-2.5 rounded-lg bg-surface-card border border-surface-border text-left shadow-sm"
+          data-game="Mobile Legends" aria-pressed="false" type="button">
+    <span class="font-label-sm text-label-sm text-text-primary font-semibold">Mobile Legends</span>
+  </button>
+
+  <button class="game-chip flex items-center gap-2 p-2.5 rounded-lg bg-surface-card border border-surface-border text-left shadow-sm"
+          data-game="Servidores Mu" aria-pressed="false" type="button">
+    <span class="font-label-sm text-label-sm text-text-primary font-semibold">Servidores Mu</span>
+  </button>
+</div>
+
+<button type="submit"
+        class="w-full h-12 rounded-xl bg-primary text-white font-semibold shadow-sm active:scale-[0.99] transition-transform">
+  Crear cuenta
+</button>
+
+<p id="auth-message" class="text-sm text-center" role="status" aria-live="polite"></p>
+</form>
+</div>
+</main>
+
+<script>
+  function togglePasswordVisibility(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    if (!input || !icon) return;
+
+    const show = input.type === "password";
+    input.type = show ? "text" : "password";
+    icon.textContent = show ? "visibility_off" : "visibility";
+  }
+
+  function checkPasswordStrength(password) {
+    const checks = [
+      password.length >= 8,
+      /[a-z]/.test(password) && /[A-Z]/.test(password),
+      /\d/.test(password),
+      /[^A-Za-z0-9]/.test(password)
+    ];
+    const score = checks.filter(Boolean).length;
+    const colors = ["bg-red-500", "bg-amber-500", "bg-blue-500", "bg-emerald-500"];
+
+    document.getElementById("pass-strength-text").textContent =
+      password.length < 8 ? "Mínimo 8 caracteres" :
+      score < 3 ? "Contraseña débil" :
+      score === 3 ? "Contraseña aceptable" : "Contraseña fuerte";
+
+    for (let i = 1; i <= 4; i++) {
+      const bar = document.getElementById(`bar-${i}`);
+      bar.className = "h-1 rounded-full transition-colors " +
+        (i <= score ? colors[score - 1] : "bg-slate-200");
+    }
+  }
+</script>
+
+<script type="module">
+  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+  // Sustituye estos valores por el Project URL y la publishable key de tu proyecto.
+  // La publishable key puede estar en el navegador; nunca pongas aquí una secret/service_role key.
+  const supabase = createClient(
+    "https://zrrpjbqduwtaxsfbsuum.supabase.co>.supabase.co",
+    "<sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp>"
+  );
+
+  const form = document.getElementById("register-form");
+  const message = document.getElementById("auth-message");
+  let selectedGame = "";
+
+  document.getElementById("toggle-password").addEventListener("click", () => {
+    togglePasswordVisibility("password", "pwd-toggle-icon");
+  });
+
+  document.getElementById("toggle-confirm-password").addEventListener("click", () => {
+    togglePasswordVisibility("confirm-password", "confirm-pwd-icon");
+  });
+
+  document.getElementById("password").addEventListener("input", (event) => {
+    checkPasswordStrength(event.target.value);
+  });
+
+  document.querySelectorAll(".game-chip").forEach((button) => {
+    button.addEventListener("click", () => {
+      selectedGame = button.dataset.game || "";
+
+      document.querySelectorAll(".game-chip").forEach((chip) => {
+        chip.setAttribute("aria-pressed", String(chip === button));
+        chip.classList.toggle("border-primary", chip === button);
+        chip.classList.toggle("bg-blue-50", chip === button);
+      });
+    });
+  });
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    message.textContent = "";
+
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirm-password").value;
+
+    if (password.length < 8) {
+      message.textContent = "La contraseña debe tener al menos 8 caracteres.";
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      message.textContent = "Las contraseñas no coinciden.";
+      return;
+    }
+
+    const submitButton = form.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.textContent = "Creando cuenta…";
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          username,
+          favorite_game: selectedGame || null
+        }
+      }
+    });
+
+    submitButton.disabled = false;
+    submitButton.textContent = "Crear cuenta";
+
+    if (error) {
+      message.textContent = error.message;
+      return;
+    }
+
+    message.textContent = data.session
+      ? "¡Cuenta creada! Ya puedes continuar."
+      : "Revisa tu correo para confirmar la cuenta.";
+  });
+
+
+    if (error) {
+      message.textContent = error.message;
+    }
+  });
+</script>
+</body>
+</html>
