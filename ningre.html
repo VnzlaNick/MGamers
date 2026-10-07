@@ -362,23 +362,19 @@
 
   // Sustituye estos valores por el Project URL y la publishable key de tu proyecto.
   // La publishable key puede estar en el navegador; nunca pongas aquí una secret/service_role key.
-  const supabase = createClient(
-    "https://zrrpjbqduwtaxsfbsuum.supabase.co>.supabase.co",
-    "<sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp>"
-  );
 
+
+const supabase = createClient(
+  "https://zrrpjbqduwtaxsfbsuum.supabase.co",
+  "sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp"
+);
+  
+  
   const form = document.getElementById("register-form");
   const message = document.getElementById("auth-message");
   let selectedGame = "";
 
-  document.getElementById("toggle-password").addEventListener("click", () => {
-    togglePasswordVisibility("password", "pwd-toggle-icon");
-  });
-
-  document.getElementById("toggle-confirm-password").addEventListener("click", () => {
-    togglePasswordVisibility("confirm-password", "confirm-pwd-icon");
-  });
-
+  
   document.getElementById("password").addEventListener("input", (event) => {
     checkPasswordStrength(event.target.value);
   });
