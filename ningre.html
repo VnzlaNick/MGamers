@@ -428,10 +428,6 @@ const supabase = createClient(
     submitButton.disabled = false;
     submitButton.textContent = "Crear cuenta";
 
-    if (error) {
-      message.textContent = error.message;
-      return;
-    }
 
     message.textContent = data.session
       ? "¡Cuenta creada! Ya puedes continuar."
