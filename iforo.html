@@ -1,130 +1,270 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Iniciar sesión | MGamers</title>
+
   <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080b12;
+      --card: #111722;
+      --text: #f3f6fc;
+      --muted: #9ba8ba;
+      --accent: #55e6d1;
+      --border: #263242;
+    }
+
     * { box-sizing: border-box; }
 
     body {
-      margin: 0;
       min-height: 100vh;
+      margin: 0;
       display: grid;
       place-items: center;
       padding: 24px;
-      color: #eef2ff;
-      background: #10131c;
-      font-family: system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 15% 20%, #12313a 0, transparent 38%),
+        radial-gradient(ellipse at 85% 80%, #1b1740 0, transparent 35%),
+        var(--bg);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    main {
-      width: min(100%, 420px);
-      padding: 32px;
-      border: 1px solid #30364a;
+    .card {
+      width: min(100%, 430px);
+      padding: 36px;
+      background: rgba(17, 23, 34, 0.96);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 24px 80px #0008;
+    }
+
+    .brand {
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .logo {
+      display: inline-grid;
+      width: 54px;
+      height: 54px;
+      place-items: center;
+      margin-bottom: 14px;
+      color: #06110f;
+      background: var(--accent);
       border-radius: 16px;
-      background: #191e2b;
-      box-shadow: 0 18px 55px #0006;
+      font-size: 26px;
+      font-weight: 900;
     }
 
-    h1 { margin: 0 0 8px; }
-    p { color: #b8c0d4; }
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: -0.8px;
+    }
+
+    .subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
 
     label {
       display: block;
-      margin: 18px 0 7px;
-      font-weight: 600;
-    }
-
-    input, button {
-      width: 100%;
-      padding: 12px 14px;
-      border-radius: 9px;
-      font: inherit;
+      margin: 18px 0 8px;
+      color: #dce4ef;
+      font-size: 13px;
+      font-weight: 650;
     }
 
     input {
-      color: #fff;
-      background: #10131c;
-      border: 1px solid #414961;
+      width: 100%;
+      padding: 13px 14px;
+      color: var(--text);
+      background: #0b111a;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font: inherit;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px #55e6d120;
     }
 
     button {
-      margin-top: 22px;
+      width: 100%;
+      min-height: 46px;
+      margin-top: 18px;
+      padding: 12px 16px;
       border: 0;
-      color: #fff;
-      background: #6558e8;
-      font-weight: 700;
+      border-radius: 10px;
+      font: inherit;
+      font-weight: 750;
       cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
     }
 
-    button:disabled { opacity: .65; cursor: wait; }
+    button:hover { transform: translateY(-1px); }
+    button:disabled { opacity: 0.65; cursor: wait; }
 
-    #mensaje {
-      min-height: 24px;
-      margin-top: 16px;
+    .primary {
+      color: #06110f;
+      background: var(--accent);
+    }
+
+    .google {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--text);
+      background: #171f2c;
+      border: 1px solid var(--border);
+    }
+
+    .google img {
+      width: 19px;
+      height: 19px;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0 4px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .divider::before,
+    .divider::after {
+      height: 1px;
+      flex: 1;
+      content: "";
+      background: var(--border);
+    }
+
+    #message {
+      min-height: 20px;
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
       overflow-wrap: anywhere;
     }
 
-    .nota { font-size: .9rem; }
+    #message.error { color: #ff8585; }
+    #message.success { color: var(--accent); }
+
+    .footer {
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 28px 22px; }
+    }
   </style>
 </head>
-<body>
-  <main>
-    <h1>MGamers</h1>
-    <p>Inicia sesión para entrar al foro.</p>
 
-    <form id="formulario">
+<body>
+  <main class="card">
+    <header class="brand">
+      <div class="logo" aria-hidden="true">M</div>
+      <h1>Bienvenido a MGamers</h1>
+      <p class="subtitle">Inicia sesión para entrar al foro</p>
+    </header>
+
+    <button class="google" id="googleButton" type="button">
+      <img
+        src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+        alt=""
+      />
+      Continuar con Google
+    </button>
+
+    <div class="divider">o ingresa con tu correo</div>
+
+    <form id="loginForm">
       <label for="email">Correo electrónico</label>
-      <input id="email" name="email" type="email"
-             autocomplete="email" required>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        placeholder="tu@correo.com"
+        required
+      />
 
       <label for="password">Contraseña</label>
-      <input id="password" name="password" type="password"
-             autocomplete="current-password" required>
+      <input
+        id="password"
+        name="password"
+        type="password"
+        autocomplete="current-password"
+        placeholder="Tu contraseña"
+        required
+      />
 
-      <button id="boton" type="submit">Iniciar sesión</button>
+      <button class="primary" id="emailButton" type="submit">
+        Iniciar sesión
+      </button>
     </form>
 
-    <p id="mensaje" role="status" aria-live="polite"></p>
-    <p class="nota">Usa el correo asociado a tu cuenta del foro.</p>
+    <p id="message" role="status" aria-live="polite"></p>
+    <p class="footer">Tu comunidad gamer te espera.</p>
   </main>
 
   <script type="module">
-    import { createClient } from
-      "https://esm.sh/@supabase/supabase-js@2";
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-    // URL del proyecto Supabase
-    const SUPABASE_URL =
-      "https://zrrpjbqduwtaxsfbsuum.supabase.co";
+    const SUPABASE_URL = "https://zrrpjbqduwtaxsfbsuum.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp";
 
-    // Sustituye esto por la publishable key o la clave anon
-    // de tu proyecto. Nunca pongas aquí una service_role key.
-    const SUPABASE_PUBLISHABLE_KEY =
-      "sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp";
+    const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
-    // Cambia esto por la dirección real de la página del foro.
-    // Ejemplo: "./foro.html" o "https://tu-dominio.com/foro"
-    const FORUM_URL = "https://vnzlanick.github.io/MGamers/";
+    const message = document.getElementById("message");
+    const googleButton = document.getElementById("googleButton");
+    const emailButton = document.getElementById("emailButton");
+    const loginForm = document.getElementById("loginForm");
 
-    const supabase = createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
+    function showMessage(text, type = "") {
+      message.textContent = text;
+      message.className = type;
+    }
 
-    const form = document.querySelector("#formulario");
-    const button = document.querySelector("#boton");
-    const message = document.querySelector("#mensaje");
+    // Inicia sesión con Google.
+    googleButton.addEventListener("click", async () => {
+      showMessage("");
+      googleButton.disabled = true;
 
-    form.addEventListener("submit", async (event) => {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}${window.location.pathname}`
+        }
+      });
+
+      if (error) {
+        showMessage(error.message, "error");
+        googleButton.disabled = false;
+      }
+    });
+
+    // Inicia sesión con correo y contraseña.
+    loginForm.addEventListener("submit", async (event) => {
       event.preventDefault();
-      message.textContent = "";
+      showMessage("");
+      emailButton.disabled = true;
 
-      const email = document.querySelector("#email").value.trim();
-      const password = document.querySelector("#password").value;
-
-      button.disabled = true;
-      button.textContent = "Ingresando…";
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
       const { error } = await supabase.auth.signInWithPassword({
         email,
@@ -132,15 +272,18 @@
       });
 
       if (error) {
-        message.textContent =
-          "No se pudo iniciar sesión. Revisa el correo y la contraseña.";
-        button.disabled = false;
-        button.textContent = "Iniciar sesión";
-        return;
+        showMessage(error.message, "error");
+        emailButton.disabled = false;
+      } else {
+        showMessage("¡Sesión iniciada correctamente!", "success");
       }
+    });
 
-      message.textContent = "Sesión iniciada. Abriendo el foro…";
-      window.location.assign(FORUM_URL);
+    // Muestra el estado de sesión al cargar la página o al volver de Google.
+    supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        showMessage(`Sesión iniciada como ${session.user.email}`, "success");
+      }
     });
   </script>
 </body>
