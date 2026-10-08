@@ -246,9 +246,9 @@
 
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
-     options: {
-  redirectTo: "https://vnzlanick.github.io/MGamers/"
-}
+        options: {
+          redirectTo: `${window.location.origin}${window.location.pathname}`
+        }
       });
 
       if (error) {
