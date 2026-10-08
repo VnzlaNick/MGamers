@@ -239,23 +239,23 @@
       message.className = type;
     }
 
-    // Inicia sesión con Google.
-    googleButton.addEventListener("click", async () => {
-      showMessage("");
-      googleButton.disabled = true;
+ // Inicia sesión con Google.
+googleButton.addEventListener("click", async () => {
+  showMessage("");
+  googleButton.disabled = true;
 
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: `${window.location.origin}${window.location.pathname}`
-        }
-      });
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: "https://vnzlanick.github.io/MGamers/"
+    }
+  });
 
-      if (error) {
-        showMessage(error.message, "error");
-        googleButton.disabled = false;
-      }
-    });
+  if (error) {
+    showMessage(error.message);
+    googleButton.disabled = false;
+  }
+});
 
     // Inicia sesión con correo y contraseña.
     loginForm.addEventListener("submit", async (event) => {
