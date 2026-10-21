@@ -1,387 +1,665 @@
-<!DOCTYPE html>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crear publicación | MGamers</title>
 
-<html class="light" lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            "colors": {
-                    "outline-variant": "#bec7d3",
-                    "on-secondary-container": "#566475",
-                    "outline": "#6f7882",
-                    "background": "#f7f9fb",
-                    "error-container": "#ffdad6",
-                    "surface-dim": "#d8dadc",
-                    "surface-bright": "#f7f9fb",
-                    "tertiary-container": "#929ba3",
-                    "surface-container-highest": "#e0e3e5",
-                    "on-tertiary": "#ffffff",
-                    "primary-container": "#1da1f2",
-                    "surface-variant": "#e0e3e5",
-                    "on-primary": "#ffffff",
-                    "secondary-fixed": "#d6e4f9",
-                    "inverse-surface": "#2d3133",
-                    "on-surface-variant": "#3f4851",
-                    "surface-container": "#eceef0",
-                    "tertiary": "#575f67",
-                    "surface-container-lowest": "#ffffff",
-                    "tertiary-fixed": "#dbe4ed",
-                    "on-primary-fixed": "#001d32",
-                    "on-error": "#ffffff",
-                    "on-background": "#191c1e",
-                    "secondary-container": "#d3e1f6",
-                    "surface": "#f7f9fb",
-                    "on-secondary-fixed-variant": "#3a4859",
-                    "inverse-on-surface": "#eff1f3",
-                    "primary-fixed-dim": "#95ccff",
-                    "on-tertiary-fixed-variant": "#3f484f",
-                    "on-primary-fixed-variant": "#004a75",
-                    "inverse-primary": "#95ccff",
-                    "surface-tint": "#1da1f2",
-                    "on-surface": "#191c1e",
-                    "on-primary-container": "#003554",
-                    "primary-fixed": "#cde5ff",
-                    "on-secondary-fixed": "#0f1c2c",
-                    "on-tertiary-container": "#2a333a",
-                    "on-secondary": "#ffffff",
-                    "on-error-container": "#93000a",
-                    "tertiary-fixed-dim": "#bfc8d0",
-                    "on-tertiary-fixed": "#141d23",
-                    "secondary": "#525f71",
-                    "surface-container-high": "#e6e8ea",
-                    "surface-container-low": "#f2f4f6",
-                    "primary": "#1da1f2",
-                    "secondary-fixed-dim": "#bac8dc",
-                    "error": "#ba1a1a",
-                    "brand-orange": "#ff5722"
-            },
-            "borderRadius": {
-                    "DEFAULT": "0.25rem",
-                    "lg": "0.5rem",
-                    "xl": "0.75rem",
-                    "full": "9999px"
-            },
-            "spacing": {
-                    "card-padding": "1rem",
-                    "container-margin": "1rem",
-                    "inline-gutter": "1rem",
-                    "section-padding": "1.5rem",
-                    "stack-gap": "0.75rem"
-            },
-            "fontFamily": {
-                    "label-sm": ["Plus Jakarta Sans"],
-                    "title-sm": ["Plus Jakarta Sans"],
-                    "label-bold": ["Plus Jakarta Sans"],
-                    "body-md": ["Plus Jakarta Sans"],
-                    "display-lg": ["Plus Jakarta Sans"],
-                    "body-sm": ["Plus Jakarta Sans"],
-                    "headline-md": ["Plus Jakarta Sans"]
-            },
-            "fontSize": {
-                    "label-sm": ["10px", {"lineHeight": "14px", "letterSpacing": "0.01em", "fontWeight": "500"}],
-                    "title-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "700"}],
-                    "label-bold": ["11px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "700"}],
-                    "body-md": ["14px", {"lineHeight": "22px", "letterSpacing": "0px", "fontWeight": "400"}],
-                    "display-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
-                    "body-sm": ["12px", {"lineHeight": "18px", "letterSpacing": "0px", "fontWeight": "400"}],
-                    "headline-md": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
-            }
-          },
-        },
-      }
-    </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .news-shadow {
-            box-shadow: 0px 10px 30px rgba(0,0,0,0.05);
-        }
-        .active-nav-glow {
-            filter: drop-shadow(0 0 8px rgba(29, 161, 242, 0.4));
-        }
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        /* Drawer animation support */
-        .drawer-open #side-drawer {
-            transform: translateX(0);
-        }
-        .drawer-open #drawer-backdrop {
-            opacity: 1;
-            pointer-events: auto;
-        }
-    </style>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 28px 16px;
+      background: #fff;
+      color: #202638;
+      font-family: system-ui, sans-serif;
+    }
+
+    main { width: min(100%, 780px); margin: auto; }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 22px;
+    }
+
+    a { color: #3949ab; }
+
+    .card, .preview-card {
+      padding: clamp(18px, 5vw, 34px);
+      border: 1px solid #e1e4eb;
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 10px 35px rgb(20 30 60 / 8%);
+    }
+
+    h1 { margin: 0 0 8px; }
+    .intro, .hint { color: #5e6678; }
+
+    label, .field-label {
+      display: block;
+      margin: 18px 0 8px;
+      font-weight: 650;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd1dc;
+      border-radius: 8px;
+      background: white;
+      color: #202638;
+      font: inherit;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 10px 0;
+    }
+
+    .toolbar button, .file-label {
+      padding: 8px 11px;
+      border: 1px solid #cbd1dc;
+      border-radius: 8px;
+      background: #f5f6fa;
+      color: #202638;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .toolbar button:hover, .file-label:hover { background: #e9ecf4; }
+
+    #text-color {
+      width: 42px;
+      height: 38px;
+      padding: 3px;
+      cursor: pointer;
+    }
+
+    #font-size { width: auto; }
+
+    #editor {
+      min-height: 240px;
+      padding: 14px;
+      border: 1px solid #cbd1dc;
+      border-radius: 10px;
+      background: #fff;
+      color: #202638;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+    }
+
+    #editor:focus {
+      outline: 2px solid #6366f1;
+      outline-offset: 2px;
+    }
+
+    #editor:empty::before {
+      content: attr(data-placeholder);
+      color: #8b91a0;
+      pointer-events: none;
+    }
+
+    #editor img, #preview-content img {
+      display: block;
+      max-width: 100%;
+      max-height: 480px;
+      margin: 10px 0;
+      border-radius: 10px;
+    }
+
+    #image-input { display: none; }
+
+    .emoji-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 8px 0;
+    }
+
+    .emoji-list button {
+      min-width: 38px;
+      padding: 6px;
+      border: 1px solid #cbd1dc;
+      border-radius: 7px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .actions button {
+      padding: 12px 17px;
+      border: 0;
+      border-radius: 9px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    #publish-button { background: #4f46e5; color: white; }
+    #draft-button, #preview-button { background: #eef0f6; color: #202638; }
+    button:disabled { opacity: .6; cursor: wait; }
+
+    #status {
+      min-height: 24px;
+      color: #3949ab;
+    }
+
+    #preview {
+      margin-top: 24px;
+    }
+
+    #preview[hidden] { display: none; }
+
+    .preview-category {
+      color: #5e6678;
+      font-size: .9rem;
+    }
+
+    #preview-content {
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+  </style>
 </head>
-<body class="bg-background text-on-background font-body-md min-h-screen pb-24">
-<!-- Navigation Drawer -->
-<div class="fixed inset-0 bg-black/50 z-[60] opacity-0 pointer-events-none transition-opacity duration-300" id="drawer-backdrop" onclick="toggleDrawer()"></div>
-<aside class="fixed top-0 left-0 h-full w-[280px] bg-surface-container-lowest z-[70] -translate-x-full transition-transform duration-300 ease-in-out shadow-2xl flex flex-col" id="side-drawer">
-<div class="p-6 border-b border-outline-variant flex items-center justify-between bg-primary-container/10">
-<h2 class="text-display-lg font-display-lg text-primary tracking-tighter">GamersPro</h2>
-<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors" onclick="toggleDrawer()">
-<span class="material-symbols-outlined text-on-surface-variant">close</span>
-</button>
-</div>
-<nav class="flex-1 overflow-y-auto p-4 space-y-2">
-<a class="flex items-center gap-4 p-4 rounded-xl text-primary font-title-sm bg-primary/10 transition-colors" href="index.html">
-<span class="material-symbols-outlined">newspaper</span>
-            Inicio
-        </a>
-<a class="flex items-center gap-4 p-4 rounded-xl text-on-surface-variant font-title-sm hover:bg-surface-container-low transition-colors" href="#">
-<span class="material-symbols-outlined">sports_esports</span>
-            Torneos
-        </a>
-<a class="flex items-center gap-4 p-4 rounded-xl text-on-surface-variant font-title-sm hover:bg-surface-container-low transition-colors" href="#">
-<span class="material-symbols-outlined">groups</span>
-            Comunidad
-        </a>
-<a class="flex items-center gap-4 p-4 rounded-xl text-on-surface-variant font-title-sm hover:bg-surface-container-low transition-colors" href="#">
-<span class="material-symbols-outlined">leaderboard</span>
-            Ranking
-        </a>
-<a class="flex items-center gap-4 p-4 rounded-xl text-on-surface-variant font-title-sm hover:bg-surface-container-low transition-colors" href="#">
-<span class="material-symbols-outlined">person</span>
-            Mi Perfil
-        </a>
-</nav>
-<div class="p-4 border-t border-outline-variant">
-<button class="w-full flex items-center justify-center gap-2 p-3 text-error font-title-sm hover:bg-error-container/20 rounded-lg transition-colors" onclick="toggleDrawer()">
-<span class="material-symbols-outlined">logout</span>
-            Cerrar
-        </button>
-</div>
-</aside>
-<!-- Top AppBar -->
 
- <body class="bg-background text-on-background font-body-md min-h-screen pb-7">
-  <!-- Hidden Inputs for Native Functionality -->
-  <input type="file" id="image-upload" accept="image/*" class="hidden"> <input type="file" id="video-upload" accept="video/*" class="hidden"> <!-- Side Drawer Backdrop -->
-  <div class="fixed inset-0 bg-black/60 z-[60] opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-sm" id="drawer-backdrop" onclick="toggleDrawer()"></div>
-  <!-- Side Drawer -->
-  <aside class="fixed top-0 left-0 h-full w-80 bg-surface-container z-[70] transform -translate-x-full transition-transform duration-300 border-r border-white/10 p-6" id="side-drawer">
-   <div class="flex items-center justify-between mb-8">
-    <h2 class="text-xl font-bold text-primary">Menú</h2>
-    <button class="p-2 rounded-full hover:bg-white/10 text-on-surface-variant" onclick="toggleDrawer()"><span class="material-symbols-outlined">close</span></button>
-   </div>
-   <nav class="space-y-2">
-    <a class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors text-on-surface" href="#" onclick="toggleDrawer()"> <span class="material-symbols-outlined">home</span> <span class="font-medium">Inicio</span> </a> <a class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors text-on-surface" href="#" onclick="toggleDrawer()"> <span class="material-symbols-outlined">explore</span> <span class="font-medium">Explorar</span> </a> <a class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors text-on-surface" href="#" onclick="toggleDrawer()"> <span class="material-symbols-outlined">notifications</span> <span class="font-medium">Notificaciones</span> </a>
-    <div class="h-px bg-white/10 my-4"></div>
-    <a class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors text-on-surface" href="#" onclick="toggleDrawer()"> <span class="material-symbols-outlined">person</span> <span class="font-medium">Perfil</span> </a>
-   </nav>
-  </aside>
-  <!-- Top AppBar -->
-  <header class="fixed top-0 w-full z-50 bg-surface-container/80 backdrop-blur-md border-b border-white/10">
-   <div class="flex items-center justify-between px-4 h-16 w-full max-w-screen-xl mx-auto">
-    <button class="p-2 rounded-full hover:bg-white/10 text-primary" onclick="toggleDrawer()"><span class="material-symbols-outlined">menu</span></button>
-    <h1 class="text-xl font-bold tracking-tighter text-primary">GamersPro</h1>
-    <button class="p-2 rounded-full hover:bg-white/10 text-primary" onclick="alert('Abriendo ajustes de perfil nativos...')"><span class="material-symbols-outlined">settings</span></button>
-   </div>
-  </header>
-  <main class="pt-20 px-4 max-w-3xl mx-auto">
-   <header class="mb-6">
-    <h2 class="text-2xl font-bold text-primary">Crear Nuevo Post</h2>
-    <p class="text-on-surface-variant">Comparte tus pensamientos con la comunidad.</p>
-   </header>
-   <div class="bg-surface-container-lowest border border-white/10 rounded-2xl p-6 shadow-2xl">
-    <!-- Title -->
-    <div class="mb-6">
-     <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2" for="post-title">Título</label> <input class="w-full bg-transparent border-0 border-b border-white/10 focus:border-primary focus:ring-0 text-xl font-bold py-3 placeholder:text-white/20 transition-colors"  id="input-title" placeholder="Título descriptivo..." type="text">
+<body>
+  <main>
+    <div class="topbar">
+      <strong>Foro MGamers</strong>
+      <a href="index.html">Inicio</a>
     </div>
-       <div class="mb-6">
-     <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2" for="post-category">Categoría</label>
-     <div class="relative">
-      <select class="w-full bg-surface-container-low border border-white/10 rounded-xl px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none appearance-none" id="select-tag"> 
-        <!-- Mantienes tus opciones anteriores -->
-        <option value="anuncios">Anuncios</option> 
-        <option value="torneos">Torneos</option> 
-        <option value="discusion">Discusión General</option> 
-        <option value="guias">Guías</option> 
-        <option value="hardware">Hardware</option> 
-        
-        <!-- AGREGAMOS LAS DOS NUEVAS CATEGORÍAS SINCRONIZADAS -->
-        <option value="servidores_mu">Servidores Mu</option>
-        <option value="rakion">Rakion</option>
-      </select>
-      <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-on-surface-variant">
-       <span class="material-symbols-outlined">expand_more</span>
+
+    <section class="card">
+      <h1>Crear publicación</h1>
+      <p class="intro">Edita el texto, agrega emojis e imágenes y revisa el resultado antes de publicar.</p>
+
+      <form id="post-form">
+        <label for="post-icon">Icono de la publicación</label>
+        <select id="post-icon">
+          <option value="">Sin icono</option>
+          <option value="🎮">🎮 Videojuegos</option>
+          <option value="📢">📢 Anuncio</option>
+          <option value="🏆">🏆 Torneo</option>
+          <option value="💡">💡 Consejo</option>
+          <option value="🛠️">🛠️ Hardware</option>
+          <option value="❓">❓ Pregunta</option>
+        </select>
+
+        <label for="input-title">Título</label>
+        <input id="input-title" type="text" maxlength="150" required
+               placeholder="Escribe el título">
+
+        <label for="select-tag">Categoría</label>
+        <select id="select-tag" required>
+          <option value="">Selecciona una categoría</option>
+          <option value="feed-noticias">Noticias</option>
+          <option value="feed-mu">Servidores Mu</option>
+          <option value="feed-Blood">Blood Striker</option>
+          <option value="feed-Free">Free Fire</option>
+          <option value="feed-mobiles">Moviles Legends</option>
+          <option value="feed-brawl">Brawl Star</option>
+          <option value="feed-Gounbound">Gounbound</option>
+          <option value="Feed-pokemon">Zona Pokemon</option>
+          <option value="feed-minicraft">Minicraft</option>
+          <option value="feed-dino">Zona Dino</option>
+         <option value="feed-sim">Zona Simuladores</option>
+         <option value="feed-libre">Zona Libre</option>
+        <option value="feed-guia">Zona Guia</option>
+      
+          
+        </select>
+
+        <span class="field-label">Contenido</span>
+
+        <div class="toolbar" aria-label="Formato del contenido">
+          <button type="button" data-command="bold" aria-label="Negrita"><b>N</b></button>
+          <button type="button" data-command="italic" aria-label="Cursiva"><i>K</i></button>
+          <button type="button" data-command="underline" aria-label="Subrayado"><u>S</u></button>
+
+          <label for="font-size" style="margin:0">Tamaño:</label>
+          <select id="font-size" aria-label="Tamaño del texto">
+            <option value="">Tamaño</option>
+            <option value="2">Pequeño</option>
+            <option value="3">Normal</option>
+            <option value="4">Grande</option>
+            <option value="5">Muy grande</option>
+          </select>
+
+          <label for="text-color" style="margin:0">Color:</label>
+          <input id="text-color" type="color" value="#202638" aria-label="Elegir color">
+          <button id="apply-color" type="button">Aplicar color</button>
+
+          <label for="image-input" class="file-label">Insertar imagen</label>
+          <input id="image-input" type="file"
+                 accept="image/jpeg,image/png,image/webp,image/gif">
+        </div>
+
+        <div class="emoji-list" aria-label="Insertar emoji">
+          <button type="button" data-emoji="😀">😀</button>
+          <button type="button" data-emoji="😂">😂</button>
+          <button type="button" data-emoji="🔥">🔥</button>
+          <button type="button" data-emoji="🎮">🎮</button>
+          <button type="button" data-emoji="❤️">❤️</button>
+          <button type="button" data-emoji="👍">👍</button>
+          <button type="button" data-emoji="🏆">🏆</button>
+          <button type="button" data-emoji="⚔️">⚔️</button>
+        </div>
+
+        <div id="editor" contenteditable="true" role="textbox" aria-multiline="true"
+             data-placeholder="Escribe aquí. Selecciona texto para cambiar su formato o color."></div>
+
+        <div class="actions">
+          <button id="publish-button" type="submit">Publicar</button>
+          <button id="preview-button" type="button">Vista previa</button>
+          <button id="draft-button" type="button">Guardar borrador</button>
+        </div>
+
+        <p id="status" role="status" aria-live="polite"></p>
+      </form>
+
+      <p class="hint">
+        Debes iniciar sesión para publicar. Las imágenes JPG, PNG, WEBP o GIF pueden tener hasta 5 MB.
+      </p>
+    </section>
+
+    <section id="preview" hidden>
+      <div class="preview-card">
+        <span id="preview-category" class="preview-category"></span>
+        <h2 id="preview-title"></h2>
+        <div id="preview-content"></div>
       </div>
-     </div>
-    </div>
-
-    <!-- Content Area -->
-    <div class="mb-6">
-     <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Contenido</label>
-     <div class="flex items-center gap-2 p-2 bg-surface-container-low rounded-t-xl border-x border-t border-white/10">
-      <button class="p-2 rounded hover:bg-white/10 text-on-surface-variant" onclick="document.getElementById('image-upload').click()" title="Subir Imagen"><span class="material-symbols-outlined">image</span></button>
-      <button class="p-2 rounded hover:bg-white/10 text-on-surface-variant" onclick="document.getElementById('video-upload').click()" title="Subir Video"><span class="material-symbols-outlined">videocam</span></button>
-      <button class="p-2 rounded hover:bg-white/10 text-on-surface-variant" onclick="alert('Configuración de publicación nativa')" title="Ajustes"><span class="material-symbols-outlined">settings</span></button>
-      <div class="w-px h-6 bg-white/10 mx-1"></div>
-      <button class="p-2 rounded hover:bg-white/10 text-on-surface-variant" onclick="document.execCommand('bold')"><span class="material-symbols-outlined">format_bold</span></button>
-      <button class="p-2 rounded hover:bg-white/10 text-on-surface-variant" onclick="document.execCommand('italic')"><span class="material-symbols-outlined">format_italic</span></button>
-     </div>
-     <textarea class="w-full bg-surface-container-low border border-white/10 rounded-b-xl px-4 py-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none resize-none min-h-[300px]"  id="input-content"  placeholder="Escribe tu historia aquí..."></textarea>
-    </div>
-    <!-- Feedback Area for Uploaded Files -->
-    <div id="modal-post" class="mb-6 hidden">
-     <div class="flex items-center gap-3 p-3 bg-primary/10 rounded-xl border border-primary/20">
-      <span class="material-symbols-outlined text-primary" id="feedback-icon">attach_file</span> <span id="feedback-text" class="text-sm font-medium text-on-surface">Archivo seleccionado</span>
-      <button onclick="clearUpload()" class="ml-auto p-1 hover:bg-white/10 rounded-full"><span class="material-symbols-outlined text-xs">close</span></button>
-     </div>
-    </div>
-    <!-- Actions -->
-    <div class="flex flex-col gap-3">
-     <button class="w-full py-4 rounded-xl bg-primary text-white font-bold shadow-lg shadow-primary/20 active:scale-[0.98] transition-all" id="btn-publicar-post"">Publicar Post</button>
-     <button class="w-full py-4 rounded-xl border border-white/10 text-on-surface-variant font-bold hover:bg-white/5 transition-all" onclick="handleSaveDraft()">Guardar Borrador</button>
-    </div>
-   </div>
+    </section>
   </main>
- 
- 
- 
- 
- 
-   <!-- ========================================== -->
-  <!-- CONEXIÓN COMPLETA A SUPABASE (SIN TOCAR DISEÑO) -->
-  <!-- ========================================== -->
-  
-  <!--  Corregido: Solo cambiamos esta línea por el motor real -->
-  <script src="https://jsdelivr.net"></script>
 
   <script type="module">
     import { supabase } from './conexion.js';
 
-    // Hacer las funciones nativas accesibles globalmente desde el HTML
-    window.toggleDrawer = toggleDrawer;
-    window.handlePublish = handlePublish;
-    window.handleSaveDraft = handleSaveDraft;
-    window.clearUpload = clearUpload;
+    const PROJECT_ORIGIN = 'https://zrrpjbqduwtaxsfbsuum.supabase.co';
+    const BUCKET = 'post-images';
+    const DRAFT_KEY = 'mgamers_post_draft_v3';
 
-    function toggleDrawer() {
-        const drawer = document.getElementById('side-drawer');
-        const backdrop = document.getElementById('drawer-backdrop');
-        if (drawer && backdrop) {
-            drawer.classList.toggle('-translate-x-full');
-            backdrop.classList.toggle('opacity-0');
-            backdrop.classList.toggle('opacity-100');
-            backdrop.classList.toggle('pointer-events-none');
-            backdrop.classList.toggle('pointer-events-auto');
-        }
+    const form = document.getElementById('post-form');
+    const titleInput = document.getElementById('input-title');
+    const categoryInput = document.getElementById('select-tag');
+    const iconInput = document.getElementById('post-icon');
+    const editor = document.getElementById('editor');
+    const colorInput = document.getElementById('text-color');
+    const sizeInput = document.getElementById('font-size');
+    const imageInput = document.getElementById('image-input');
+    const publishButton = document.getElementById('publish-button');
+    const status = document.getElementById('status');
+    const preview = document.getElementById('preview');
+
+    let savedRange = null;
+
+    function setStatus(message) {
+      status.textContent = message;
     }
 
-    // 3. TRADUCCIÓN FUNCIONAL: Modificamos la función para que envíe los textos limpios a Supabase
-    async function handlePublish() {
-        const title = document.getElementById('post-title').value;
-        const rawCategory = document.getElementById('post-category').value;
-        const content = document.getElementById('post-content').value;
-        
-        if(!title.trim() || !content.trim()) {
-            if (window.confirm('Falta información. ¿Quieres completar el post ahora?')) {
-                return;
-            }
-            return;
-        }
+    function saveSelection() {
+      const selection = window.getSelection();
 
-        // Traducimos los values en minúsculas de tu HTML a las categorías exactas de la base de datos
-        let category = "General";
-        if (rawCategory === "anuncios") category = "Noticias";
-        else if (rawCategory === "torneos") category = "Torneos";
-        else if (rawCategory === "servidores_mu") category = "Servidores Mu";
-        else if (rawCategory === "rakion") category = "Rakion";
-        
+      if (selection && selection.rangeCount && editor.contains(selection.anchorNode)) {
+        savedRange = selection.getRangeAt(0).cloneRange();
+      }
+    }
+
+    function restoreSelection() {
+      editor.focus();
+      const selection = window.getSelection();
+
+      if (!selection) return;
+
+      selection.removeAllRanges();
+
+      if (savedRange && editor.contains(savedRange.commonAncestorContainer)) {
+        selection.addRange(savedRange);
+      } else {
+        const range = document.createRange();
+        range.selectNodeContents(editor);
+        range.collapse(false);
+        selection.addRange(range);
+      }
+    }
+
+    function insertAtCursor(node) {
+      restoreSelection();
+
+      const selection = window.getSelection();
+      if (!selection || !selection.rangeCount) return;
+
+      const range = selection.getRangeAt(0);
+      range.deleteContents();
+      range.insertNode(node);
+      range.setStartAfter(node);
+      range.collapse(true);
+
+      selection.removeAllRanges();
+      selection.addRange(range);
+      saveSelection();
+    }
+
+    editor.addEventListener('keyup', saveSelection);
+    editor.addEventListener('mouseup', saveSelection);
+    editor.addEventListener('input', saveSelection);
+    document.addEventListener('selectionchange', saveSelection);
+
+    // Pegar solo texto plano, no HTML externo.
+    editor.addEventListener('paste', (event) => {
+      event.preventDefault();
+      const text = event.clipboardData?.getData('text/plain') || '';
+      insertAtCursor(document.createTextNode(text));
+    });
+
+    // Impide arrastrar contenido HTML externo al editor.
+    editor.addEventListener('drop', (event) => event.preventDefault());
+
+    document.querySelectorAll('[data-command]').forEach((button) => {
+      button.addEventListener('mousedown', (event) => event.preventDefault());
+      button.addEventListener('click', () => {
+        restoreSelection();
+        document.execCommand(button.dataset.command, false, null);
+        saveSelection();
+      });
+    });
+
+    document.querySelectorAll('[data-emoji]').forEach((button) => {
+      button.addEventListener('mousedown', (event) => event.preventDefault());
+      button.addEventListener('click', () => {
+        insertAtCursor(document.createTextNode(button.dataset.emoji));
+      });
+    });
+
+    function applyFontSize(size) {
+      if (!size) return;
+
+      restoreSelection();
+      document.execCommand('fontSize', false, size);
+      saveSelection();
+    }
+
+    sizeInput.addEventListener('mousedown', saveSelection);
+    sizeInput.addEventListener('change', () => {
+      applyFontSize(sizeInput.value);
+      sizeInput.value = '';
+    });
+
+    document.getElementById('apply-color').addEventListener('mousedown', (event) => {
+      event.preventDefault();
+    });
+
+    document.getElementById('apply-color').addEventListener('click', () => {
+      restoreSelection();
+
+      const selection = window.getSelection();
+      if (!selection || selection.isCollapsed) {
+        setStatus('Selecciona primero el texto al que quieres aplicar color.');
+        return;
+      }
+
+      document.execCommand('styleWithCSS', false, true);
+      document.execCommand('foreColor', false, colorInput.value);
+      saveSelection();
+      setStatus('Color aplicado al texto seleccionado.');
+    });
+
+    function convertLegacyFontTags(html) {
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const sizeMap = {
+        '1': '12px',
+        '2': '14px',
+        '3': '16px',
+        '4': '18px',
+        '5': '24px',
+        '6': '32px',
+        '7': '48px'
+      };
+
+      doc.body.querySelectorAll('font').forEach((font) => {
+        const span = doc.createElement('span');
+        const size = sizeMap[font.getAttribute('size')];
+
+        if (size) span.style.fontSize = size;
+
+        span.innerHTML = font.innerHTML;
+        font.replaceWith(span);
+      });
+
+      return doc.body.innerHTML;
+    }
+
+    DOMPurify.addHook('uponSanitizeAttribute', (node, data) => {
+      if (node.nodeName === 'IMG' && data.attrName === 'src') {
         try {
-            // Insertamos la información capturada en tu tabla 'posts'
-            const { error } = await supabase
-                .from('posts')
-                .insert([
-                    {
-                        title: title.trim(),
-                        content: content.trim(),
-                        category: category,
-                        author: "Invitado Anónimo" // Nombre por defecto para la Fase 1
-                    }
-                ]);
+          const url = new URL(data.attrValue);
+          const allowed =
+            url.origin === PROJECT_ORIGIN &&
+            url.pathname.startsWith('/storage/v1/object/public/post-images/');
 
-            if (error) throw error;
-
-            alert('¡Éxito! Tu post ha sido publicado correctamente en GamersPro.');
-            window.location.href = "index.html"; // Regresa al foro de inmediato ya actualizado
-            
-        } catch (err) {
-            console.error("Error al publicar en Supabase:", err.message);
-            alert("No se pudo subir a la base de datos: " + err.message);
+          if (!allowed) data.keepAttr = false;
+        } catch {
+          data.keepAttr = false;
         }
-    }
+      }
 
-    function handleSaveDraft() {
-        const title = document.getElementById('post-title').value;
-        if(title) {
-            alert('Borrador "' + title + '" guardado en el almacenamiento local del dispositivo.');
+      if (data.attrName === 'style') {
+        const safeStyles = [];
+
+        const color = data.attrValue.match(
+          /(?:^|;)\s*color\s*:\s*(#[0-9a-f]{3,8}|rgba?\([0-9.,\s]+\))\s*(?:;|$)/i
+        );
+
+        const size = data.attrValue.match(
+          /(?:^|;)\s*font-size\s*:\s*(12|14|16|18|24|32)px\s*(?:;|$)/i
+        );
+
+        if (color) safeStyles.push(`color: ${color[1]}`);
+        if (size) safeStyles.push(`font-size: ${size[1]}px`);
+
+        if (safeStyles.length) {
+          data.attrValue = safeStyles.join('; ');
         } else {
-            alert('Borrador guardado localmente.');
+          data.keepAttr = false;
         }
+      }
+    });
+
+    function sanitizeContent(html) {
+      return DOMPurify.sanitize(convertLegacyFontTags(html), {
+        ALLOWED_TAGS: [
+          'p', 'br', 'div', 'span', 'strong', 'b', 'em', 'i',
+          'u', 'ul', 'ol', 'li', 'img'
+        ],
+        ALLOWED_ATTR: ['style', 'src', 'alt'],
+        ALLOWED_URI_REGEXP:
+          /^https:\/\/zrrpjbqduwtaxsfbsuum\.supabase\.co\/storage\/v1\/object\/public\/post-images\//i
+      });
     }
 
-    // Manejo seguro de carga de archivos nativos
-    const imageInput = document.getElementById('image-upload');
-    const videoInput = document.getElementById('video-upload');
-    const feedbackArea = document.getElementById('upload-feedback');
-    const feedbackText = document.getElementById('feedback-text');
-    const feedbackIcon = document.getElementById('feedback-icon');
+    imageInput.addEventListener('change', async () => {
+      const file = imageInput.files?.[0];
+      imageInput.value = '';
 
-    if (imageInput) {
-        imageInput.addEventListener('change', function() {
-            if (this.files && this.files[0]) { 
-                showFeedback(this.files[0].name, 'image'); 
-            }
-        });
+      if (!file) return;
+
+      const extensions = {
+        'image/jpeg': 'jpg',
+        'image/png': 'png',
+        'image/webp': 'webp',
+        'image/gif': 'gif'
+      };
+
+      if (!extensions[file.type]) {
+        setStatus('Elige una imagen JPG, PNG, WEBP o GIF.');
+        return;
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        setStatus('La imagen supera el límite de 5 MB.');
+        return;
+      }
+
+      setStatus('Subiendo imagen…');
+
+      try {
+        const {
+          data: { user },
+          error: authError
+        } = await supabase.auth.getUser();
+
+        if (authError) throw authError;
+        if (!user) throw new Error('Inicia sesión antes de subir imágenes.');
+
+        const path = `${user.id}/${crypto.randomUUID()}.${extensions[file.type]}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from(BUCKET)
+          .upload(path, file, {
+            contentType: file.type,
+            cacheControl: '3600',
+            upsert: false
+          });
+
+        if (uploadError) throw uploadError;
+
+        const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
+        const image = document.createElement('img');
+        image.src = data.publicUrl;
+        image.alt = 'Imagen de la publicación';
+        image.loading = 'lazy';
+
+        // Inserta la imagen donde estaba el cursor del editor.
+        insertAtCursor(image);
+        setStatus('Imagen insertada en el contenido.');
+      } catch (error) {
+        console.error('Error al subir la imagen:', error);
+        setStatus('No se pudo subir la imagen: ' + (error.message || 'error inesperado.'));
+      }
+    });
+
+    function saveDraft(showMessage = true) {
+      const draft = {
+        titulo: titleInput.value,
+        categoria: categoryInput.value,
+        icono: iconInput.value,
+        contenido: editor.innerHTML
+      };
+
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+      if (showMessage) setStatus('Borrador guardado en este navegador.');
     }
 
-    if (videoInput) {
-        videoInput.addEventListener('change', function() {
-            if (this.files && this.files[0]) { 
-                showFeedback(this.files[0].name, 'videocam'); 
-            }
-        });
+    try {
+      const draft = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null');
+
+      if (draft) {
+        titleInput.value = draft.titulo || '';
+        categoryInput.value = draft.categoria || '';
+        iconInput.value = draft.icono || '';
+        editor.innerHTML = sanitizeContent(draft.contenido || '');
+      }
+    } catch {
+      localStorage.removeItem(DRAFT_KEY);
     }
 
-    function showFeedback(name, icon) {
-        if (feedbackArea && feedbackText && feedbackIcon) {
-            feedbackArea.classList.remove('hidden');
-            feedbackText.innerText = name;
-            feedbackIcon.innerText = icon;
-        }
-    }
+    document.getElementById('draft-button').addEventListener('click', () => {
+      saveDraft(true);
+    });
 
-    function clearUpload() {
-        if(imageInput) imageInput.value = '';
-        if(videoInput) videoInput.value = '';
-        if(feedbackArea) feedbackArea.classList.add('hidden');
-    }
+    let draftTimer;
+    form.addEventListener('input', () => {
+      clearTimeout(draftTimer);
+      draftTimer = setTimeout(() => saveDraft(false), 700);
+    });
 
-    // Simulación de auto-guardado
-    const contentTextarea = document.getElementById('post-content');
-    if (contentTextarea) {
-        let timeout = null;
-        contentTextarea.addEventListener('input', () => {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                console.log('Sincronizando borrador de forma nativa...');
-            }, 1000);
-        });
-    }
+    document.getElementById('preview-button').addEventListener('click', () => {
+      const title = titleInput.value.trim();
+      const icon = iconInput.value;
+      const category = categoryInput.options[categoryInput.selectedIndex]?.text || '';
+      const cleanContent = sanitizeContent(editor.innerHTML);
+
+      document.getElementById('preview-title').textContent =
+        `${icon ? icon + ' ' : ''}${title || 'Título de la publicación'}`;
+
+      document.getElementById('preview-category').textContent =
+        categoryInput.value ? category : 'Categoría';
+
+      document.getElementById('preview-content').innerHTML =
+        cleanContent || 'El contenido aparecerá aquí.';
+
+      preview.hidden = !preview.hidden;
+
+      if (!preview.hidden) {
+        preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const titleText = titleInput.value.trim();
+      const category = categoryInput.value;
+      const content = sanitizeContent(editor.innerHTML);
+      const hasImage = editor.querySelector('img');
+
+      if (!titleText || !category || (!editor.innerText.trim() && !hasImage)) {
+        setStatus('Completa el título, la categoría y el contenido.');
+        return;
+      }
+
+      const icon = iconInput.value;
+      const title = icon ? `${icon} ${titleText}` : titleText;
+
+      publishButton.disabled = true;
+      publishButton.textContent = 'Publicando…';
+      setStatus('Verificando la sesión…');
+
+      try {
+        const {
+          data: { user },
+          error: authError
+        } = await supabase.auth.getUser();
+
+        if (authError) throw authError;
+        if (!user) throw new Error('Inicia sesión antes de publicar.');
+
+        const { error } = await supabase
+          .from('posts')
+          .insert({
+            titulo: title,
+            contenido: content,
+            'categoría': category
+          });
+
+        if (error) throw error;
+
+        localStorage.removeItem(DRAFT_KEY);
+        setStatus('Publicación creada. Volviendo al foro…');
+        window.location.href = 'index.html';
+      } catch (error) {
+        console.error('Error al publicar:', error);
+        setStatus('No se pudo publicar: ' + (error.message || 'error inesperado.'));
+      } finally {
+        publishButton.disabled = false;
+        publishButton.textContent = 'Publicar';
+      }
+    });
   </script>
- </body>
+</body>
 </html>
-
-
