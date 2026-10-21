@@ -333,8 +333,8 @@
 
 <body>
   <main class="card">
-    <p class="eyebrow">Comunidad gamer</p>
-    <h1 id="page-title">Bienvenido</h1>
+    <p class="eyebrow">Comunidad Móvil Gamers </p>
+    <h1 id="page-title">Bienvenido Guerrero</h1>
     <p class="intro" id="page-intro">Inicia sesión o crea una cuenta para entrar al foro.</p>
 
     <div class="mode-tabs" role="tablist" aria-label="Acceso">
@@ -482,6 +482,8 @@
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+    const AUTH_REDIRECT_URL = "https://vnzlanick.github.io/MGamers/";
+
     const supabase = createClient(
       "https://zrrpjbqduwtaxsfbsuum.supabase.co",
       "sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp"
@@ -627,6 +629,7 @@
             email,
             password,
             options: {
+              emailRedirectTo: AUTH_REDIRECT_URL,
               data: {
                 username: usernameInput.value.trim(),
                 favorite_game: selectedGame || null
@@ -670,10 +673,9 @@
       showMessage("");
 
       try {
-        const redirectTo = window.location.origin + window.location.pathname;
         const { error } = await supabase.auth.signInWithOAuth({
           provider: "google",
-          options: { redirectTo }
+          options: { redirectTo: AUTH_REDIRECT_URL }
         });
 
         if (error) throw error;
