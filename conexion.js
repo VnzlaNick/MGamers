@@ -1,37 +1,57 @@
-// 1. Importar la función oficial de creación de cliente para módulos
-import { createClient } from 'https://jsdelivr.net';
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-// 2. Configuración limpia de tus credenciales reales de Supabase
-const SUPABASE_URL = "https://zrrpjbqduwtaxsfbsuum.supabase.co"; // URL corregida sin el /rest/v1/
-const SUPABASE_ANON_KEY = "sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp"; // Tu clave anon real
+const SUPABASE_URL = 'https://zrrpjbqduwtaxsfbsuum.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp';
 
-// 3. Inicializar el cliente de Supabase correctamente
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+export const supabase = createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
 
-// 4. Función global encargada de enviar la información desde el formulario (Adaptada a tus columnas en español)
-async function publicarMensajeAnonimo(tituloPost, contenidoPost, categoriaPost) {
+export async function publicarPost(tituloPost, contenidoPost, categoriaPost) {
+  const titulo = tituloPost?.trim();
+  const contenido = contenidoPost?.trim();
+  const categoria = categoriaPost?.trim();
+
+  if (!titulo || !contenido || !categoria) {
+    alert('Completa el título, la categoría y el contenido.');
+    return false;
+  }
+
   try {
-    // Mapeo exacto a tus columnas de Supabase: titulo, contenido, categoria
-    const { data, error } = await supabase
+    const {
+      data: { user },
+      error: authError
+    } = await supabase.auth.getUser();
+
+    if (authError) throw authError;
+
+    if (!user) {
+      alert('Inicia sesión para publicar. Los visitantes solo pueden leer posts.');
+      return false;
+    }
+
+    const { error } = await supabase
       .from('posts')
-      .insert([
-        { 
-          titulo: tituloPost, 
-          contenido: contenidoPost, 
-          categoria: categoriaPost
-        }
-      ]);
+      .insert({
+        titulo,
+        contenido,
+        'categoría': categoria
+      });
 
     if (error) throw error;
 
-    alert("🚀 ¡Post creado con éxito en MGamers!");
-    window.location.reload(); // Recarga la página para ver el post reflejado al instante
-    
+    alert('¡Post publicado!');
+    window.location.href = 'index.html';
+    return true;
   } catch (error) {
-    console.error("Error crítico al insertar en Supabase:", error.message);
-    alert("Hubo un error al intentar publicar: " + error.message);
+    console.error('Error al publicar:', error);
+    alert('No se pudo publicar el post: ' + error.message);
+    return false;
   }
 }
 
-// Hacer la función accesible globalmente por si la necesitas en etiquetas tradicionales onClick
-window.publicarMensajeAnonimo = publicarMensajeAnonimo;
+// Compatibilidad con botones HTML que usen onclick="publicarPost(...)"
+if (typeof window !== 'undefined') {
+  window.publicarPost = publicarPost;
+}
