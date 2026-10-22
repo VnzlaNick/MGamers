@@ -333,7 +333,7 @@
 
 <body>
   <main class="card">
-    <p class="eyebrow">Comunidad Móvil Gamers </p>
+    <p class="eyebrow">Comunidad Móvil Gamers</p>
     <h1 id="page-title">Bienvenido Guerrero</h1>
     <p class="intro" id="page-intro">Inicia sesión o crea una cuenta para entrar al foro.</p>
 
@@ -639,15 +639,18 @@
 
           if (error) throw error;
 
-          showMessage(
-            data.session
-              ? "Cuenta creada. Ya iniciaste sesión."
-              : "Registro enviado. Revisa tu correo para confirmar la cuenta.",
-            "success"
-          );
-
           passwordInput.value = "";
           confirmInput.value = "";
+
+          if (data.session) {
+            window.location.assign(AUTH_REDIRECT_URL);
+            return;
+          }
+
+          showMessage(
+            "Registro enviado. Revisa tu correo para confirmar la cuenta.",
+            "success"
+          );
         } else {
           const { error } = await supabase.auth.signInWithPassword({
             email,
@@ -656,8 +659,9 @@
 
           if (error) throw error;
 
-          showMessage("Inicio de sesión correcto. Ya puedes continuar al foro.", "success");
           passwordInput.value = "";
+          window.location.assign(AUTH_REDIRECT_URL);
+          return;
         }
       } catch (error) {
         showMessage(error?.message || "No se pudo completar la operación.", "error");
