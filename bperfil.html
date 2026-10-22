@@ -1,245 +1,167 @@
-<!DOCTYPE html>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Perfil del jugador</title>
 
-<html class="light" lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            "colors": {
-                    "outline-variant": "#bec7d3",
-                    "on-secondary-container": "#566475",
-                    "outline": "#6f7882",
-                    "background": "#f7f9fb",
-                    "error-container": "#ffdad6",
-                    "surface-dim": "#d8dadc",
-                    "surface-bright": "#f7f9fb",
-                    "tertiary-container": "#929ba3",
-                    "surface-container-highest": "#e0e3e5",
-                    "on-tertiary": "#ffffff",
-                    "primary-container": "#1da1f2",
-                    "surface-variant": "#e0e3e5",
-                    "on-primary": "#ffffff",
-                    "secondary-fixed": "#d6e4f9",
-                    "inverse-surface": "#2d3133",
-                    "on-surface-variant": "#3f4851",
-                    "surface-container": "#eceef0",
-                    "tertiary": "#575f67",
-                    "surface-container-lowest": "#ffffff",
-                    "tertiary-fixed": "#dbe4ed",
-                    "on-primary-fixed": "#001d32",
-                    "on-error": "#ffffff",
-                    "on-background": "#191c1e",
-                    "secondary-container": "#d3e1f6",
-                    "surface": "#f7f9fb",
-                    "on-secondary-fixed-variant": "#3a4859",
-                    "inverse-on-surface": "#eff1f3",
-                    "primary-fixed-dim": "#95ccff",
-                    "on-tertiary-fixed-variant": "#3f484f",
-                    "on-primary-fixed-variant": "#004a75",
-                    "inverse-primary": "#95ccff",
-                    "surface-tint": "#1da1f2",
-                    "on-surface": "#191c1e",
-                    "on-primary-container": "#003554",
-                    "primary-fixed": "#cde5ff",
-                    "on-secondary-fixed": "#0f1c2c",
-                    "on-tertiary-container": "#2a333a",
-                    "on-secondary": "#ffffff",
-                    "on-error-container": "#93000a",
-                    "tertiary-fixed-dim": "#bfc8d0",
-                    "on-tertiary-fixed": "#141d23",
-                    "secondary": "#525f71",
-                    "surface-container-high": "#e6e8ea",
-                    "surface-container-low": "#f2f4f6",
-                    "primary": "#1da1f2",
-                    "secondary-fixed-dim": "#bac8dc",
-                    "error": "#ba1a1a",
-                    "brand-orange": "#ff5722"
-            },
-            "borderRadius": {
-                    "DEFAULT": "0.25rem",
-                    "lg": "0.5rem",
-                    "xl": "0.75rem",
-                    "full": "9999px"
-            },
-            "spacing": {
-                    "card-padding": "1rem",
-                    "container-margin": "1rem",
-                    "inline-gutter": "1rem",
-                    "section-padding": "1.5rem",
-                    "stack-gap": "0.75rem"
-            },
-            "fontFamily": {
-                    "label-sm": ["Plus Jakarta Sans"],
-                    "title-sm": ["Plus Jakarta Sans"],
-                    "label-bold": ["Plus Jakarta Sans"],
-                    "body-md": ["Plus Jakarta Sans"],
-                    "display-lg": ["Plus Jakarta Sans"],
-                    "body-sm": ["Plus Jakarta Sans"],
-                    "headline-md": ["Plus Jakarta Sans"]
-            },
-            "fontSize": {
-                    "label-sm": ["10px", {"lineHeight": "14px", "letterSpacing": "0.01em", "fontWeight": "500"}],
-                    "title-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "700"}],
-                    "label-bold": ["11px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "700"}],
-                    "body-md": ["14px", {"lineHeight": "22px", "letterSpacing": "0px", "fontWeight": "400"}],
-                    "display-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
-                    "body-sm": ["12px", {"lineHeight": "18px", "letterSpacing": "0px", "fontWeight": "400"}],
-                    "headline-md": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
-            }
-          },
-        },
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b0d14;
+      --panel: #141824;
+      --text: #f4f5fb;
+      --muted: #a5abc0;
+      --line: #292e40;
+      --accent: #a78bfa;
+      --cyan: #67e8f9;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 32px 16px;
+      background:
+        radial-gradient(ellipse at top, #242044 0, transparent 45%),
+        var(--bg);
+      color: var(--text);
+      font: 16px/1.5 system-ui, sans-serif;
+    }
+
+    .profile-page {
+      width: min(900px, 100%);
+      margin: auto;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 18px;
+      color: var(--cyan);
+      text-decoration: none;
+    }
+
+    .profile-card,
+    .posts-section {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--panel);
+      box-shadow: 0 16px 50px #0005;
+    }
+
+    .cover {
+      height: 170px;
+      background:
+        radial-gradient(circle at 80% 20%, #67e8f955, transparent 25%),
+        linear-gradient(120deg, #352267, #171d36 60%, #102b35);
+    }
+
+    .profile-info {
+      display: flex;
+      align-items: end;
+      gap: 20px;
+      padding: 0 28px 26px;
+    }
+
+    .avatar {
+      width: 112px;
+      height: 112px;
+      margin-top: -52px;
+      border: 5px solid var(--panel);
+      border-radius: 50%;
+      background: #252b3b;
+      object-fit: cover;
+    }
+
+    .identity { flex: 1; }
+
+    .identity h1 {
+      margin: 0;
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      overflow-wrap: anywhere;
+    }
+
+    .member-date {
+      margin: 6px 0 0;
+      color: var(--muted);
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 5px 11px;
+      border: 1px solid #a78bfa66;
+      border-radius: 999px;
+      color: #d9ccff;
+      background: #a78bfa18;
+      font-size: 0.85rem;
+    }
+
+    .posts-section {
+      margin-top: 22px;
+      padding: 24px;
+    }
+
+    .posts-section h2 {
+      margin: 0 0 16px;
+      font-size: 1.25rem;
+    }
+
+    .empty-state {
+      padding: 28px 16px;
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 560px) {
+      body { padding: 20px 12px; }
+      .cover { height: 130px; }
+      .profile-info {
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+        padding: 0 18px 22px;
+        text-align: center;
       }
-    </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .news-shadow {
-            box-shadow: 0px 10px 30px rgba(0,0,0,0.05);
-        }
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-    </style>
+      .avatar { margin-top: -50px; }
+      .posts-section { padding: 18px; }
+    }
+  </style>
 </head>
-<src="index.html"/>
-</div>
-<body class="bg-background text-on-background font-body-md min-h-screen pb-24">
-<header class="fixed top-0 w-full z-50 bg-surface-container-lowest border-b border-outline-variant">
-<div class="flex items-center justify-between px-container-margin h-16 w-full max-w-screen-xl mx-auto">
-<button class="active:scale-95 transition-transform duration-200 hover:bg-surface-container-low p-2 rounded-full">
-<span class="material-symbols-outlined text-primary">arrow_back</span>
-</button>
-<h1 class="text-headline-md font-headline-md text-primary tracking-tight">Mi Perfil</h1>
-<button class="active:scale-95 transition-transform duration-200 hover:bg-surface-container-low p-2 rounded-full">
-<span class="material-symbols-outlined text-primary">settings</span>
-</button>
-</div>
-</header>
-<main class="mt-16">
-<div class="h-32 bg-primary-container/20 w-0"></div>
-<div class="px-container-margin">
-<!-- Profile Header Redesign -->
-<div class="flex flex-col items-center -mt-24">
-<!-- Large Square Medal Background -->
-<div class="relative w-72 h-72">
-<div class="absolute inset-0 rounded-2xl border-4 border-surface-container-lowest overflow-hidden shadow-xl">
-<img alt="Rank Background" class="w-full h-full object-cover" src="https://i.wpfc.ml/js/y7l9sr.png"/>
-</div>
-<!-- Profile Pic and Name positioned at the "foot" of the medal -->
-<div class="absolute left-0 right-0 flex flex-col items-center -bottom-24">
-<div class="relative">
-<img alt="User Avatar" class="h-28 w-28 rounded-full border-4 border-surface-container-lowest object-cover shadow-lg" src="https://i.wpfc.ml/js/y78drh.jpg"/>
-<div class="absolute bottom-1 right-0 h-7 w-7 bg-brand-orange rounded-full border-2 border-surface-container-lowest flex items-center justify-center">
-<span class="material-symbols-outlined text-white text-[16px]" style="font-variation-settings: 'FILL' 1;">military_tech</span>
-</div>
-</div>
-<div class="text-center mt-4">
-<h2 class="text-display-lg font-display-lg text-on-background">GamersPro</h2>
-<p class="text-on-surface-variant font-body-md -mt-1">@_2026</p>
-</div>
-</div>
-</div>
-<br>
-<div class="mt-20 flex gap-2">
-<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-label-bold">Rango Oro</span>
-<span class="bg-brand-orange/10 text-brand-orange px-3 py-1 rounded-full text-label-bold">Asesino</span>
-</div>
-</div>
-<div class="mt-8 grid grid-cols-3 border-y border-outline-variant py-6 gap-2">
-<div class="text-center border-r border-outline-variant">
-<p class="text-headline-md text-on-surface font-headline-md">1.2k</p>
-<p class="text-label-sm text-on-surface-variant uppercase font-label-sm">Posts</p>
-</div>
-<div class="text-center border-r border-outline-variant">
-<p class="text-headline-md text-on-surface font-headline-md">856</p>
-<p class="text-label-sm text-on-surface-variant uppercase font-label-sm">Logros</p>
-</div>
-<div class="text-center">
-<p class="text-headline-md text-on-surface font-headline-md">4.5k</p>
-<p class="text-label-sm text-on-surface-variant uppercase font-label-sm">Puntos</p>
-</div>
-</div>
-<section class="mt-8 flex flex-col gap-4 px-2">
-<h3 class="font-headline-md text-on-surface">Información</h3>
-<div class="bg-surface-container-lowest rounded-xl p-4 border border-outline-variant flex flex-col gap-3">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-primary">calendar_today</span>
-<div>
-<p class="text-label-bold text-on-surface">Se unió</p>
-<p class="text-body-sm text-on-surface-variant">15 de Marzo, 2021</p>
-</div>
-</div>
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-primary">location_on</span>
-<div>
-<p class="text-label-bold text-on-surface">Ubicación</p>
-<p class="text-body-sm text-on-surface-variant">Ciudad de México, MX</p>
-</div>
-</div>
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-primary">description</span>
-<div>
-<p class="text-label-bold text-on-surface">Biografía</p>
-<p class="text-body-sm text-on-surface-variant">Amante de los FPS y coleccionista de logros. Siempre buscando nuevos retos en la arena.</p>
-</div>
-</div>
-</div>
-</section>
-<section class="mt-8 flex flex-col gap-4 px-2">
-<div class="flex justify-between items-center">
-<h3 class="font-headline-md text-on-surface">Últimos Logros</h3>
-<button class="text-primary text-label-bold hover:underline">Ver todos</button>
-</div>
-<div class="flex gap-4 overflow-x-auto pb-4 hide-scrollbar">
-<div class="min-w-[120px] bg-surface-container-lowest p-4 rounded-xl border border-outline-variant text-center flex flex-col items-center gap-2">
-<img alt="Achievement" class="h-12 w-12 grayscale-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlmRgE0W3142rPdC8t3WTsZlWaXk-5t-7L3B0PMEld5aVCFjUqS4FDBo4FAgl42uYtZUNSqPNwxFmt5Vhb6QgM9ICff_wgN9pGXYmFyr4QvuIXTuRidzRCbAvGIQZED56jsdDFxQWjh50TEz8OhsyqKVH2y_c4podFk-0pXv0rGLS37xLiaJbh1dqkDweiboDF1fhkfz_MhN4msKitimFU4uAt_hdJvI2aLjbOKfL-XRL1OEQsr0fTWg"/>
-<p class="text-label-bold text-on-surface leading-tight">Primer Asesinato</p>
-</div>
-<div class="min-w-[120px] bg-surface-container-lowest p-4 rounded-xl border border-outline-variant text-center flex flex-col items-center gap-2">
-<img alt="Achievement" class="h-12 w-12" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDW3JJ3mfUAXvgrFPG9lexJTRtElhF7UGovRO5y3RGnvMFipm3h2zwd4w7g0hI1gwdsCGEnbSJwAVxFDAZHIVOFSffdaFv9yhATq_wMdVmyCSAgcs8oVOgZkLAsJz7z1Sqf0mfv911D7L5H0lcn6NW9BRMGRnRLAt7bDJ_PwB0bzU9OlaYCOau1WXf0HBybxISnVDPb7gxV7FZ2oaJJZmmAveLziPu7aF9uNTXz4A5lzq_-V9-JEeI-w"/>
-<p class="text-label-bold text-on-surface leading-tight">Soldado Experto</p>
-</div>
-<div class="min-w-[120px] bg-surface-container-lowest p-4 rounded-xl border border-outline-variant text-center flex flex-col items-center gap-2">
-<img alt="Achievement" class="h-12 w-12" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8XKKZ5QQe9UTiMre7pAEHR5q4EZdqIA2hU7uVXEfcH8mo9XyL4QxweAxPXtaBb_JF5-Wef4W_8rFwhUTS0xCyvg-9qJmlvax_XAs8AATBCgKyivVJYuKuYxFcos3iDDY8Em7l_HNuWTpZM9ao-Tn9m9CLZZFq7x94IXUK5FOiOv_uJwfzSWJmJIybHVESXYTrxwrVkAjJ3zR8eCMNvCK5N1iSwKea2R8eOxi4N0YBazCTf_lsD403fQ"/>
-<p class="text-label-bold text-on-surface leading-tight">Maestro Diamante</p>
-</div>
-</div>
-</section>
-<div class="mt-8 flex flex-col gap-3 pb-8">
-<button class="w-full bg-primary text-on-primary py-4 rounded-xl font-headline-md shadow-lg shadow-primary/20 active:scale-95 transition-transform">
-                Editar Perfil
-            </button>
-<button class="w-full bg-surface-container-high text-on-surface-variant py-4 rounded-xl font-headline-md active:scale-95 transition-transform">
-                Ver Actividad Pública
-            </button>
-</div>
-</div>
-</main>
-</body></html>
 
+<body>
+  <main class="profile-page">
+    <a class="back-link" href="index.html">← Volver al foro</a>
 
+    <section class="profile-card" aria-labelledby="username">
+      <div class="cover" aria-hidden="true"></div>
 
+      <div class="profile-info">
+        <!-- Sustituye estos valores con los datos de usuarios_foro -->
+        <img
+          class="avatar"
+          src="URL_DEL_AVATAR"
+          alt="Avatar de NOMBRE_DE_USUARIO"
+        >
 
+        <div class="identity">
+          <h1 id="username">NOMBRE_DE_USUARIO</h1>
+          <p class="member-date">Miembro desde FECHA_DE_REGISTRO</p>
+          <span class="badge">Jugador de MGamers</span>
+        </div>
+      </div>
+    </section>
 
-
-
-
-
-
-
-
-
-
-
-
+    <section class="posts-section" aria-labelledby="posts-title">
+      <h2 id="posts-title">Publicaciones</h2>
+      <div class="empty-state">
+        Todavía no hay publicaciones para mostrar.
+      </div>
+      <!-- Aquí se mostrarán los posts de public.posts de este usuario -->
+    </section>
+  </main>
+</body>
+</html>
