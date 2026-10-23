@@ -67,11 +67,7 @@
     .cover-shade {
       position: absolute;
       inset: 0;
-      background: linear-gradient(
-        180deg,
-        rgb(0 0 0 / 20%) 0%,
-        transparent 55%
-      );
+      background: linear-gradient(180deg, rgb(0 0 0 / 20%), transparent 55%);
       pointer-events: none;
     }
 
@@ -163,16 +159,36 @@
     }
 
     .avatar-edit-button[hidden],
-    .cover-edit-button[hidden] {
+    .cover-edit-button[hidden],
+    .rank-emblem[hidden] {
       display: none;
     }
 
     .identity { min-width: 0; }
 
+    .identity-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
     h1 {
       margin: 0;
       overflow-wrap: anywhere;
       font-size: clamp(1.5rem, 5vw, 2rem);
+    }
+
+    .rank-emblem {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
+      place-items: center;
+      border: 1px solid #f0d48d;
+      border-radius: 50%;
+      background: var(--gold-light);
+      font-size: 1.45rem;
+      box-shadow: 0 2px 8px #24345a12;
     }
 
     .member-date {
@@ -270,7 +286,6 @@
 
     @media (max-width: 600px) {
       body { padding: 20px 12px; }
-
       .cover { height: 145px; }
 
       .profile {
@@ -296,7 +311,7 @@
     <a class="back-link" href="index.html">← Volver al foro</a>
 
     <section class="card">
-      <div class="cover" id="cover">
+      <div class="cover">
         <img
           class="cover-image"
           id="cover-image"
@@ -332,7 +347,17 @@
         </div>
 
         <div class="identity">
-          <h1 id="username">Cargando perfil…</h1>
+          <div class="identity-title">
+            <h1 id="username">Cargando perfil…</h1>
+            <span
+              class="rank-emblem"
+              id="rank-emblem"
+              role="img"
+              aria-label="Emblema de rango"
+              hidden
+            ></span>
+          </div>
+
           <p class="member-date" id="member-date"></p>
           <span class="rank" id="rank">Calculando rango…</span>
         </div>
@@ -343,13 +368,13 @@
       <input
         id="avatar-input"
         type="file"
-        accept="image/jpeg,image/png,image/webp"
+        accept="image/*"
       >
 
       <input
         id="cover-input"
         type="file"
-        accept="image/jpeg,image/png,image/webp"
+        accept="image/*"
       >
     </div>
 
@@ -377,8 +402,8 @@
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
     const SUPABASE_URL = "https://zrrpjbqduwtaxsfbsuum.supabase.co";
-    const SUPABASE_PUBLISHABLE_KEY = 
-      "sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp"
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp";
 
     const STORAGE_BUCKET = "avatars";
     const MAX_IMAGE_SIZE = 3 * 1024 * 1024;
@@ -477,7 +502,10 @@
       const extension = extensions[file.type];
 
       if (!extension) {
-        showStatus("Elige una imagen JPEG, PNG o WebP.", true);
+        showStatus(
+          "El archivo debe ser JPEG, PNG o WebP. Si es una foto HEIC del móvil, conviértela a uno de esos formatos.",
+          true
+        );
         input.value = "";
         return;
       }
@@ -662,19 +690,35 @@
           document.getElementById("member-date").textContent =
             `Miembro desde ${date}`;
         } else {
-          document.getElementById("member-date").textContent =
-            "Perfil del foro";
+          document.getElementById("member-date").textContent = "Perfil del foro";
         }
 
-        const rank =
-          postCount >= 50 ? "Leyenda" :
-          postCount >= 20 ? "Veterano" :
-          postCount >= 5  ? "Participante" :
-          postCount >= 1  ? "Explorador" :
-                            "Novato";
+        let rankInfo;
 
-        document.getElementById("rank").textContent = `Rango: ${rank}`;
-        document.getElementById("rank-stat").textContent = rank;
+        if (postCount >= 50) {
+          rankInfo = { name: "Leyenda", emblem: "🏆" };
+        } else if (postCount >= 20) {
+          rankInfo = { name: "Veterano", emblem: "🛡️" };
+        } else if (postCount >= 5) {
+          rankInfo = { name: "Participante", emblem: "⭐" };
+        } else if (postCount >= 1) {
+          rankInfo = { name: "Explorador", emblem: "🧭" };
+        } else {
+          rankInfo = { name: "Novato", emblem: "🌱" };
+        }
+
+        const rankEmblem = document.getElementById("rank-emblem");
+        rankEmblem.textContent = rankInfo.emblem;
+        rankEmblem.title = `Emblema: ${rankInfo.name}`;
+        rankEmblem.setAttribute(
+          "aria-label",
+          `Emblema del rango ${rankInfo.name}`
+        );
+        rankEmblem.hidden = false;
+
+        document.getElementById("rank").textContent =
+          `Rango: ${rankInfo.name}`;
+        document.getElementById("rank-stat").textContent = rankInfo.name;
 
         const achievements = [
           {
@@ -721,7 +765,7 @@
         console.error("Error cargando el perfil:", error);
         usernameElement.textContent = "No se pudo cargar el perfil";
         showStatus(
-          "Revisa la sesión y la configuración de Supabase.",
+          "Revisa la sesión y la configuración de la cuenta.",
           true
         );
       }
