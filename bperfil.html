@@ -14,7 +14,6 @@
       --line: #e4e9f1;
       --blue: #4169e1;
       --blue-light: #edf2ff;
-      --gold: #a86d00;
       --gold-light: #fff5dc;
     }
 
@@ -219,6 +218,7 @@
         <span class="stat-label">Posts creados</span>
         <strong class="stat-value" id="post-count">—</strong>
       </div>
+
       <div class="stat">
         <span class="stat-label">Rango actual</span>
         <strong class="stat-value" id="rank-stat">—</strong>
@@ -230,20 +230,33 @@
       <div class="achievement-list" id="achievement-list"></div>
     </section>
 
-    <p class="status" id="status"></p>
+    <p class="status" id="status" role="status"></p>
   </main>
 
-  <script>
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    const supabase = createClient(
+      "https://zrrpjbqduwtaxsfbsuum.supabase.co",
+      "<sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp>"
+    );
+
     async function loadProfile() {
       const status = document.getElementById("status");
+      const usernameElement = document.getElementById("username");
 
       try {
-        // Usa el cliente Supabase que ya inicializaste en tu página.
-        const { data: { user }, error: authError } = await supabase.auth.getUser();
+        const {
+          data: { user },
+          error: authError
+        } = await supabase.auth.getUser();
 
-        if (authError || !user) {
-          document.getElementById("username").textContent = "Inicia sesión para ver tu perfil";
-          status.textContent = "No se encontró una sesión activa.";
+        if (authError) throw authError;
+
+        if (!user) {
+          usernameElement.textContent = "Inicia sesión para ver tu perfil";
+          status.textContent =
+            "No hay una sesión activa. Si acabas de registrarte, confirma tu correo y luego inicia sesión.";
           return;
         }
 
@@ -267,11 +280,12 @@
         const postCount = postsResult.count ?? 0;
         const username = profile?.username || "Jugador";
 
-        document.getElementById("username").textContent = username;
+        usernameElement.textContent = username;
         document.getElementById("post-count").textContent = postCount;
 
         const fallback = document.getElementById("avatar-fallback");
         const avatar = document.getElementById("avatar");
+
         fallback.textContent = username.charAt(0).toUpperCase();
 
         if (profile?.avatar_url) {
@@ -279,12 +293,20 @@
           avatar.alt = `Avatar de ${username}`;
           avatar.hidden = false;
           fallback.hidden = true;
+
+          avatar.onerror = () => {
+            avatar.hidden = true;
+            fallback.hidden = false;
+          };
         }
 
         if (profile?.registrado_el) {
-          const date = new Intl.DateTimeFormat("es", { dateStyle: "long" })
-            .format(new Date(profile.registrado_el));
-          document.getElementById("member-date").textContent = `Miembro desde ${date}`;
+          const date = new Intl.DateTimeFormat("es", {
+            dateStyle: "long"
+          }).format(new Date(profile.registrado_el));
+
+          document.getElementById("member-date").textContent =
+            `Miembro desde ${date}`;
         } else {
           document.getElementById("member-date").textContent = "Perfil del foro";
         }
@@ -300,30 +322,56 @@
         document.getElementById("rank-stat").textContent = rank;
 
         const achievements = [
-          { name: "Primer post", description: "Crear tu primera publicación", goal: 1, icon: "✍️" },
-          { name: "Conversador", description: "Crear 10 publicaciones", goal: 10, icon: "💬" },
-          { name: "Veterano", description: "Crear 50 publicaciones", goal: 50, icon: "🏆" }
+          {
+            name: "Primer post",
+            description: "Crear tu primera publicación",
+            goal: 1,
+            icon: "✍️"
+          },
+          {
+            name: "Conversador",
+            description: "Crear 10 publicaciones",
+            goal: 10,
+            icon: "💬"
+          },
+          {
+            name: "Veterano",
+            description: "Crear 50 publicaciones",
+            goal: 50,
+            icon: "🏆"
+          }
         ];
 
         document.getElementById("achievement-list").innerHTML =
           achievements.map(item => {
             const unlocked = postCount >= item.goal;
+
             return `
               <article class="achievement ${unlocked ? "unlocked" : ""}">
-                <span class="achievement-icon">${unlocked ? item.icon : "🔒"}</span>
+                <span class="achievement-icon">
+                  ${unlocked ? item.icon : "🔒"}
+                </span>
                 <strong>${item.name}</strong>
                 <p>${item.description}</p>
-                <p>${unlocked ? "Desbloqueado" : `Progreso: ${postCount}/${item.goal}`}</p>
+                <p>${unlocked
+                  ? "Desbloqueado"
+                  : `Progreso: ${postCount}/${item.goal}`}
+                </p>
               </article>
             `;
           }).join("");
 
         if (!profile) {
-          status.textContent = "Aún no existe una fila de perfil para este usuario.";
+          status.textContent =
+            "Aún no existe una fila de perfil para este usuario.";
+        } else {
+          status.textContent = "";
         }
       } catch (error) {
         console.error("Error cargando el perfil:", error);
-        status.textContent = "No se pudo cargar el perfil. Revisa la conexión y los permisos.";
+        usernameElement.textContent = "No se pudo cargar el perfil";
+        status.textContent =
+          "Revisa que el cliente Supabase esté configurado y que la sesión siga activa.";
       }
     }
 
