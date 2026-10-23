@@ -15,6 +15,7 @@
       --blue: #4169e1;
       --blue-light: #edf2ff;
       --gold-light: #fff5dc;
+      --danger: #b42318;
     }
 
     * { box-sizing: border-box; }
@@ -106,6 +107,47 @@
       font-weight: 700;
     }
 
+    .profile-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 0 26px 22px;
+    }
+
+    .profile-actions[hidden] { display: none; }
+
+    .profile-actions input[type="file"] {
+      max-width: 100%;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--blue);
+      color: white;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: .55;
+    }
+
+    .upload-help {
+      width: 100%;
+      margin: 0;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
     .stats {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -178,6 +220,8 @@
       text-align: center;
     }
 
+    .status.error { color: var(--danger); }
+
     @media (max-width: 600px) {
       .profile {
         align-items: flex-start;
@@ -186,6 +230,7 @@
         padding: 0 18px 20px;
       }
 
+      .profile-actions { padding: 0 18px 20px; }
       .achievement-list { grid-template-columns: 1fr; }
       .achievements { padding: 18px; }
     }
@@ -210,6 +255,19 @@
           <p class="member-date" id="member-date"></p>
           <span class="rank" id="rank">Calculando rango…</span>
         </div>
+      </div>
+
+      <div class="profile-actions" id="avatar-controls" hidden>
+        <label for="avatar-input"><strong>Cambiar foto de perfil</strong></label>
+        <input
+          id="avatar-input"
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+        >
+        <button id="upload-avatar" type="button" disabled>
+          Subir imagen
+        </button>
+        <p class="upload-help">JPEG, PNG o WebP; máximo 3 MB.</p>
       </div>
     </section>
 
@@ -236,15 +294,69 @@
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+    const SUPABASE_URL = "https://zrrpjbqduwtaxsfbsuum.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp";
+    const AVATAR_BUCKET = "avatars";
+    const MAX_AVATAR_SIZE = 3 * 1024 * 1024;
+
     const supabase = createClient(
-      "https://zrrpjbqduwtaxsfbsuum.supabase.co",
-      "<sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp>"
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
     );
 
-    async function loadProfile() {
-      const status = document.getElementById("status");
-      const usernameElement = document.getElementById("username");
+    const status = document.getElementById("status");
+    const usernameElement = document.getElementById("username");
+    const avatarInput = document.getElementById("avatar-input");
+    const uploadButton = document.getElementById("upload-avatar");
+    const avatarControls = document.getElementById("avatar-controls");
 
+    let currentUser = null;
+    let currentProfile = null;
+
+    function showStatus(message, isError = false) {
+      status.textContent = message;
+      status.classList.toggle("error", isError);
+    }
+
+    function showAvatar(url, username) {
+      const fallback = document.getElementById("avatar-fallback");
+      const avatar = document.getElementById("avatar");
+
+      fallback.textContent = username.charAt(0).toUpperCase();
+
+      if (!url) {
+        avatar.removeAttribute("src");
+        avatar.hidden = true;
+        fallback.hidden = false;
+        return;
+      }
+
+      avatar.onerror = () => {
+        avatar.hidden = true;
+        fallback.hidden = false;
+      };
+
+      avatar.alt = `Avatar de ${username}`;
+      avatar.src = url;
+      avatar.hidden = false;
+      fallback.hidden = true;
+    }
+
+    function getOwnAvatarPath(publicUrl, userId) {
+      const prefix =
+        `${SUPABASE_URL}/storage/v1/object/public/${AVATAR_BUCKET}/`;
+
+      if (!publicUrl?.startsWith(prefix)) return null;
+
+      try {
+        const path = decodeURIComponent(publicUrl.slice(prefix.length));
+        return path.startsWith(`${userId}/`) ? path : null;
+      } catch {
+        return null;
+      }
+    }
+
+    async function loadProfile() {
       try {
         const {
           data: { user },
@@ -255,10 +367,11 @@
 
         if (!user) {
           usernameElement.textContent = "Inicia sesión para ver tu perfil";
-          status.textContent =
-            "No hay una sesión activa. Si acabas de registrarte, confirma tu correo y luego inicia sesión.";
+          showStatus("No hay una sesión activa. Inicia sesión y vuelve a esta página.");
           return;
         }
+
+        currentUser = user;
 
         const [profileResult, postsResult] = await Promise.all([
           supabase
@@ -276,34 +389,20 @@
         if (profileResult.error) throw profileResult.error;
         if (postsResult.error) throw postsResult.error;
 
-        const profile = profileResult.data;
+        currentProfile = profileResult.data;
+
         const postCount = postsResult.count ?? 0;
-        const username = profile?.username || "Jugador";
+        const username = currentProfile?.username || "Jugador";
 
         usernameElement.textContent = username;
         document.getElementById("post-count").textContent = postCount;
 
-        const fallback = document.getElementById("avatar-fallback");
-        const avatar = document.getElementById("avatar");
+        showAvatar(currentProfile?.avatar_url, username);
 
-        fallback.textContent = username.charAt(0).toUpperCase();
-
-        if (profile?.avatar_url) {
-          avatar.src = profile.avatar_url;
-          avatar.alt = `Avatar de ${username}`;
-          avatar.hidden = false;
-          fallback.hidden = true;
-
-          avatar.onerror = () => {
-            avatar.hidden = true;
-            fallback.hidden = false;
-          };
-        }
-
-        if (profile?.registrado_el) {
+        if (currentProfile?.registrado_el) {
           const date = new Intl.DateTimeFormat("es", {
             dateStyle: "long"
-          }).format(new Date(profile.registrado_el));
+          }).format(new Date(currentProfile.registrado_el));
 
           document.getElementById("member-date").textContent =
             `Miembro desde ${date}`;
@@ -361,19 +460,117 @@
             `;
           }).join("");
 
-        if (!profile) {
-          status.textContent =
-            "Aún no existe una fila de perfil para este usuario.";
+        if (currentProfile) {
+          avatarControls.hidden = false;
+          showStatus("");
         } else {
-          status.textContent = "";
+          avatarControls.hidden = true;
+          showStatus("Aún no existe una fila de perfil para este usuario.");
         }
       } catch (error) {
         console.error("Error cargando el perfil:", error);
         usernameElement.textContent = "No se pudo cargar el perfil";
-        status.textContent =
-          "Revisa que el cliente Supabase esté configurado y que la sesión siga activa.";
+        showStatus("Revisa la sesión y la configuración de Supabase.", true);
       }
     }
+
+    avatarInput.addEventListener("change", () => {
+      uploadButton.disabled = !avatarInput.files?.length;
+      showStatus("");
+    });
+
+    uploadButton.addEventListener("click", async () => {
+      const file = avatarInput.files?.[0];
+
+      if (!file || !currentUser || !currentProfile) {
+        showStatus("Inicia sesión y selecciona una imagen.", true);
+        return;
+      }
+
+      const extensions = {
+        "image/jpeg": "jpg",
+        "image/png": "png",
+        "image/webp": "webp"
+      };
+
+      const extension = extensions[file.type];
+
+      if (!extension) {
+        showStatus("Elige una imagen JPEG, PNG o WebP.", true);
+        return;
+      }
+
+      if (file.size > MAX_AVATAR_SIZE) {
+        showStatus("La imagen supera el límite de 3 MB.", true);
+        return;
+      }
+
+      uploadButton.disabled = true;
+      avatarInput.disabled = true;
+      uploadButton.textContent = "Subiendo…";
+
+      let uploadedPath = null;
+
+      try {
+        const oldAvatarPath = getOwnAvatarPath(
+          currentProfile.avatar_url,
+          currentUser.id
+        );
+
+        uploadedPath =
+          `${currentUser.id}/${crypto.randomUUID()}.${extension}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from(AVATAR_BUCKET)
+          .upload(uploadedPath, file, {
+            cacheControl: "3600",
+            contentType: file.type,
+            upsert: false
+          });
+
+        if (uploadError) throw uploadError;
+
+        const { error: updateError } = await supabase.rpc(
+          "forum_set_my_avatar_path",
+          { p_avatar_path: uploadedPath }
+        );
+
+        if (updateError) {
+          await supabase.storage
+            .from(AVATAR_BUCKET)
+            .remove([uploadedPath]);
+          uploadedPath = null;
+          throw updateError;
+        }
+
+        const { data: publicUrlData } = supabase.storage
+          .from(AVATAR_BUCKET)
+          .getPublicUrl(uploadedPath);
+
+        currentProfile.avatar_url = publicUrlData.publicUrl;
+        showAvatar(currentProfile.avatar_url, currentProfile.username || "Jugador");
+
+        if (oldAvatarPath && oldAvatarPath !== uploadedPath) {
+          const { error: removeError } = await supabase.storage
+            .from(AVATAR_BUCKET)
+            .remove([oldAvatarPath]);
+
+          if (removeError) {
+            console.warn("No se pudo eliminar el avatar anterior:", removeError);
+          }
+        }
+
+        avatarInput.value = "";
+        showStatus("La foto de perfil se actualizó correctamente.");
+      } catch (error) {
+        console.error("Error subiendo el avatar:", error);
+        showStatus("No se pudo subir la imagen. Revisa la sesión y vuelve a intentarlo.", true);
+      } finally {
+        uploadButton.disabled = true;
+        avatarInput.disabled = false;
+        uploadButton.textContent = "Subir imagen";
+      }
+    });
 
     loadProfile();
   </script>
