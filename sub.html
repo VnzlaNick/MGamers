@@ -1,48 +1,125 @@
-<!doctype html>
-<html lang="es" class="light">
+<!DOCTYPE html>
+<html class="light" lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Servidores Mu | Foro MGamers</title>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Subcategoría | modelo base</title>
 
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 
-  <script>
+  <script id="tailwind-config">
     tailwind.config = {
+      darkMode: "class",
       theme: {
         extend: {
           colors: {
-            background: '#f7f9fb',
-            primary: '#1da1f2',
-            'primary-container': '#1da1f2',
-            'on-primary': '#ffffff',
-            'on-background': '#191c1e',
-            'on-surface': '#191c1e',
-            'on-surface-variant': '#3f4851',
-            outline: '#6f7882',
-            'outline-variant': '#bec7d3',
-            'surface-container-lowest': '#ffffff',
-            'surface-container-low': '#f2f4f6',
-            'surface-container-high': '#e6e8ea',
-            'secondary-container': '#d3e1f6',
-            'on-secondary-container': '#566475'
+            "outline-variant": "#bec7d3",
+            "on-secondary-container": "#566475",
+            "outline": "#6f7882",
+            "background": "#f7f9fb",
+            "error-container": "#ffdad6",
+            "surface-dim": "#d8dadc",
+            "surface-bright": "#f7f9fb",
+            "tertiary-container": "#929ba3",
+            "surface-container-highest": "#e0e3e5",
+            "on-tertiary": "#ffffff",
+            "primary-container": "#1da1f2",
+            "surface-variant": "#e0e3e5",
+            "on-primary": "#ffffff",
+            "secondary-fixed": "#d6e4f9",
+            "inverse-surface": "#2d3133",
+            "on-surface-variant": "#3f4851",
+            "surface-container": "#eceef0",
+            "tertiary": "#575f67",
+            "surface-container-lowest": "#ffffff",
+            "tertiary-fixed": "#dbe4ed",
+            "on-primary-fixed": "#001d32",
+            "on-error": "#ffffff",
+            "on-background": "#191c1e",
+            "secondary-container": "#d3e1f6",
+            "surface": "#f7f9fb",
+            "on-secondary-fixed-variant": "#3a4859",
+            "inverse-on-surface": "#eff1f3",
+            "primary-fixed-dim": "#95ccff",
+            "on-tertiary-fixed-variant": "#3f484f",
+            "on-primary-fixed-variant": "#004a75",
+            "inverse-primary": "#95ccff",
+            "surface-tint": "#1da1f2",
+            "on-surface": "#191c1e",
+            "on-primary-container": "#003554",
+            "primary-fixed": "#cde5ff",
+            "on-secondary-fixed": "#0f1c2c",
+            "on-tertiary-container": "#2a333a",
+            "on-secondary": "#ffffff",
+            "on-error-container": "#93000a",
+            "tertiary-fixed-dim": "#bfc8d0",
+            "on-tertiary-fixed": "#141d23",
+            "secondary": "#525f71",
+            "surface-container-high": "#e6e8ea",
+            "surface-container-low": "#f2f4f6",
+            "primary": "#1da1f2",
+            "secondary-fixed-dim": "#bac8dc",
+            "error": "#ba1a1a",
+            "brand-orange": "#ff5722"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "card-padding": "1rem",
+            "container-margin": "1rem",
+            "inline-gutter": "1rem",
+            "section-padding": "1.5rem",
+            "stack-gap": "0.75rem"
           },
           fontFamily: {
-            sans: ['Plus Jakarta Sans', 'sans-serif']
+            "label-sm": ["Plus Jakarta Sans"],
+            "title-sm": ["Plus Jakarta Sans"],
+            "label-bold": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "display-lg": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"]
+          },
+          fontSize: {
+            "label-sm": ["10px", { lineHeight: "14px", letterSpacing: "0.01em", fontWeight: "500" }],
+            "title-sm": ["14px", { lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "700" }],
+            "label-bold": ["11px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "700" }],
+            "body-md": ["14px", { lineHeight: "22px", letterSpacing: "0px", fontWeight: "400" }],
+            "display-lg": ["24px", { lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "800" }],
+            "body-sm": ["12px", { lineHeight: "18px", letterSpacing: "0px", fontWeight: "400" }],
+            "headline-md": ["18px", { lineHeight: "24px", letterSpacing: "-0.01em", fontWeight: "700" }]
           }
         }
       }
-    };
+    }
   </script>
 
   <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
     .material-symbols-outlined {
       font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
     }
-    .drawer-open #side-drawer { transform: translateX(0); }
+    .news-shadow {
+      box-shadow: 0px 10px 30px rgba(0,0,0,0.05);
+    }
+    .active-nav-glow {
+      filter: drop-shadow(0 0 8px rgba(29, 161, 242, 0.4));
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .drawer-open #side-drawer {
+      transform: translateX(0);
+    }
     .drawer-open #drawer-backdrop {
       opacity: 1;
       pointer-events: auto;
@@ -50,61 +127,52 @@
   </style>
 </head>
 
-<body class="min-h-screen bg-background text-on-background pb-24">
+<body class="bg-background text-on-background font-body-md min-h-screen pb-24">
 
   <!-- Fondo del menú -->
   <div
+    class="fixed inset-0 bg-black/50 z-[60] opacity-0 pointer-events-none transition-opacity duration-300"
     id="drawer-backdrop"
-    class="fixed inset-0 z-[60] pointer-events-none bg-black/50 opacity-0 transition-opacity duration-300"
-    onclick="toggleDrawer()"
-  ></div>
+    onclick="toggleDrawer()">
+  </div>
 
   <!-- Menú lateral -->
   <aside
-    id="side-drawer"
-    class="fixed left-0 top-0 z-[70] flex h-full w-[280px] -translate-x-full flex-col bg-white shadow-2xl transition-transform duration-300"
-  >
-    <div class="flex items-center justify-between border-b border-outline-variant bg-primary/10 p-6">
-      <h2 class="text-2xl font-extrabold tracking-tight text-primary">Servidores Mu</h2>
-      <button
-        type="button"
-        class="rounded-full p-2 hover:bg-surface-container-low"
-        aria-label="Cerrar menú"
-        onclick="toggleDrawer()"
-      >
-        <span class="material-symbols-outlined">close</span>
+    class="fixed top-0 left-0 h-full w-[280px] bg-surface-container-lowest z-[70] -translate-x-full transition-transform duration-300 ease-in-out shadow-2xl flex flex-col"
+    id="side-drawer">
+
+    <div class="p-6 border-b border-outline-variant flex items-center justify-between bg-primary-container/10">
+      <h2 class="text-display-lg font-display-lg text-primary tracking-tighter">Modelo Base</h2>
+      <button class="p-2 rounded-full hover:bg-surface-container-low transition-colors" onclick="toggleDrawer()">
+        <span class="material-symbols-outlined text-on-surface-variant">close</span>
       </button>
     </div>
 
-    <nav class="flex-1 space-y-2 overflow-y-auto p-4">
-      <a href="index.html" class="flex items-center gap-4 rounded-xl bg-primary/10 p-4 font-bold text-primary">
+    <nav class="flex-1 overflow-y-auto p-4 space-y-2">
+      <a class="flex items-center gap-4 p-4 rounded-xl text-primary font-title-sm bg-primary/10 transition-colors" href="index.html">
         <span class="material-symbols-outlined">newspaper</span>
         Inicio
       </a>
-      <a href="#" class="flex items-center gap-4 rounded-xl p-4 font-bold text-on-surface-variant hover:bg-surface-container-low">
+      <a class="flex items-center gap-4 p-4 rounded-xl text-on-surface-variant font-title-sm hover:bg-surface-container-low transition-colors" href="#">
         <span class="material-symbols-outlined">sports_esports</span>
         Torneos
       </a>
-      <a href="#" class="flex items-center gap-4 rounded-xl p-4 font-bold text-on-surface-variant hover:bg-surface-container-low">
+      <a class="flex items-center gap-4 p-4 rounded-xl text-on-surface-variant font-title-sm hover:bg-surface-container-low transition-colors" href="#">
         <span class="material-symbols-outlined">groups</span>
         Comunidad
       </a>
-      <a href="#" class="flex items-center gap-4 rounded-xl p-4 font-bold text-on-surface-variant hover:bg-surface-container-low">
+      <a class="flex items-center gap-4 p-4 rounded-xl text-on-surface-variant font-title-sm hover:bg-surface-container-low transition-colors" href="#">
         <span class="material-symbols-outlined">leaderboard</span>
         Ranking
       </a>
-      <a href="#" class="flex items-center gap-4 rounded-xl p-4 font-bold text-on-surface-variant hover:bg-surface-container-low">
+      <a class="flex items-center gap-4 p-4 rounded-xl text-on-surface-variant font-title-sm hover:bg-surface-container-low transition-colors" href="#">
         <span class="material-symbols-outlined">person</span>
-        Mi perfil
+        Mi Perfil
       </a>
     </nav>
 
-    <div class="border-t border-outline-variant p-4">
-      <button
-        type="button"
-        class="flex w-full items-center justify-center gap-2 rounded-lg p-3 font-bold text-red-700 hover:bg-red-50"
-        onclick="toggleDrawer()"
-      >
+    <div class="p-4 border-t border-outline-variant">
+      <button class="w-full flex items-center justify-center gap-2 p-3 text-error font-title-sm hover:bg-error-container/20 rounded-lg transition-colors" onclick="toggleDrawer()">
         <span class="material-symbols-outlined">logout</span>
         Cerrar
       </button>
@@ -112,194 +180,315 @@
   </aside>
 
   <!-- Barra superior -->
-  <header class="fixed top-0 z-50 w-full border-b border-outline-variant bg-white">
-    <div class="mx-auto flex h-16 w-full max-w-screen-xl items-center justify-between px-4">
-      <button
-        type="button"
-        class="rounded-full p-2 hover:bg-surface-container-low"
-        aria-label="Abrir menú"
-        onclick="toggleDrawer()"
-      >
+  <header class="fixed top-0 w-full z-50 bg-surface-container-lowest border-b border-outline-variant">
+    <div class="flex items-center justify-between px-container-margin h-16 w-full max-w-screen-xl mx-auto">
+      <button class="active:scale-95 transition-transform duration-200 hover:bg-surface-container-low p-2 rounded-full" onclick="toggleDrawer()">
         <span class="material-symbols-outlined text-primary">menu</span>
       </button>
-
-      <h1 class="text-xl font-extrabold tracking-tight text-primary">Zona Servidores Mu</h1>
-
-      <span class="material-symbols-outlined text-primary" aria-hidden="true">sports_esports</span>
+      <h1 class="text-display-lg font-display-lg text-primary tracking-tighter">Modelo Base</h1>
+      <span class="w-10"></span>
     </div>
   </header>
 
-  <main class="mx-auto max-w-md px-6 pt-20">
-    <!-- Cabecera de la categoría -->
+  <main class="pt-20 px-6 max-w-md mx-auto">
+
+    <!-- Encabezado de la subcategoría -->
     <section class="mb-6">
-      <div class="relative mb-4 h-40 overflow-hidden rounded-xl bg-slate-800">
+      <div class="relative h-40 rounded-xl overflow-hidden mb-4">
         <img
-          class="h-full w-full object-cover"
+          class="w-full h-full object-cover"
           src="https://img.wpfc.ml/24h/apm9c6.jpg"
-          alt="Servidores Mu"
-          onerror="this.style.display='none'"
-        >
-        <div class="absolute inset-0 flex items-end bg-gradient-to-t from-black/70 to-transparent p-4">
+          alt="Comunidad Servidores Mu"/>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
           <div>
-            <h2 class="text-lg font-bold text-white">Servidores Mu</h2>
-            <p class="text-sm text-white/80">Comunidad de jugadores</p>
+            <h2 id="subcategory-title" class="text-white font-headline-md text-headline-md">Servidores Mu</h2>
+            <p class="text-white/80 font-body-sm text-body-sm">Comunidad Oficial de Jugadores</p>
           </div>
         </div>
       </div>
 
       <!-- Búsqueda -->
-      <label for="post-search" class="sr-only">Buscar publicaciones</label>
-      <div class="relative">
-        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
-        <input
-          id="post-search"
-          class="w-full rounded-xl border border-outline-variant bg-white py-3 pl-10 pr-4 text-sm focus:border-primary focus:ring-2 focus:ring-primary"
-          placeholder="Buscar en Servidores Mu..."
-          type="search"
-        >
+      <div class="space-y-4">
+        <div class="relative">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+          <input
+            id="post-search"
+            class="w-full pl-10 pr-4 py-3 rounded-xl border border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:border-transparent outline-none font-body-md text-body-md"
+            placeholder="Buscar en Servidores Mu..."
+            type="search"/>
+        </div>
+
+        <!-- Filtros por tipo -->
+        <div id="type-filters" class="flex gap-2 overflow-x-auto pb-2 hide-scrollbar">
+          <button data-type="" class="filter-button bg-primary text-on-primary px-4 py-1.5 rounded-full font-label-bold text-label-bold whitespace-nowrap">Todo</button>
+          <button data-type="Guías" class="filter-button px-4 py-1.5 rounded-full font-label-bold text-label-bold border border-outline-variant bg-surface-container-lowest text-on-surface-variant whitespace-nowrap">Guías</button>
+          <button data-type="Builds" class="filter-button px-4 py-1.5 rounded-full font-label-bold text-label-bold border border-outline-variant bg-surface-container-lowest text-on-surface-variant whitespace-nowrap">Builds</button>
+          <button data-type="Bugs" class="filter-button px-4 py-1.5 rounded-full font-label-bold text-label-bold border border-outline-variant bg-surface-container-lowest text-on-surface-variant whitespace-nowrap">Bugs</button>
+          <button data-type="General" class="filter-button px-4 py-1.5 rounded-full font-label-bold text-label-bold border border-outline-variant bg-surface-container-lowest text-on-surface-variant whitespace-nowrap">General</button>
+        </div>
       </div>
     </section>
 
-    <!-- Las publicaciones se cargan desde Supabase -->
-    <section
-      id="post-list"
-      class="space-y-4"
-      aria-live="polite"
-      aria-label="Publicaciones de Servidores Mu"
-    >
-      <p id="feed-status" class="text-sm text-on-surface-variant">
-        Cargando publicaciones…
-      </p>
-    </section>
+    <p id="post-status" class="text-center text-on-surface-variant text-body-sm py-3" aria-live="polite">
+      Cargando publicaciones…
+    </p>
+
+    <!-- Las tarjetas se generan desde Supabase -->
+    <div id="post-list" class="space-y-4"></div>
   </main>
 
   <!-- Navegación inferior -->
-  <nav class="fixed bottom-0 left-0 right-0 z-[80] flex items-center justify-around border-t border-outline-variant bg-white px-4 py-2">
+  <nav class="fixed bottom-0 left-0 right-0 bg-surface-container-lowest backdrop-blur-md border-t border-outline-variant px-4 py-1 flex justify-between items-center z-[80] pb-2">
     <a href="index.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
-      <span class="material-symbols-outlined">home</span>
+      <span class="material-symbols-outlined text-[24px]">home</span>
       <span class="text-[10px] font-bold">Inicio</span>
     </a>
 
     <a href="mant.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
-      <span class="material-symbols-outlined">volunteer_activism</span>
+      <span class="material-symbols-outlined text-[24px]">volunteer_activism</span>
       <span class="text-[10px] font-bold">Off</span>
     </a>
 
     <a href="mant.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
-      <span class="material-symbols-outlined">chat_bubble</span>
+      <span class="material-symbols-outlined text-[24px]">chat_bubble</span>
       <span class="text-[10px] font-bold">Off</span>
     </a>
 
     <a href="mant.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
-      <span class="material-symbols-outlined">person</span>
+      <span class="material-symbols-outlined text-[24px]">person</span>
       <span class="text-[10px] font-bold">Off</span>
     </a>
   </nav>
 
-  <script>
-    function toggleDrawer() {
-      document.body.classList.toggle('drawer-open');
-      document.body.classList.toggle('overflow-hidden');
-    }
-
-    window.addEventListener('scroll', () => {
-      const header = document.querySelector('header');
-      header.classList.toggle('shadow-md', window.scrollY > 20);
-    });
-  </script>
-
   <script type="module">
-    import { supabase } from './conexion.js';
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-    // Debe coincidir con el valor de categoría guardado por el formulario.
-    const CATEGORY = 'feed-mu';
+    // Sustituye estos marcadores por la URL y la publishable key de tu proyecto.
+    const SUPABASE_URL = "https://zrrpjbqduwtaxsfbsuum.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp";
 
-    const postList = document.getElementById('post-list');
-    const feedStatus = document.getElementById('feed-status');
-    const searchInput = document.getElementById('post-search');
+    const params = new URLSearchParams(window.location.search);
+    const category = params.get("categoria");
+    const categoryName = params.get("nombre");
 
-    let posts = [];
-    let usernames = new Map();
-    let avatarUrls = new Map();
+    const titleElement = document.getElementById("subcategory-title");
+    const searchInput = document.getElementById("post-search");
+    const postList = document.getElementById("post-list");
+    const statusElement = document.getElementById("post-status");
+    const filterButtons = document.querySelectorAll(".filter-button");
 
-    function getPlainText(html) {
-      const doc = new DOMParser().parseFromString(html || '', 'text/html');
-      return (doc.body.textContent || '').replace(/\s+/g, ' ').trim();
+    let selectedType = "";
+    let allPosts = [];
+    let supabase = null;
+
+    titleElement.textContent = categoryName || category || "Servidores Mu";
+
+    function setStatus(message) {
+      statusElement.textContent = message;
+      statusElement.classList.toggle("hidden", !message);
     }
 
-    function formatDate(dateValue) {
-      const date = new Date(dateValue);
+    function timeAgo(dateValue) {
+      if (!dateValue) return "";
 
-      if (Number.isNaN(date.getTime())) return '';
+      const seconds = Math.floor((Date.now() - new Date(dateValue).getTime()) / 1000);
+      if (!Number.isFinite(seconds)) return "";
 
-      return date.toLocaleString('es', {
-        dateStyle: 'medium',
-        timeStyle: 'short'
+      if (seconds < 60) return "Ahora";
+      if (seconds < 3600) return `Hace ${Math.floor(seconds / 60)} min`;
+      if (seconds < 86400) return `Hace ${Math.floor(seconds / 3600)} horas`;
+      if (seconds < 604800) return `Hace ${Math.floor(seconds / 86400)} días`;
+
+      return new Date(dateValue).toLocaleDateString("es");
+    }
+
+    function makeElement(tag, className, text) {
+      const element = document.createElement(tag);
+      if (className) element.className = className;
+      if (text !== undefined) element.textContent = text;
+      return element;
+    }
+
+    function renderPosts() {
+      postList.replaceChildren();
+
+      const searchText = searchInput.value.trim().toLocaleLowerCase("es");
+
+      const visiblePosts = allPosts.filter((post) => {
+        const matchesType = !selectedType || post.tipo === selectedType;
+        const searchableText = `${post.titulo || ""} ${post.contenido || ""}`.toLocaleLowerCase("es");
+        const matchesSearch = !searchText || searchableText.includes(searchText);
+        return matchesType && matchesSearch;
+      });
+
+      if (visiblePosts.length === 0) {
+        setStatus("No hay publicaciones para este filtro.");
+        return;
+      }
+
+      setStatus("");
+
+      visiblePosts.forEach((post) => {
+        const link = makeElement("a", "block group no-underline");
+        link.href = `fpost.html?id=${encodeURIComponent(post.id)}`;
+
+        const article = makeElement(
+          "article",
+          "bg-surface-container-lowest border border-outline-variant p-4 rounded-xl active:scale-[0.98] transition-transform"
+        );
+
+        const authorRow = makeElement("div", "flex items-center gap-3 mb-3");
+
+        const avatarFrame = makeElement(
+          "div",
+          "w-10 h-10 rounded-full border border-outline-variant overflow-hidden bg-primary-container flex items-center justify-center"
+        );
+        avatarFrame.appendChild(
+          makeElement("span", "text-white text-sm font-bold", "J")
+        );
+
+        const authorInfo = makeElement("div", "flex-1");
+        authorInfo.appendChild(
+          makeElement("p", "font-label-bold text-label-bold text-on-background", "Jugador")
+        );
+        authorInfo.appendChild(
+          makeElement("p", "font-body-sm text-[11px] text-outline", timeAgo(post.created_at))
+        );
+
+        const typeLabels = {
+          "Guías": "GUÍA",
+          "Builds": "BUILDS",
+          "Bugs": "BUGS",
+          "General": "GENERAL"
+        };
+
+        const tag = makeElement(
+          "span",
+          "bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-md font-label-bold text-[9px]",
+          typeLabels[post.tipo] || "PUBLICACIÓN"
+        );
+
+        authorRow.append(avatarFrame, authorInfo, tag);
+
+        const heading = makeElement(
+          "h3",
+          "font-headline-md text-headline-md text-primary mb-2 group-hover:underline",
+          post.titulo || "Publicación sin título"
+        );
+
+        const content = makeElement(
+          "p",
+          "font-body-md text-body-sm text-on-surface-variant line-clamp-2 mb-4",
+          post.contenido || ""
+        );
+
+        const footer = makeElement(
+          "div",
+          "flex items-center justify-between border-t border-outline-variant pt-3 mt-1"
+        );
+
+        const counts = makeElement("div", "flex gap-4");
+
+        const likes = makeElement("div", "flex items-center gap-1.5 text-on-surface-variant");
+        likes.appendChild(makeElement("span", "material-symbols-outlined text-[18px]", "thumb_up"));
+        likes.appendChild(makeElement("span", "font-label-bold text-label-bold", String(post.like_count ?? 0)));
+
+        const comments = makeElement("div", "flex items-center gap-1.5 text-on-surface-variant");
+        comments.appendChild(makeElement("span", "material-symbols-outlined text-[18px]", "chat_bubble"));
+        comments.appendChild(makeElement("span", "font-label-bold text-label-bold", String(post.comment_count ?? 0)));
+
+        counts.append(likes, comments);
+        footer.appendChild(counts);
+
+        article.append(authorRow, heading, content, footer);
+        link.appendChild(article);
+        postList.appendChild(link);
       });
     }
 
-    function createPostCard(post) {
-      const link = document.createElement('a');
-      link.className = 'block no-underline';
-      link.href = `fpost.html?id=${encodeURIComponent(post.id)}`;
-
-      const article = document.createElement('article');
-      article.className =
-        'rounded-xl border border-outline-variant bg-white p-4 transition-transform active:scale-[0.98]';
-
-      const header = document.createElement('div');
-      header.className = 'mb-3 flex items-center gap-3';
-
-      const avatarContainer = document.createElement('div');
-      avatarContainer.className =
-        'flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-outline-variant bg-primary text-xs font-bold text-white';
-
-      const username = usernames.get(post.author_id) || 'Jugador';
-      const avatarUrl = avatarUrls.get(post.author_id);
-
-      if (avatarUrl) {
-        try {
-          const parsedUrl = new URL(avatarUrl);
-
-          if (parsedUrl.protocol === 'https:') {
-            const avatar = document.createElement('img');
-            avatar.src = parsedUrl.href;
-            avatar.alt = '';
-            avatar.className = 'h-full w-full object-cover';
-            avatar.referrerPolicy = 'no-referrer';
-            avatar.onerror = () => {
-              avatarContainer.replaceChildren();
-              avatarContainer.textContent = username.slice(0, 2).toUpperCase();
-            };
-            avatarContainer.append(avatar);
-          } else {
-            avatarContainer.textContent = username.slice(0, 2).toUpperCase();
-          }
-        } catch {
-          avatarContainer.textContent = username.slice(0, 2).toUpperCase();
-        }
-      } else {
-        avatarContainer.textContent = username.slice(0, 2).toUpperCase();
+    async function loadPosts() {
+      if (!category) {
+        setStatus("Falta la subcategoría en la dirección de esta página.");
+        return;
       }
 
-      const authorInfo = document.createElement('div');
-      authorInfo.className = 'min-w-0 flex-1';
+      if (
+        SUPABASE_URL.startsWith("PON_AQUI") ||
+        SUPABASE_PUBLISHABLE_KEY.startsWith("PON_AQUI")
+      ) {
+        setStatus("Falta configurar la URL y la publishable key de Supabase en este archivo.");
+        return;
+      }
 
-      const authorName = document.createElement('p');
-      authorName.className = 'truncate text-xs font-bold text-on-background';
-      authorName.textContent = username;
+      supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+      setStatus("Cargando publicaciones…");
 
-      const date = document.createElement('p');
-      date.className = 'text-[11px] text-outline';
-      date.textContent = formatDate(post.created_at);
+      let query = supabase
+        .from("posts")
+        .select("*")
+        .eq("categoría", category)
+        .order("created_at", { ascending: false });
 
-      authorInfo.append(authorName, date);
+      if (selectedType) {
+        query = query.eq("tipo", selectedType);
+      }
 
-      const categoryBadge = document.createElement('span');
-      categoryBadge.className =
-        'rounded-md bg-secondary-container px-2 py-1 text-[9px] font-bold text-on-secondary-container';
-      categoryBadge.textContent = 'SERVIDORES MU';
+      const { data, error } = await query;
 
-      header.append(avatarContainer, authorInfo, categoryBadge);
+      if (error) {
+        console.error("Error cargando publicaciones:", error);
+        setStatus("No se pudieron cargar las publicaciones.");
+        return;
+      }
 
-      const title = document.createElement('h2');
+      allPosts = data || [];
+      renderPosts();
+    }
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        filterButtons.forEach((item) => {
+          item.classList.remove("bg-primary", "text-on-primary");
+          item.classList.add(
+            "border",
+            "border-outline-variant",
+            "bg-surface-container-lowest",
+            "text-on-surface-variant"
+          );
+        });
+
+        button.classList.add("bg-primary", "text-on-primary");
+        button.classList.remove(
+          "border",
+          "border-outline-variant",
+          "bg-surface-container-lowest",
+          "text-on-surface-variant"
+        );
+
+        selectedType = button.dataset.type || "";
+        loadPosts();
+      });
+    });
+
+    searchInput.addEventListener("input", renderPosts);
+
+    loadPosts();
+  </script>
+
+  <script>
+    function toggleDrawer() {
+      document.body.classList.toggle("drawer-open");
+      document.body.classList.toggle("overflow-hidden");
+    }
+
+    window.addEventListener("scroll", () => {
+      const header = document.querySelector("header");
+      if (window.scrollY > 20) {
+        header.classList.add("shadow-md");
+      } else {
+        header.classList.remove("shadow-md");
+      }
+    });
+  </script>
+</body>
+</html>
