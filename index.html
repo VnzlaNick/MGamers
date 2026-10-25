@@ -434,7 +434,7 @@
         <span class="material-symbols-outlined text-[14px]">chat_bubble</span> 
         
         <!-- 🚀 AQUÍ: Quitamos los spans extras y dejamos solo el id="feed-mu" -->
-        <span id="feed-gounbound" class="truncate">Cargando último tema...</span>
+        <span id="feed-gounb" class="truncate">Cargando último tema...</span>
        </div>
       </div>
      </a>
@@ -779,13 +779,23 @@
       <div class="flex flex-col gap-1.5">
         <label class="text-[11px] font-bold text-portal-text-muted uppercase tracking-wider">Categoría del Foro</label>
         <select id="select-tag" class="w-full bg-portal-bg border border-white/10 rounded-lg p-2 text-sm text-white focus:ring-1 focus:ring-portal-blue outline-none">
-          <option value="Noticias">Noticias y Anuncios</option>
-          <option value="Torneos">Torneos</option>
+          <option value="noticias">Noticias y Anuncios</option>
+          <option value="torneos">Torneos</option>
           <option value="Servidores Mu">Servidores Mu</option>
-          <option value="Rakion">Rakion</option>
+          <option value="blood">Blood Striker</option>
+         <option value="free">Free Fire</option>
+         <option value="mobiles">Mobile Legends</option>
+         <option value="brawl">Brawl Star</option>
+         <option value="gounb">Gounbound M</option>
+         <option value="pokemon">Zona Pokemon</option>
+        <option value="minecraft">Minecraft</option>
+        <option value="dino">Zona Dino</option>
+         <option value="sim">Zona Simuladores</option>
+        <option value="libre">Zona Libre</option>
+        <option value="guia">Guia, Trucos</option>
         </select>
       </div>
-
+  
       <div class="flex flex-col gap-1.5">
         <label class="text-[11px] font-bold text-portal-text-muted uppercase tracking-wider">Título de la Publicación</label>
         <input type="text" id="input-title" class="w-full bg-white/5 border border-white/10 rounded-lg p-2 text-sm text-white focus:ring-1 focus:ring-portal-blue outline-none" placeholder="Ej: Busco gente para levear" required />
@@ -867,7 +877,18 @@
       mostrarPost('feed-noticias', ultimoPorCategoria['Noticias']);
       mostrarPost('feed-torneos', ultimoPorCategoria['Torneos']);
       mostrarPost('feed-mu', ultimoPorCategoria['Servidores Mu']);
-      mostrarPost('feed-rakion', ultimoPorCategoria['Rakion']);
+      mostrarPost('feed-blood', ultimoPorCategoria['Blood Striker']);
+      mostrarPost('feed-free', ultimoPorCategoria['Free Fire']);
+      mostrarPost('feed-mobiles', ultimoPorCategoria['Mobiles Legends']);
+      mostrarPost('feed-brawl', ultimoPorCategoria['brawl Star']);
+      mostrarPost('feed-gound', ultimoPorCategoria['Gounbound M']);
+      mostrarPost('feed-pokemon', ultimoPorCategoria['Zona Pokemon']);
+      mostrarPost('feed-minecraft', ultimoPorCategoria['Minecraft']);
+      mostrarPost('feed-dino', ultimoPorCategoria['Zona Dino']);
+      mostrarPost('feed-sim', ultimoPorCategoria['Zona simuladores']);
+      mostrarPost('feed-libre', ultimoPorCategoria['Zona Libre']);
+      mostrarPost('feed-guia', ultimoPorCategoria['Guias, Trucos']);
+      
     } catch (error) {
       console.error('Error al cargar las publicaciones:', error.message);
     }
