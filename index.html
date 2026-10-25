@@ -261,7 +261,7 @@
        </div>
        <p class="text-[11px] text-portal-text-muted mt-0.5">Crea o pide firmas, avatares o userbars. Muestranos tus obras de arte.</p>
        <div class="mt-2.5 flex items-center gap-2 text-[10px] text-portal-text-muted bg-portal-bg rounded-md p-2 border border-portal-border/50">
-        <span id="feed-descarga" class="material-symbols-outlined text-[14px]">chat_bubble</span> <span class="truncate">Don't Let Me Go... <span class="text-portal-blue font-medium">Linkman94</span></span>
+        <span id="feed-descargas" class="material-symbols-outlined text-[14px]">chat_bubble</span> <span class="truncate">Don't Let Me Go... <span class="text-portal-blue font-medium">Linkman94</span></span>
        </div>
       </div> 
      </a>
@@ -771,30 +771,36 @@
     </div>
 
     <form id="form-nuevo-post" class="flex flex-col gap-4">
-      <div class="flex flex-col gap-1.5">
-        <label class="text-[11px] font-bold text-portal-text-muted uppercase tracking-wider">Tu Apodo / GamerTag</label>
-        <input type="text" id="input-username" class="w-full bg-white/5 border border-white/10 rounded-lg p-2 text-sm text-white focus:ring-1 focus:ring-portal-blue outline-none" placeholder="Ej: GamersPj" required />
-      </div>
+    
+<div class="flex flex-col gap-1.5">
+  <label
+    for="select-tag"
+    class="text-[11px] font-bold text-portal-text-muted uppercase tracking-wider"
+  >
+    Categoría del Foro
+  </label>
 
-      <div class="flex flex-col gap-1.5">
-        <label class="text-[11px] font-bold text-portal-text-muted uppercase tracking-wider">Categoría del Foro</label>
-        <select id="select-tag" class="w-full bg-portal-bg border border-white/10 rounded-lg p-2 text-sm text-white focus:ring-1 focus:ring-portal-blue outline-none">
-          <option value="noticias">Noticias y Anuncios</option>
-          <option value="torneos">Torneos</option>
-          <option value="Servidores Mu">Servidores Mu</option>
-          <option value="blood">Blood Striker</option>
-         <option value="free">Free Fire</option>
-         <option value="mobiles">Mobile Legends</option>
-         <option value="brawl">Brawl Star</option>
-         <option value="gounb">Gounbound M</option>
-         <option value="pokemon">Zona Pokemon</option>
-        <option value="minecraft">Minecraft</option>
-        <option value="dino">Zona Dino</option>
-         <option value="sim">Zona Simuladores</option>
-        <option value="libre">Zona Libre</option>
-        <option value="guia">Guia, Trucos</option>
-        </select>
-      </div>
+  <select
+    id="select-tag"
+    class="w-full bg-portal-bg border border-white/10 rounded-lg p-2 text-sm text-white focus:ring-1 focus:ring-portal-blue outline-none"
+  >
+    <option value="noticias">Noticias y Anuncios</option>
+    <option value="torneos">Torneos</option>
+    <option value="descargas-juegos">Descargas Juegos</option>
+    <option value="servidores-mu">Servidores Mu</option>
+    <option value="blood-strike">Blood Strike</option>
+    <option value="free-fire">Free Fire</option>
+    <option value="mobile-legends">Mobile Legends</option>
+    <option value="brawl-star">Brawl Star</option>
+    <option value="gounbound-m">Gounbound M</option>
+    <option value="zona-pokemon">Zona Pokemon</option>
+    <option value="minecraft">Minecraft</option>
+    <option value="zona-dino">Zona Dino</option>
+    <option value="zona-simuladores">Zona Simuladores</option>
+    <option value="zona-libre">Zona Libre</option>
+    <option value="guia-trucos">Guia, Trucos</option>
+  </select>
+</div>
   
       <div class="flex flex-col gap-1.5">
         <label class="text-[11px] font-bold text-portal-text-muted uppercase tracking-wider">Título de la Publicación</label>
@@ -876,6 +882,7 @@
 
       mostrarPost('feed-noticias', ultimoPorCategoria['Noticias']);
       mostrarPost('feed-torneos', ultimoPorCategoria['Torneos']);
+      mostrarPost('feed-descargas', ultimoPorCategoria['Descargas']);
       mostrarPost('feed-mu', ultimoPorCategoria['Servidores Mu']);
       mostrarPost('feed-blood', ultimoPorCategoria['Blood Striker']);
       mostrarPost('feed-free', ultimoPorCategoria['Free Fire']);
