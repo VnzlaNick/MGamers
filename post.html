@@ -593,6 +593,7 @@
       draftTimer = setTimeout(() => saveDraft(false), 700);
     });
 
+    // REEMPLAZA EL EVENTO DEL BOTÓN DE VISTA PREVIA POR ESTE:
     document.getElementById('preview-button').addEventListener('click', () => {
       const title = titleInput.value.trim();
       const icon = iconInput.value;
@@ -608,12 +609,17 @@
       document.getElementById('preview-content').innerHTML =
         cleanContent || 'El contenido aparecerá aquí.';
 
-      preview.hidden = !preview.hidden;
+      // Muestra el modal quitando el atributo hidden
+      preview.hidden = false;
+    });
 
-      if (!preview.hidden) {
-        preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // NUEVO: Permite cerrar el modal haciendo clic en el fondo oscuro (fuera de la tarjeta)
+    preview.addEventListener('click', (event) => {
+      if (event.target === preview) {
+        preview.hidden = true;
       }
     });
+    
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
