@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Crear publicación | MGamers</title>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
 
   <style>
@@ -13,12 +14,15 @@
     body {
       margin: 0;
       padding: 28px 16px;
-      background: #fff;
       color: #202638;
+      background: #f6f7fb;
       font-family: system-ui, sans-serif;
     }
 
-    main { width: min(100%, 780px); margin: auto; }
+    main {
+      width: min(100%, 780px);
+      margin: auto;
+    }
 
     .topbar {
       display: flex;
@@ -26,18 +30,17 @@
       margin-bottom: 22px;
     }
 
-    a { color: #3949ab; }
-
     .card, .preview-card {
       padding: clamp(18px, 5vw, 34px);
       border: 1px solid #e1e4eb;
       border-radius: 16px;
-      background: #fff;
+      background: white;
       box-shadow: 0 10px 35px rgb(20 30 60 / 8%);
     }
 
     h1 { margin: 0 0 8px; }
-    .intro, .hint { color: #5e6678; }
+
+    .intro, .hint, .muted { color: #5e6678; }
 
     label, .field-label {
       display: block;
@@ -55,16 +58,18 @@
       font: inherit;
     }
 
-    .toolbar {
+    .toolbar, .emoji-list, .actions {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       gap: 8px;
-      margin: 10px 0;
     }
 
-    .toolbar button, .file-label {
-      padding: 8px 11px;
+    .toolbar { margin: 10px 0; }
+
+    .toolbar button, .emoji-list button, .file-label,
+    .actions button, .close-button {
+      padding: 9px 12px;
       border: 1px solid #cbd1dc;
       border-radius: 8px;
       background: #f5f6fa;
@@ -73,24 +78,36 @@
       cursor: pointer;
     }
 
-    .toolbar button:hover, .file-label:hover { background: #e9ecf4; }
+    .toolbar button:hover, .emoji-list button:hover,
+    .file-label:hover, .actions button:hover {
+      background: #e9ecf4;
+    }
+
+    #font-size { width: auto; }
 
     #text-color {
-      width: 42px;
-      height: 38px;
+      width: 44px;
+      height: 40px;
       padding: 3px;
       cursor: pointer;
     }
 
-    #font-size { width: auto; }
+    #image-input { display: none; }
+
+    .emoji-list { margin: 8px 0; }
+
+    .emoji-list button {
+      min-width: 40px;
+      padding: 6px;
+      font-size: 20px;
+    }
 
     #editor {
       min-height: 240px;
       padding: 14px;
       border: 1px solid #cbd1dc;
       border-radius: 10px;
-      background: #fff;
-      color: #202638;
+      background: white;
       line-height: 1.6;
       overflow-wrap: anywhere;
       white-space: pre-wrap;
@@ -115,55 +132,66 @@
       border-radius: 10px;
     }
 
-    #image-input { display: none; }
-
-    .emoji-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin: 8px 0;
-    }
-
-    .emoji-list button {
-      min-width: 38px;
-      padding: 6px;
-      border: 1px solid #cbd1dc;
-      border-radius: 7px;
-      background: #fff;
-      cursor: pointer;
-      font-size: 20px;
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px;
-    }
+    .actions { margin-top: 20px; }
 
     .actions button {
       padding: 12px 17px;
       border: 0;
-      border-radius: 9px;
-      font: inherit;
       font-weight: 700;
-      cursor: pointer;
     }
 
-    #publish-button { background: #4f46e5; color: white; }
-    #draft-button, #preview-button { background: #eef0f6; color: #202638; }
-    button:disabled { opacity: .6; cursor: wait; }
+    #publish-button {
+      background: #4f46e5;
+      color: white;
+    }
+
+    #preview-button, #draft-button {
+      background: #eef0f6;
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
 
     #status {
       min-height: 24px;
       color: #3949ab;
+      overflow-wrap: anywhere;
+    }
+
+    #auth-warning {
+      margin-bottom: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #fff4d6;
     }
 
     #preview {
-      margin-top: 24px;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgb(0 0 0 / 55%);
+      overflow-y: auto;
     }
 
     #preview[hidden] { display: none; }
+
+    .preview-card {
+      position: relative;
+      width: min(100%, 780px);
+      max-height: calc(100dvh - 32px);
+      overflow-y: auto;
+    }
+
+    .close-button {
+      float: right;
+      margin-left: 12px;
+    }
 
     .preview-category {
       color: #5e6678;
@@ -172,9 +200,10 @@
 
     #preview-content {
       overflow-wrap: anywhere;
-      white-space: pre-wrap;
       line-height: 1.6;
     }
+
+    a { color: #3949ab; }
   </style>
 </head>
 
@@ -185,12 +214,19 @@
       <a href="index.html">Inicio</a>
     </div>
 
+    <div id="auth-warning" hidden>
+      Necesitas iniciar sesión para publicar.
+      <a id="login-link" href="login.html">Iniciar sesión</a>
+    </div>
+
     <section class="card">
       <h1>Crear publicación</h1>
-      <p class="intro">Edita el texto, agrega emojis e imágenes y revisa el resultado antes de publicar.</p>
+      <p class="intro">
+        Escribe tu publicación, agrega imágenes y revisa la vista previa antes de publicarla.
+      </p>
 
       <form id="post-form">
-        <label for="post-icon">Icono de la publicación</label>
+        <label for="post-icon">Icono</label>
         <select id="post-icon">
           <option value="">Sin icono</option>
           <option value="🎮">🎮 Videojuegos</option>
@@ -202,33 +238,35 @@
         </select>
 
         <label for="input-title">Título</label>
-        <input id="input-title" type="text" maxlength="150" required
-               placeholder="Escribe el título">
+        <input id="input-title" type="text" maxlength="150"
+               required placeholder="Escribe el título">
 
-        
         <label for="select-tag">Categoría</label>
-<select id="select-tag" required>
-  <option value="">Selecciona una categoría</option>
-  <option value="feed-noticias">Noticias</option>
-  <option value="feed-mu">Servidores Mu</option>
-  <option value="feed-Blood">Blood Strike</option>
-  <option value="feed-Free">Free Fire</option>
-  <option value="feed-mobiles">Mobile Legends</option>
-  <option value="feed-brawl">Brawl Star</option>
-  <option value="feed-Gounbound">Gounbound</option>
-  <option value="Feed-pokemon">Zona Pokémon</option>
-  <option value="feed-minicraft">Minecraft</option>
-  <option value="feed-dino">Zona Dino</option>
-  <option value="feed-sim">Zona Simuladores</option>
-  <option value="feed-libre">Zona Libre</option>
-  <option value="feed-guia">Zona Guía</option>
-</select>
-        
-        
-        
-        
-        
-        
+        <select id="select-tag" required>
+          <option value="">Selecciona una categoría</option>
+          <option value="feed-noticias">Noticias</option>
+          <option value="feed-mu">Servidores Mu</option>
+          <option value="feed-Blood">Blood Strike</option>
+          <option value="feed-Free">Free Fire</option>
+          <option value="feed-mobiles">Mobile Legends</option>
+          <option value="feed-brawl">Brawl Star</option>
+          <option value="feed-Gounbound">Gounbound</option>
+          <option value="Feed-pokemon">Zona Pokémon</option>
+          <option value="feed-minicraft">Minecraft</option>
+          <option value="feed-dino">Zona Dino</option>
+          <option value="feed-sim">Zona Simuladores</option>
+          <option value="feed-libre">Zona Libre</option>
+          <option value="feed-guia">Zona Guía</option>
+        </select>
+
+        <label for="post-type">Tipo de publicación (opcional)</label>
+        <select id="post-type">
+          <option value="">Sin tipo</option>
+          <option value="Guías">Guías</option>
+          <option value="Builds">Builds</option>
+          <option value="Bugs">Bugs</option>
+          <option value="General">General</option>
+        </select>
 
         <span class="field-label">Contenido</span>
 
@@ -266,8 +304,9 @@
           <button type="button" data-emoji="⚔️">⚔️</button>
         </div>
 
-        <div id="editor" contenteditable="true" role="textbox" aria-multiline="true"
-             data-placeholder="Escribe aquí. Selecciona texto para cambiar su formato o color."></div>
+        <div id="editor" contenteditable="true" role="textbox"
+             aria-multiline="true"
+             data-placeholder="Escribe aquí el contenido de tu publicación."></div>
 
         <div class="actions">
           <button id="publish-button" type="submit">Publicar</button>
@@ -279,12 +318,13 @@
       </form>
 
       <p class="hint">
-        Debes iniciar sesión para publicar. Las imágenes JPG, PNG, WEBP o GIF pueden tener hasta 5 MB.
+        Imágenes JPG, PNG, WEBP o GIF de hasta 5 MB.
       </p>
     </section>
 
     <section id="preview" hidden>
       <div class="preview-card">
+        <button id="close-preview" class="close-button" type="button">Cerrar</button>
         <span id="preview-category" class="preview-category"></span>
         <h2 id="preview-title"></h2>
         <div id="preview-content"></div>
@@ -292,384 +332,300 @@
     </section>
   </main>
 
-  <script type="module">
-    import { supabase } from './conexion.js';
+  <script>
+    // Usa aquí la URL del proyecto y una publishable key.
+    // Nunca pongas una service_role key en un archivo del navegador.
+    const SUPABASE_URL = "https://zrrpjbqduwtaxsfbsuum.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp";
 
-    const PROJECT_ORIGIN = 'https://zrrpjbqduwtaxsfbsuum.supabase.co';
-    const BUCKET = 'post-images';
-    const DRAFT_KEY = 'mgamers_post_draft_v3';
+    const BUCKET = "post-images";
+    const LOGIN_PAGE = "login.html";
+    const DRAFT_KEY = "mgamers_post_draft";
 
-    const form = document.getElementById('post-form');
-    const titleInput = document.getElementById('input-title');
-    const categoryInput = document.getElementById('select-tag');
-    const iconInput = document.getElementById('post-icon');
-    const editor = document.getElementById('editor');
-    const colorInput = document.getElementById('text-color');
-    const sizeInput = document.getElementById('font-size');
-    const imageInput = document.getElementById('image-input');
-    const publishButton = document.getElementById('publish-button');
-    const status = document.getElementById('status');
-    const preview = document.getElementById('preview');
+    const client = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
 
-    let savedRange = null;
+    const form = document.getElementById("post-form");
+    const editor = document.getElementById("editor");
+    const statusBox = document.getElementById("status");
+    const publishButton = document.getElementById("publish-button");
+    const authWarning = document.getElementById("auth-warning");
+    const loginLink = document.getElementById("login-link");
+    const preview = document.getElementById("preview");
+
+    loginLink.href = LOGIN_PAGE;
 
     function setStatus(message) {
-      status.textContent = message;
+      statusBox.textContent = message;
     }
 
-    function saveSelection() {
-      const selection = window.getSelection();
-
-      if (selection && selection.rangeCount && editor.contains(selection.anchorNode)) {
-        savedRange = selection.getRangeAt(0).cloneRange();
-      }
+    async function getCurrentUser() {
+      const { data, error } = await client.auth.getUser();
+      if (error) return null;
+      return data.user;
     }
 
-    function restoreSelection() {
-      editor.focus();
-      const selection = window.getSelection();
-
-      if (!selection) return;
-
-      selection.removeAllRanges();
-
-      if (savedRange && editor.contains(savedRange.commonAncestorContainer)) {
-        selection.addRange(savedRange);
-      } else {
-        const range = document.createRange();
-        range.selectNodeContents(editor);
-        range.collapse(false);
-        selection.addRange(range);
-      }
+    async function updateAuthState() {
+      const user = await getCurrentUser();
+      authWarning.hidden = Boolean(user);
+      publishButton.disabled = !user;
     }
 
     function insertAtCursor(node) {
-      restoreSelection();
+      editor.focus();
 
       const selection = window.getSelection();
-      if (!selection || !selection.rangeCount) return;
+      if (!selection || selection.rangeCount === 0) {
+        editor.appendChild(node);
+        return;
+      }
 
       const range = selection.getRangeAt(0);
+      if (!editor.contains(range.commonAncestorContainer)) {
+        editor.appendChild(node);
+        return;
+      }
+
       range.deleteContents();
       range.insertNode(node);
       range.setStartAfter(node);
-      range.collapse(true);
-
+      range.setEndAfter(node);
       selection.removeAllRanges();
       selection.addRange(range);
-      saveSelection();
     }
 
-    editor.addEventListener('keyup', saveSelection);
-    editor.addEventListener('mouseup', saveSelection);
-    editor.addEventListener('input', saveSelection);
-    document.addEventListener('selectionchange', saveSelection);
-
-    // Pegar solo texto plano, no HTML externo.
-    editor.addEventListener('paste', (event) => {
-      event.preventDefault();
-      const text = event.clipboardData?.getData('text/plain') || '';
-      insertAtCursor(document.createTextNode(text));
-    });
-
-    // Impide arrastrar contenido HTML externo al editor.
-    editor.addEventListener('drop', (event) => event.preventDefault());
-
-    document.querySelectorAll('[data-command]').forEach((button) => {
-      button.addEventListener('mousedown', (event) => event.preventDefault());
-      button.addEventListener('click', () => {
-        restoreSelection();
+    document.querySelectorAll("[data-command]").forEach((button) => {
+      button.addEventListener("click", () => {
+        editor.focus();
         document.execCommand(button.dataset.command, false, null);
-        saveSelection();
       });
     });
 
-    document.querySelectorAll('[data-emoji]').forEach((button) => {
-      button.addEventListener('mousedown', (event) => event.preventDefault());
-      button.addEventListener('click', () => {
+    document.getElementById("font-size").addEventListener("change", (event) => {
+      if (!event.target.value) return;
+      editor.focus();
+      document.execCommand("fontSize", false, event.target.value);
+      event.target.value = "";
+    });
+
+    document.getElementById("apply-color").addEventListener("click", () => {
+      editor.focus();
+      document.execCommand(
+        "foreColor",
+        false,
+        document.getElementById("text-color").value
+      );
+    });
+
+    document.querySelectorAll("[data-emoji]").forEach((button) => {
+      button.addEventListener("click", () => {
         insertAtCursor(document.createTextNode(button.dataset.emoji));
       });
     });
 
-    function applyFontSize(size) {
-      if (!size) return;
-
-      restoreSelection();
-      document.execCommand('fontSize', false, size);
-      saveSelection();
-    }
-
-    sizeInput.addEventListener('mousedown', saveSelection);
-    sizeInput.addEventListener('change', () => {
-      applyFontSize(sizeInput.value);
-      sizeInput.value = '';
-    });
-
-    document.getElementById('apply-color').addEventListener('mousedown', (event) => {
-      event.preventDefault();
-    });
-
-    document.getElementById('apply-color').addEventListener('click', () => {
-      restoreSelection();
-
-      const selection = window.getSelection();
-      if (!selection || selection.isCollapsed) {
-        setStatus('Selecciona primero el texto al que quieres aplicar color.');
-        return;
-      }
-
-      document.execCommand('styleWithCSS', false, true);
-      document.execCommand('foreColor', false, colorInput.value);
-      saveSelection();
-      setStatus('Color aplicado al texto seleccionado.');
-    });
-
-    function convertLegacyFontTags(html) {
-      const doc = new DOMParser().parseFromString(html, 'text/html');
-      const sizeMap = {
-        '1': '12px',
-        '2': '14px',
-        '3': '16px',
-        '4': '18px',
-        '5': '24px',
-        '6': '32px',
-        '7': '48px'
-      };
-
-      doc.body.querySelectorAll('font').forEach((font) => {
-        const span = doc.createElement('span');
-        const size = sizeMap[font.getAttribute('size')];
-
-        if (size) span.style.fontSize = size;
-
-        span.innerHTML = font.innerHTML;
-        font.replaceWith(span);
-      });
-
-      return doc.body.innerHTML;
-    }
-
-    DOMPurify.addHook('uponSanitizeAttribute', (node, data) => {
-      if (node.nodeName === 'IMG' && data.attrName === 'src') {
-        try {
-          const url = new URL(data.attrValue);
-          const allowed =
-            url.origin === PROJECT_ORIGIN &&
-            url.pathname.startsWith('/storage/v1/object/public/post-images/');
-
-          if (!allowed) data.keepAttr = false;
-        } catch {
-          data.keepAttr = false;
-        }
-      }
-
-      if (data.attrName === 'style') {
-        const safeStyles = [];
-
-        const color = data.attrValue.match(
-          /(?:^|;)\s*color\s*:\s*(#[0-9a-f]{3,8}|rgba?\([0-9.,\s]+\))\s*(?:;|$)/i
-        );
-
-        const size = data.attrValue.match(
-          /(?:^|;)\s*font-size\s*:\s*(12|14|16|18|24|32)px\s*(?:;|$)/i
-        );
-
-        if (color) safeStyles.push(`color: ${color[1]}`);
-        if (size) safeStyles.push(`font-size: ${size[1]}px`);
-
-        if (safeStyles.length) {
-          data.attrValue = safeStyles.join('; ');
-        } else {
-          data.keepAttr = false;
-        }
-      }
-    });
-
-    function sanitizeContent(html) {
-      return DOMPurify.sanitize(convertLegacyFontTags(html), {
-        ALLOWED_TAGS: [
-          'p', 'br', 'div', 'span', 'strong', 'b', 'em', 'i',
-          'u', 'ul', 'ol', 'li', 'img'
-        ],
-        ALLOWED_ATTR: ['style', 'src', 'alt'],
-        ALLOWED_URI_REGEXP:
-          /^https:\/\/zrrpjbqduwtaxsfbsuum\.supabase\.co\/storage\/v1\/object\/public\/post-images\//i
-      });
-    }
-
-    imageInput.addEventListener('change', async () => {
-      const file = imageInput.files?.[0];
-      imageInput.value = '';
-
+    document.getElementById("image-input").addEventListener("change", async (event) => {
+      const file = event.target.files?.[0];
+      event.target.value = "";
       if (!file) return;
 
-      const extensions = {
-        'image/jpeg': 'jpg',
-        'image/png': 'png',
-        'image/webp': 'webp',
-        'image/gif': 'gif'
-      };
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/webp",
+        "image/gif"
+      ];
 
-      if (!extensions[file.type]) {
-        setStatus('Elige una imagen JPG, PNG, WEBP o GIF.');
+      if (!allowedTypes.includes(file.type)) {
+        setStatus("El formato de imagen no está permitido.");
         return;
       }
 
       if (file.size > 5 * 1024 * 1024) {
-        setStatus('La imagen supera el límite de 5 MB.');
+        setStatus("La imagen supera el límite de 5 MB.");
         return;
       }
 
-      setStatus('Subiendo imagen…');
-
-      try {
-        const {
-          data: { user },
-          error: authError
-        } = await supabase.auth.getUser();
-
-        if (authError) throw authError;
-        if (!user) throw new Error('Inicia sesión antes de subir imágenes.');
-
-        const path = `${user.id}/${crypto.randomUUID()}.${extensions[file.type]}`;
-
-        const { error: uploadError } = await supabase.storage
-          .from(BUCKET)
-          .upload(path, file, {
-            contentType: file.type,
-            cacheControl: '3600',
-            upsert: false
-          });
-
-        if (uploadError) throw uploadError;
-
-        const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
-        const image = document.createElement('img');
-        image.src = data.publicUrl;
-        image.alt = 'Imagen de la publicación';
-        image.loading = 'lazy';
-
-        // Inserta la imagen donde estaba el cursor del editor.
-        insertAtCursor(image);
-        setStatus('Imagen insertada en el contenido.');
-      } catch (error) {
-        console.error('Error al subir la imagen:', error);
-        setStatus('No se pudo subir la imagen: ' + (error.message || 'error inesperado.'));
+      const user = await getCurrentUser();
+      if (!user) {
+        authWarning.hidden = false;
+        setStatus("Inicia sesión antes de subir una imagen.");
+        return;
       }
-    });
 
-    function saveDraft(showMessage = true) {
-      const draft = {
-        titulo: titleInput.value,
-        categoria: categoryInput.value,
-        icono: iconInput.value,
-        contenido: editor.innerHTML
+      const extensions = {
+        "image/jpeg": "jpg",
+        "image/png": "png",
+        "image/webp": "webp",
+        "image/gif": "gif"
       };
 
-      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
-      if (showMessage) setStatus('Borrador guardado en este navegador.');
-    }
+      const path = `${user.id}/${crypto.randomUUID()}.${extensions[file.type]}`;
+      setStatus("Subiendo imagen…");
 
-    try {
-      const draft = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null');
+      const { error } = await client.storage
+        .from(BUCKET)
+        .upload(path, file, {
+          contentType: file.type,
+          upsert: false
+        });
 
-      if (draft) {
-        titleInput.value = draft.titulo || '';
-        categoryInput.value = draft.categoria || '';
-        iconInput.value = draft.icono || '';
-        editor.innerHTML = sanitizeContent(draft.contenido || '');
+      if (error) {
+        setStatus(`No se pudo subir la imagen: ${error.message}`);
+        return;
       }
-    } catch {
-      localStorage.removeItem(DRAFT_KEY);
-    }
 
-    document.getElementById('draft-button').addEventListener('click', () => {
-      saveDraft(true);
+      const { data } = client.storage.from(BUCKET).getPublicUrl(path);
+      const image = document.createElement("img");
+      image.src = data.publicUrl;
+      image.alt = "Imagen de la publicación";
+      image.loading = "lazy";
+      insertAtCursor(image);
+
+      setStatus("Imagen agregada al contenido.");
     });
 
-    let draftTimer;
-    form.addEventListener('input', () => {
-      clearTimeout(draftTimer);
-      draftTimer = setTimeout(() => saveDraft(false), 700);
-    });
+    document.getElementById("preview-button").addEventListener("click", () => {
+      const cleanContent = DOMPurify.sanitize(editor.innerHTML, {
+        USE_PROFILES: { html: true }
+      });
 
-    // REEMPLAZA EL EVENTO DEL BOTÓN DE VISTA PREVIA POR ESTE:
-    document.getElementById('preview-button').addEventListener('click', () => {
-      const title = titleInput.value.trim();
-      const icon = iconInput.value;
-      const category = categoryInput.options[categoryInput.selectedIndex]?.text || '';
-      const cleanContent = sanitizeContent(editor.innerHTML);
+      const icon = document.getElementById("post-icon").value;
+      const title = document.getElementById("input-title").value.trim();
+      const categorySelect = document.getElementById("select-tag");
+      const categoryLabel =
+        categorySelect.options[categorySelect.selectedIndex]?.text || "";
 
-      document.getElementById('preview-title').textContent =
-        `${icon ? icon + ' ' : ''}${title || 'Título de la publicación'}`;
+      document.getElementById("preview-title").textContent =
+        `${icon ? icon + " " : ""}${title || "Título de la publicación"}`;
 
-      document.getElementById('preview-category').textContent =
-        categoryInput.value ? category : 'Categoría';
+      document.getElementById("preview-category").textContent = categoryLabel;
+      document.getElementById("preview-content").innerHTML =
+        cleanContent || "<p>Escribe el contenido de tu publicación.</p>";
 
-      document.getElementById('preview-content').innerHTML =
-        cleanContent || 'El contenido aparecerá aquí.';
-
-      // Muestra el modal quitando el atributo hidden
       preview.hidden = false;
     });
 
-    // NUEVO: Permite cerrar el modal haciendo clic en el fondo oscuro (fuera de la tarjeta)
-    preview.addEventListener('click', (event) => {
-      if (event.target === preview) {
-        preview.hidden = true;
-      }
+    function closePreview() {
+      preview.hidden = true;
+    }
+
+    document.getElementById("close-preview").addEventListener("click", closePreview);
+
+    preview.addEventListener("click", (event) => {
+      if (event.target === preview) closePreview();
     });
-    
 
-    form.addEventListener('submit', async (event) => {
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closePreview();
+    });
+
+    document.getElementById("draft-button").addEventListener("click", () => {
+      const draft = {
+        icon: document.getElementById("post-icon").value,
+        title: document.getElementById("input-title").value,
+        category: document.getElementById("select-tag").value,
+        type: document.getElementById("post-type").value,
+        content: DOMPurify.sanitize(editor.innerHTML, {
+          USE_PROFILES: { html: true }
+        })
+      };
+
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+      setStatus("Borrador guardado en este navegador.");
+    });
+
+    function loadDraft() {
+      const saved = localStorage.getItem(DRAFT_KEY);
+      if (!saved) return;
+
+      try {
+        const draft = JSON.parse(saved);
+        document.getElementById("post-icon").value = draft.icon || "";
+        document.getElementById("input-title").value = draft.title || "";
+        document.getElementById("select-tag").value = draft.category || "";
+        document.getElementById("post-type").value = draft.type || "";
+        editor.innerHTML = DOMPurify.sanitize(draft.content || "", {
+          USE_PROFILES: { html: true }
+        });
+      } catch {
+        localStorage.removeItem(DRAFT_KEY);
+      }
+    }
+
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
+      setStatus("");
 
-      const titleText = titleInput.value.trim();
-      const category = categoryInput.value;
-      const content = sanitizeContent(editor.innerHTML);
-      const hasImage = editor.querySelector('img');
-
-      if (!titleText || !category || (!editor.innerText.trim() && !hasImage)) {
-        setStatus('Completa el título, la categoría y el contenido.');
+      const user = await getCurrentUser();
+      if (!user) {
+        authWarning.hidden = false;
+        setStatus("Inicia sesión para publicar.");
         return;
       }
 
-      const icon = iconInput.value;
-      const title = icon ? `${icon} ${titleText}` : titleText;
+      const titleInput = document.getElementById("input-title");
+      const title = titleInput.value.trim();
+      const icon = document.getElementById("post-icon").value;
+      const category = document.getElementById("select-tag").value;
+      const type = document.getElementById("post-type").value;
+      const content = DOMPurify.sanitize(editor.innerHTML, {
+        USE_PROFILES: { html: true }
+      });
+
+      if (!title) {
+        setStatus("Escribe un título.");
+        titleInput.focus();
+        return;
+      }
+
+      if (!category) {
+        setStatus("Selecciona una categoría.");
+        document.getElementById("select-tag").focus();
+        return;
+      }
+
+      if (!editor.textContent.trim() && !editor.querySelector("img")) {
+        setStatus("Escribe contenido o agrega una imagen.");
+        editor.focus();
+        return;
+      }
+
+      const finalTitle = `${icon ? icon + " " : ""}${title}`;
 
       publishButton.disabled = true;
-      publishButton.textContent = 'Publicando…';
-      setStatus('Verificando la sesión…');
+      publishButton.textContent = "Publicando…";
 
-      try {
-        const {
-          data: { user },
-          error: authError
-        } = await supabase.auth.getUser();
+      const { error } = await client
+        .from("posts")
+        .insert({
+          titulo: finalTitle,
+          contenido: content,
+          "categoría": category,
+          tipo: type || null
+        });
 
-        if (authError) throw authError;
-        if (!user) throw new Error('Inicia sesión antes de publicar.');
+      publishButton.disabled = false;
+      publishButton.textContent = "Publicar";
 
-        const { error } = await supabase
-          .from('posts')
-          .insert({
-            titulo: title,
-            contenido: content,
-            'categoría': category
-          });
-
-        if (error) throw error;
-
-        localStorage.removeItem(DRAFT_KEY);
-        setStatus('Publicación creada. Volviendo al foro…');
-        window.location.href = 'index.html';
-      } catch (error) {
-        console.error('Error al publicar:', error);
-        setStatus('No se pudo publicar: ' + (error.message || 'error inesperado.'));
-      } finally {
-        publishButton.disabled = false;
-        publishButton.textContent = 'Publicar';
+      if (error) {
+        setStatus(`No se pudo publicar: ${error.message}`);
+        return;
       }
+
+      localStorage.removeItem(DRAFT_KEY);
+      form.reset();
+      editor.innerHTML = "";
+      setStatus("¡Publicación creada correctamente!");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    loadDraft();
+    updateAuthState();
+
+    client.auth.onAuthStateChange(() => {
+      updateAuthState();
     });
   </script>
 </body>
