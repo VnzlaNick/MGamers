@@ -1,9 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Crear publicación | MGamers</title>
+  <title>Crear publicación</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
@@ -13,39 +13,31 @@
 
     body {
       margin: 0;
-      padding: 28px 16px;
+      padding: 24px 14px;
+      background: #f4f6fa;
       color: #202638;
-      background: #f6f7fb;
-      font-family: system-ui, sans-serif;
+      font-family: Arial, sans-serif;
     }
 
     main {
       width: min(100%, 780px);
-      margin: auto;
+      margin: 0 auto;
     }
 
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 22px;
-    }
-
-    .card, .preview-card {
-      padding: clamp(18px, 5vw, 34px);
-      border: 1px solid #e1e4eb;
+    .card {
+      padding: clamp(18px, 4vw, 32px);
+      border: 1px solid #e1e5ed;
       border-radius: 16px;
-      background: white;
-      box-shadow: 0 10px 35px rgb(20 30 60 / 8%);
+      background: #fff;
+      box-shadow: 0 8px 28px rgb(20 30 60 / 8%);
     }
 
-    h1 { margin: 0 0 8px; }
-
-    .intro, .hint, .muted { color: #5e6678; }
+    h1 { margin-top: 0; }
 
     label, .field-label {
       display: block;
       margin: 18px 0 8px;
-      font-weight: 650;
+      font-weight: 700;
     }
 
     input, select {
@@ -53,12 +45,12 @@
       padding: 12px;
       border: 1px solid #cbd1dc;
       border-radius: 8px;
-      background: white;
+      background: #fff;
       color: #202638;
       font: inherit;
     }
 
-    .toolbar, .emoji-list, .actions {
+    .toolbar, .actions, .emojis {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -67,8 +59,7 @@
 
     .toolbar { margin: 10px 0; }
 
-    .toolbar button, .emoji-list button, .file-label,
-    .actions button, .close-button {
+    button, .file-label {
       padding: 9px 12px;
       border: 1px solid #cbd1dc;
       border-radius: 8px;
@@ -78,36 +69,15 @@
       cursor: pointer;
     }
 
-    .toolbar button:hover, .emoji-list button:hover,
-    .file-label:hover, .actions button:hover {
-      background: #e9ecf4;
-    }
-
-    #font-size { width: auto; }
-
-    #text-color {
-      width: 44px;
-      height: 40px;
-      padding: 3px;
-      cursor: pointer;
-    }
+    button:hover, .file-label:hover { background: #e9ecf4; }
 
     #image-input { display: none; }
 
-    .emoji-list { margin: 8px 0; }
-
-    .emoji-list button {
-      min-width: 40px;
-      padding: 6px;
-      font-size: 20px;
-    }
-
     #editor {
-      min-height: 240px;
+      min-height: 260px;
       padding: 14px;
       border: 1px solid #cbd1dc;
       border-radius: 10px;
-      background: white;
       line-height: 1.6;
       overflow-wrap: anywhere;
       white-space: pre-wrap;
@@ -120,43 +90,36 @@
 
     #editor:empty::before {
       content: attr(data-placeholder);
-      color: #8b91a0;
-      pointer-events: none;
+      color: #858c9b;
     }
 
     #editor img, #preview-content img {
       display: block;
       max-width: 100%;
-      max-height: 480px;
-      margin: 10px 0;
+      height: auto;
+      max-height: 500px;
+      margin: 12px 0;
       border-radius: 10px;
+    }
+
+    .emojis { margin: 8px 0; }
+
+    .emojis button {
+      min-width: 40px;
+      font-size: 20px;
     }
 
     .actions { margin-top: 20px; }
 
-    .actions button {
-      padding: 12px 17px;
-      border: 0;
-      font-weight: 700;
-    }
-
     #publish-button {
+      border-color: #4f46e5;
       background: #4f46e5;
       color: white;
-    }
-
-    #preview-button, #draft-button {
-      background: #eef0f6;
-    }
-
-    button:disabled {
-      opacity: .6;
-      cursor: wait;
+      font-weight: 700;
     }
 
     #status {
       min-height: 24px;
-      color: #3949ab;
       overflow-wrap: anywhere;
     }
 
@@ -164,7 +127,7 @@
       margin-bottom: 16px;
       padding: 12px;
       border-radius: 8px;
-      background: #fff4d6;
+      background: #fff2cf;
     }
 
     #preview {
@@ -175,55 +138,50 @@
       align-items: center;
       justify-content: center;
       padding: 16px;
-      background: rgb(0 0 0 / 55%);
+      background: rgb(0 0 0 / 58%);
       overflow-y: auto;
     }
 
     #preview[hidden] { display: none; }
 
     .preview-card {
-      position: relative;
       width: min(100%, 780px);
       max-height: calc(100dvh - 32px);
+      padding: clamp(18px, 4vw, 32px);
+      border-radius: 16px;
+      background: white;
       overflow-y: auto;
-    }
-
-    .close-button {
-      float: right;
-      margin-left: 12px;
-    }
-
-    .preview-category {
-      color: #5e6678;
-      font-size: .9rem;
-    }
-
-    #preview-content {
       overflow-wrap: anywhere;
-      line-height: 1.6;
     }
 
-    a { color: #3949ab; }
+    .preview-meta {
+      color: #667085;
+      font-size: 14px;
+    }
+
+    #preview-content { line-height: 1.6; }
+
+    #close-preview { float: right; }
+
+    button:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+    }
   </style>
 </head>
 
 <body>
   <main>
-    <div class="topbar">
-      <strong>Foro MGamers</strong>
-      <a href="index.html">Inicio</a>
-    </div>
+    <p><a href="index.html">← Volver al inicio</a></p>
 
     <div id="auth-warning" hidden>
-      Necesitas iniciar sesión para publicar.
-      <a id="login-link" href="login.html">Iniciar sesión</a>
+      Inicia sesión para crear una publicación.
+      <a id="login-link" href="login.html">Ir a iniciar sesión</a>
     </div>
 
     <section class="card">
       <h1>Crear publicación</h1>
-      <p class="intro">
-        Escribe tu publicación, agrega imágenes y revisa la vista previa antes de publicarla.
-      </p>
+      <p>Completa los campos y pulsa Publicar.</p>
 
       <form id="post-form">
         <label for="post-icon">Icono</label>
@@ -237,12 +195,12 @@
           <option value="❓">❓ Pregunta</option>
         </select>
 
-        <label for="input-title">Título</label>
-        <input id="input-title" type="text" maxlength="150"
-               required placeholder="Escribe el título">
+        <label for="post-title">Título</label>
+        <input id="post-title" type="text" maxlength="150"
+               placeholder="Escribe el título" required>
 
-        <label for="select-tag">Categoría</label>
-        <select id="select-tag" required>
+        <label for="post-category">Categoría</label>
+        <select id="post-category" required>
           <option value="">Selecciona una categoría</option>
           <option value="feed-noticias">Noticias</option>
           <option value="feed-mu">Servidores Mu</option>
@@ -259,7 +217,7 @@
           <option value="feed-guia">Zona Guía</option>
         </select>
 
-        <label for="post-type">Tipo de publicación (opcional)</label>
+        <label for="post-type">Tipo (opcional)</label>
         <select id="post-type">
           <option value="">Sin tipo</option>
           <option value="Guías">Guías</option>
@@ -270,30 +228,31 @@
 
         <span class="field-label">Contenido</span>
 
-        <div class="toolbar" aria-label="Formato del contenido">
-          <button type="button" data-command="bold" aria-label="Negrita"><b>N</b></button>
-          <button type="button" data-command="italic" aria-label="Cursiva"><i>K</i></button>
-          <button type="button" data-command="underline" aria-label="Subrayado"><u>S</u></button>
+        <div class="toolbar">
+          <button type="button" data-format="bold"><b>Negrita</b></button>
+          <button type="button" data-format="italic"><i>Cursiva</i></button>
+          <button type="button" data-format="underline"><u>Subrayado</u></button>
 
-          <label for="font-size" style="margin:0">Tamaño:</label>
-          <select id="font-size" aria-label="Tamaño del texto">
-            <option value="">Tamaño</option>
+          <label for="font-size" style="margin:0">Tamaño</label>
+          <select id="font-size" style="width:auto">
+            <option value="">Normal</option>
             <option value="2">Pequeño</option>
-            <option value="3">Normal</option>
             <option value="4">Grande</option>
             <option value="5">Muy grande</option>
           </select>
 
-          <label for="text-color" style="margin:0">Color:</label>
-          <input id="text-color" type="color" value="#202638" aria-label="Elegir color">
-          <button id="apply-color" type="button">Aplicar color</button>
+          <label for="font-color" style="margin:0">Color</label>
+          <input id="font-color" type="color" value="#202638"
+                 style="width:45px;height:40px;padding:3px">
 
-          <label for="image-input" class="file-label">Insertar imagen</label>
+          <button id="color-button" type="button">Aplicar color</button>
+
+          <label for="image-input" class="file-label">Subir imagen</label>
           <input id="image-input" type="file"
                  accept="image/jpeg,image/png,image/webp,image/gif">
         </div>
 
-        <div class="emoji-list" aria-label="Insertar emoji">
+        <div class="emojis">
           <button type="button" data-emoji="😀">😀</button>
           <button type="button" data-emoji="😂">😂</button>
           <button type="button" data-emoji="🔥">🔥</button>
@@ -301,106 +260,108 @@
           <button type="button" data-emoji="❤️">❤️</button>
           <button type="button" data-emoji="👍">👍</button>
           <button type="button" data-emoji="🏆">🏆</button>
-          <button type="button" data-emoji="⚔️">⚔️</button>
         </div>
 
-        <div id="editor" contenteditable="true" role="textbox"
-             aria-multiline="true"
-             data-placeholder="Escribe aquí el contenido de tu publicación."></div>
+        <div id="editor" contenteditable="true"
+             data-placeholder="Escribe aquí el contenido de la publicación…"></div>
 
         <div class="actions">
           <button id="publish-button" type="submit">Publicar</button>
           <button id="preview-button" type="button">Vista previa</button>
-          <button id="draft-button" type="button">Guardar borrador</button>
         </div>
 
         <p id="status" role="status" aria-live="polite"></p>
       </form>
-
-      <p class="hint">
-        Imágenes JPG, PNG, WEBP o GIF de hasta 5 MB.
-      </p>
     </section>
 
     <section id="preview" hidden>
-      <div class="preview-card">
-        <button id="close-preview" class="close-button" type="button">Cerrar</button>
-        <span id="preview-category" class="preview-category"></span>
+      <article class="preview-card">
+        <button id="close-preview" type="button">Cerrar</button>
+        <p id="preview-meta" class="preview-meta"></p>
         <h2 id="preview-title"></h2>
         <div id="preview-content"></div>
-      </div>
+      </article>
     </section>
   </main>
 
   <script>
-    // Usa aquí la URL del proyecto y una publishable key.
-    // Nunca pongas una service_role key en un archivo del navegador.
+    // Tu URL del proyecto y publishable key.
+    // No coloques aquí una service_role key.
     const SUPABASE_URL = "https://zrrpjbqduwtaxsfbsuum.supabase.co";
-    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp";
+    const SUPABASE_PUBLISHABLE_KEY = "TU_PUBLISHABLE_KEY";
 
-    const BUCKET = "post-images";
-    const LOGIN_PAGE = "login.html";
-    const DRAFT_KEY = "mgamers_post_draft";
+    const BUCKET_NAME = "post-images";
+    const LOGIN_URL = "login.html";
 
-    const client = window.supabase.createClient(
+    const supabaseClient = window.supabase.createClient(
       SUPABASE_URL,
       SUPABASE_PUBLISHABLE_KEY
     );
 
-    const form = document.getElementById("post-form");
     const editor = document.getElementById("editor");
-    const statusBox = document.getElementById("status");
+    const form = document.getElementById("post-form");
+    const status = document.getElementById("status");
     const publishButton = document.getElementById("publish-button");
     const authWarning = document.getElementById("auth-warning");
-    const loginLink = document.getElementById("login-link");
     const preview = document.getElementById("preview");
 
-    loginLink.href = LOGIN_PAGE;
+    document.getElementById("login-link").href = LOGIN_URL;
 
-    function setStatus(message) {
-      statusBox.textContent = message;
+    function showStatus(message) {
+      status.textContent = message;
     }
 
-    async function getCurrentUser() {
-      const { data, error } = await client.auth.getUser();
+    async function getUser() {
+      const { data, error } = await supabaseClient.auth.getUser();
       if (error) return null;
       return data.user;
     }
 
-    async function updateAuthState() {
-      const user = await getCurrentUser();
+    async function checkLogin() {
+      const user = await getUser();
       authWarning.hidden = Boolean(user);
       publishButton.disabled = !user;
     }
 
-    function insertAtCursor(node) {
+    function insertAtCursor(element) {
       editor.focus();
 
       const selection = window.getSelection();
+
       if (!selection || selection.rangeCount === 0) {
-        editor.appendChild(node);
+        editor.appendChild(element);
         return;
       }
 
       const range = selection.getRangeAt(0);
+
       if (!editor.contains(range.commonAncestorContainer)) {
-        editor.appendChild(node);
+        editor.appendChild(element);
         return;
       }
 
       range.deleteContents();
-      range.insertNode(node);
-      range.setStartAfter(node);
-      range.setEndAfter(node);
+      range.insertNode(element);
+      range.setStartAfter(element);
+      range.setEndAfter(element);
       selection.removeAllRanges();
       selection.addRange(range);
     }
 
-    document.querySelectorAll("[data-command]").forEach((button) => {
+    document.querySelectorAll("[data-format]").forEach((button) => {
       button.addEventListener("click", () => {
         editor.focus();
-        document.execCommand(button.dataset.command, false, null);
+        document.execCommand(button.dataset.format, false, null);
       });
+    });
+
+    document.getElementById("color-button").addEventListener("click", () => {
+      editor.focus();
+      document.execCommand(
+        "foreColor",
+        false,
+        document.getElementById("font-color").value
+      );
     });
 
     document.getElementById("font-size").addEventListener("change", (event) => {
@@ -410,15 +371,6 @@
       event.target.value = "";
     });
 
-    document.getElementById("apply-color").addEventListener("click", () => {
-      editor.focus();
-      document.execCommand(
-        "foreColor",
-        false,
-        document.getElementById("text-color").value
-      );
-    });
-
     document.querySelectorAll("[data-emoji]").forEach((button) => {
       button.addEventListener("click", () => {
         insertAtCursor(document.createTextNode(button.dataset.emoji));
@@ -426,69 +378,140 @@
     });
 
     document.getElementById("image-input").addEventListener("change", async (event) => {
-      const file = event.target.files?.[0];
+      const file = event.target.files && event.target.files[0];
       event.target.value = "";
+
       if (!file) return;
 
-      const allowedTypes = [
-        "image/jpeg",
-        "image/png",
-        "image/webp",
-        "image/gif"
-      ];
+      const extensions = {
+        "image/jpeg": "jpg",
+        "image/png": "png",
+        "image/webp": "webp",
+        "image/gif": "gif"
+      };
 
-      if (!allowedTypes.includes(file.type)) {
-        setStatus("El formato de imagen no está permitido.");
+      if (!extensions[file.type]) {
+        showStatus("Elige una imagen JPG, PNG, WEBP o GIF.");
         return;
       }
 
       if (file.size > 5 * 1024 * 1024) {
-        setStatus("La imagen supera el límite de 5 MB.");
-        return;
-      }
-      const user = await getCurrentUser();
-      if (!user) {
-        authWarning.hidden = false;
-        setStatus("Inicia sesión para publicar.");
+        showStatus("La imagen no puede superar 5 MB.");
         return;
       }
 
-      const titleInput = document.getElementById("input-title");
-      const title = titleInput.value.trim();
+      const user = await getUser();
+
+      if (!user) {
+        authWarning.hidden = false;
+        showStatus("Inicia sesión antes de subir imágenes.");
+        return;
+      }
+
+      const path = `${user.id}/${crypto.randomUUID()}.${extensions[file.type]}`;
+      showStatus("Subiendo imagen…");
+
+      const { error } = await supabaseClient.storage
+        .from(BUCKET_NAME)
+        .upload(path, file, {
+          contentType: file.type,
+          upsert: false
+        });
+
+      if (error) {
+        showStatus(`Error al subir la imagen: ${error.message}`);
+        return;
+      }
+
+      const { data } = supabaseClient.storage
+        .from(BUCKET_NAME)
+        .getPublicUrl(path);
+
+      const image = document.createElement("img");
+      image.src = data.publicUrl;
+      image.alt = "Imagen de la publicación";
+      image.loading = "lazy";
+
+      insertAtCursor(image);
+      showStatus("Imagen agregada.");
+    });
+
+    document.getElementById("preview-button").addEventListener("click", () => {
       const icon = document.getElementById("post-icon").value;
-      const category = document.getElementById("select-tag").value;
+      const title = document.getElementById("post-title").value.trim();
+      const categorySelect = document.getElementById("post-category");
+      const categoryText =
+        categorySelect.options[categorySelect.selectedIndex]?.text || "";
+
+      document.getElementById("preview-title").textContent =
+        `${icon ? icon + " " : ""}${title || "Título de la publicación"}`;
+
+      document.getElementById("preview-meta").textContent = categoryText;
+      document.getElementById("preview-content").innerHTML =
+        DOMPurify.sanitize(editor.innerHTML, {
+          USE_PROFILES: { html: true }
+        }) || "<p>El contenido aparecerá aquí.</p>";
+
+      preview.hidden = false;
+    });
+
+    function closePreview() {
+      preview.hidden = true;
+    }
+
+    document.getElementById("close-preview")
+      .addEventListener("click", closePreview);
+
+    preview.addEventListener("click", (event) => {
+      if (event.target === preview) closePreview();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closePreview();
+    });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      showStatus("");
+
+      const user = await getUser();
+
+      if (!user) {
+        authWarning.hidden = false;
+        showStatus("Inicia sesión para publicar.");
+        return;
+      }
+
+      const title = document.getElementById("post-title").value.trim();
+      const icon = document.getElementById("post-icon").value;
+      const category = document.getElementById("post-category").value;
       const type = document.getElementById("post-type").value;
       const content = DOMPurify.sanitize(editor.innerHTML, {
         USE_PROFILES: { html: true }
       });
 
       if (!title) {
-        setStatus("Escribe un título.");
-        titleInput.focus();
+        showStatus("Escribe un título.");
         return;
       }
 
       if (!category) {
-        setStatus("Selecciona una categoría.");
-        document.getElementById("select-tag").focus();
+        showStatus("Selecciona una categoría.");
         return;
       }
 
       if (!editor.textContent.trim() && !editor.querySelector("img")) {
-        setStatus("Escribe contenido o agrega una imagen.");
-        editor.focus();
+        showStatus("Escribe contenido o agrega una imagen.");
         return;
       }
-
-      const finalTitle = `${icon ? icon + " " : ""}${title}`;
 
       publishButton.disabled = true;
       publishButton.textContent = "Publicando…";
 
-      const { error } = await client
+      const { error } = await supabaseClient
         .from("posts")
         .insert({
-          titulo: finalTitle,
+          titulo: `${icon ? icon + " " : ""}${title}`,
           contenido: content,
           "categoría": category,
           tipo: type || null
@@ -498,22 +521,20 @@
       publishButton.textContent = "Publicar";
 
       if (error) {
-        setStatus(`No se pudo publicar: ${error.message}`);
+        showStatus(`No se pudo publicar: ${error.message}`);
         return;
       }
 
-      localStorage.removeItem(DRAFT_KEY);
       form.reset();
       editor.innerHTML = "";
-      setStatus("¡Publicación creada correctamente!");
+      showStatus("¡Publicación creada correctamente!");
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
-    loadDraft();
-    updateAuthState();
+    checkLogin();
 
-    client.auth.onAuthStateChange(() => {
-      updateAuthState();
+    supabaseClient.auth.onAuthStateChange(() => {
+      checkLogin();
     });
   </script>
 </body>
