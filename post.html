@@ -253,10 +253,13 @@
             <input
               id="imagen"
               type="file"
-              accept="image/*"
+              accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
               capture="environment"
             >
-            <p class="help">Puedes elegir una imagen del teléfono o tomar una foto. Máximo 5 MB.</p>
+            <p class="help">
+              Puedes elegir una imagen del teléfono o tomar una foto.
+              Máximo 5 MB. Formatos: JPG, PNG, WEBP, GIF o AVIF.
+            </p>
           </div>
           <img id="preview" class="preview" alt="Vista previa de la imagen">
         </div>
@@ -276,12 +279,23 @@
     const BUCKET = 'post-images';
     const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
+    const extensions = {
+      'image/jpeg': 'jpg',
+      'image/png': 'png',
+      'image/webp': 'webp',
+      'image/gif': 'gif',
+      'image/avif': 'avif'
+    };
+
     const form = document.getElementById('form-post');
     const imageInput = document.getElementById('imagen');
     const preview = document.getElementById('preview');
     const message = document.getElementById('message');
     const submitButton = document.getElementById('submit-button');
     const authStatus = document.getElementById('auth-status');
+
+    let canPost = false;
+    let previewUrl = null;
 
     function showMessage(text, type) {
       message.textContent = text;
@@ -293,17 +307,29 @@
       message.className = 'message';
     }
 
-    imageInput.addEventListener('change', () => {
-      clearMessage();
+    function clearPreview() {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+        previewUrl = null;
+      }
+
       preview.removeAttribute('src');
       preview.style.display = 'none';
+    }
+
+    imageInput.addEventListener('change', () => {
+      clearMessage();
+      clearPreview();
 
       const file = imageInput.files?.[0];
       if (!file) return;
 
-      if (!file.type.startsWith('image/')) {
+      if (!extensions[file.type]) {
         imageInput.value = '';
-        showMessage('Selecciona un archivo de imagen válido.', 'error');
+        showMessage(
+          'Formato no admitido. Usa JPG, PNG, WEBP, GIF o AVIF.',
+          'error'
+        );
         return;
       }
 
@@ -313,25 +339,35 @@
         return;
       }
 
-      preview.src = URL.createObjectURL(file);
+      previewUrl = URL.createObjectURL(file);
+      preview.src = previewUrl;
       preview.style.display = 'block';
     });
 
     async function checkSession() {
-      const { data, error } = await supabase.auth.getUser();
+      submitButton.disabled = true;
 
-      if (error) {
-        authStatus.textContent = 'No se pudo comprobar la sesión. Vuelve a iniciar sesión.';
-        return;
+      try {
+        const { data, error } = await supabase.auth.getUser();
+
+        if (error) throw error;
+
+        canPost = Boolean(data.user);
+
+        if (!data.user) {
+          authStatus.textContent = 'Debes iniciar sesión para publicar.';
+          return;
+        }
+
+        authStatus.textContent =
+          `Sesión activa: ${data.user.email || 'usuario autenticado'}`;
+        submitButton.disabled = false;
+      } catch (error) {
+        canPost = false;
+        authStatus.textContent =
+          'No se pudo comprobar la sesión. Vuelve a iniciar sesión.';
+        console.error('Error al comprobar la sesión:', error);
       }
-
-      if (!data.user) {
-        authStatus.textContent = 'Debes iniciar sesión para publicar.';
-        submitButton.disabled = true;
-        return;
-      }
-
-      authStatus.textContent = `Sesión activa: ${data.user.email || 'usuario autenticado'}`;
     }
 
     form.addEventListener('submit', async (event) => {
@@ -345,45 +381,48 @@
       const file = imageInput.files?.[0] ?? null;
 
       if (!titulo || !contenido || !categoria) {
-        showMessage('Completa la categoría, el título y el contenido.', 'error');
+        showMessage(
+          'Completa la categoría, el título y el contenido.',
+          'error'
+        );
         return;
       }
 
-      if (file && (!file.type.startsWith('image/') || file.size > MAX_IMAGE_SIZE)) {
-        showMessage('La imagen debe ser válida y no superar 5 MB.', 'error');
+      if (file && (!extensions[file.type] || file.size > MAX_IMAGE_SIZE)) {
+        showMessage(
+          'La imagen debe ser válida y no superar 5 MB.',
+          'error'
+        );
         return;
       }
 
       submitButton.disabled = true;
-      submitButton.textContent = file ? 'Subiendo imagen y publicando…' : 'Publicando…';
+      submitButton.textContent = file
+        ? 'Subiendo imagen y publicando…'
+        : 'Publicando…';
 
       let uploadedPath = null;
 
       try {
-        const { data: authData, error: authError } = await supabase.auth.getUser();
+        const { data: authData, error: authError } =
+          await supabase.auth.getUser();
+
         if (authError) throw authError;
 
         const user = authData.user;
+
         if (!user) {
+          canPost = false;
+          authStatus.textContent = 'Debes iniciar sesión para publicar.';
           throw new Error('Inicia sesión antes de publicar.');
         }
+
+        canPost = true;
 
         let imageUrl = null;
 
         if (file) {
-          const extensions = {
-            'image/jpeg': 'jpg',
-            'image/png': 'png',
-            'image/webp': 'webp',
-            'image/gif': 'gif',
-            'image/avif': 'avif'
-          };
-
           const extension = extensions[file.type];
-          if (!extension) {
-            throw new Error('Formato no admitido. Usa JPG, PNG, WEBP, GIF o AVIF.');
-          }
-
           uploadedPath = `${user.id}/${crypto.randomUUID()}.${extension}`;
 
           const { error: uploadError } = await supabase.storage
@@ -396,11 +435,11 @@
 
           if (uploadError) throw uploadError;
 
-          const { data: publicData } = supabase.storage
+          const { data } = supabase.storage
             .from(BUCKET)
             .getPublicUrl(uploadedPath);
 
-          imageUrl = publicData.publicUrl;
+          imageUrl = data.publicUrl;
         }
 
         const { error: insertError } = await supabase
@@ -416,27 +455,47 @@
         if (insertError) throw insertError;
 
         form.reset();
-        preview.removeAttribute('src');
-        preview.style.display = 'none';
+        clearPreview();
 
-        showMessage('¡Publicación creada correctamente! Puedes volver al foro.', 'success');
+        showMessage(
+          '¡Publicación creada correctamente! Puedes volver al foro.',
+          'success'
+        );
 
         const backLink = document.createElement('a');
         backLink.href = 'index.html';
         backLink.textContent = 'Volver al foro';
         backLink.className = 'success-link';
-        message.appendChild(document.createElement('br'));
-        message.appendChild(backLink);
+
+        message.append(document.createElement('br'), backLink);
       } catch (error) {
+        let cleanupFailed = false;
+
         if (uploadedPath) {
-          await supabase.storage.from(BUCKET).remove([uploadedPath]);
+          try {
+            const { error: removeError } = await supabase.storage
+              .from(BUCKET)
+              .remove([uploadedPath]);
+
+            cleanupFailed = Boolean(removeError);
+          } catch {
+            cleanupFailed = true;
+          }
         }
 
         console.error('Error al crear la publicación:', error);
-        showMessage(`No se pudo crear la publicación: ${error.message}`, 'error');
+
+        const cleanupNote = cleanupFailed
+          ? ' La imagen pudo quedar en Storage porque no se pudo eliminar automáticamente.'
+          : '';
+
+        showMessage(
+          `No se pudo crear la publicación: ${error.message || 'Error inesperado.'}${cleanupNote}`,
+          'error'
+        );
       } finally {
-        submitButton.disabled = false;
         submitButton.textContent = 'Publicar tema';
+        submitButton.disabled = !canPost;
       }
     });
 
