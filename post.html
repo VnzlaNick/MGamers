@@ -3,159 +3,222 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nueva publicación | Foro</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta name="theme-color" content="#090d18">
+  <title>Crear publicación | Móvil Gamers</title>
 
   <style>
+    :root {
+      color-scheme: dark;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #090d18;
+      color: #eef2ff;
+    }
+
+    * { box-sizing: border-box; }
+
     body {
-      font-family: "Plus Jakarta Sans", sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px 16px;
+      background:
+        radial-gradient(ellipse at top, rgba(37, 99, 235, .18), transparent 55%),
+        #090d18;
     }
 
-    .material-symbols-outlined {
-      font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 24;
+    .container {
+      width: min(100%, 620px);
+      margin: 0 auto;
     }
 
-    #side-drawer {
-      transform: translateX(-100%);
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
     }
 
-    #drawer-backdrop {
-      opacity: 0;
-      pointer-events: none;
+    .header a {
+      color: #a9b8d4;
+      text-decoration: none;
+      font-size: 14px;
     }
 
-    body.drawer-open #side-drawer {
-      transform: translateX(0);
+    h1 {
+      margin: 0 0 6px;
+      font-size: clamp(24px, 6vw, 32px);
     }
 
-    body.drawer-open #drawer-backdrop {
-      opacity: 1;
-      pointer-events: auto;
+    .subtitle, .auth-status {
+      color: #9aa8c2;
+      line-height: 1.5;
+    }
+
+    .card {
+      padding: clamp(18px, 5vw, 28px);
+      border: 1px solid #26334c;
+      border-radius: 18px;
+      background: rgba(16, 24, 40, .94);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, .28);
+    }
+
+    .field {
+      margin-top: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      color: #c7d2e8;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid #34435d;
+      border-radius: 10px;
+      padding: 12px;
+      background: #0b1220;
+      color: #eef2ff;
+      font: inherit;
+      font-size: 15px;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: 2px solid #3b82f6;
+      outline-offset: 1px;
+    }
+
+    textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .help {
+      margin: 7px 0 0;
+      color: #8998b2;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .image-picker {
+      display: block;
+      padding: 14px;
+      border: 1px dashed #486187;
+      border-radius: 12px;
+      background: #0b1220;
+    }
+
+    .image-picker input {
+      padding: 8px;
+      border: 0;
+      background: transparent;
+    }
+
+    .preview {
+      display: none;
+      width: 100%;
+      max-height: 360px;
+      margin-top: 12px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: #05080e;
+    }
+
+    .message {
+      display: none;
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 10px;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+
+    .message.error {
+      display: block;
+      border: 1px solid #7f1d1d;
+      background: #351316;
+      color: #fecaca;
+    }
+
+    .message.success {
+      display: block;
+      border: 1px solid #166534;
+      background: #10291c;
+      color: #bbf7d0;
+    }
+
+    .submit {
+      width: 100%;
+      margin-top: 22px;
+      border: 0;
+      border-radius: 11px;
+      padding: 14px;
+      background: #2563eb;
+      color: white;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .submit:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    .success-link {
+      display: inline-block;
+      margin-top: 8px;
+      color: #bfdbfe;
+      font-weight: 700;
+    }
+
+    @media (max-width: 420px) {
+      body { padding: 16px 12px; }
+      .header { align-items: flex-start; }
     }
   </style>
 </head>
 
-<body class="flex min-h-screen flex-col overflow-x-hidden bg-slate-50 text-slate-900">
-
-  <!-- Fondo del menú -->
-  <div
-    id="drawer-backdrop"
-    class="fixed inset-0 z-40 bg-black/50 transition-opacity duration-300"
-    onclick="toggleDrawer()"
-  ></div>
-
-  <!-- Menú lateral -->
-  <aside
-    id="side-drawer"
-    class="fixed inset-y-0 left-0 z-50 flex w-[280px] flex-col bg-white shadow-2xl transition-transform duration-300"
-  >
-    <div class="flex items-center justify-between border-b border-slate-200 p-5">
-      <h2 class="text-xl font-extrabold text-sky-600">Menú del foro</h2>
-      <button
-        type="button"
-        onclick="toggleDrawer()"
-        aria-label="Cerrar menú"
-        class="rounded-full p-2 hover:bg-slate-100"
-      >
-        <span class="material-symbols-outlined">close</span>
-      </button>
+<body>
+  <main class="container">
+    <div class="header">
+      <a href="index.html">← Volver al foro</a>
+      <a href="inres.html">Cuenta</a>
     </div>
 
-    <nav class="flex-1 space-y-2 p-4">
-      <a
-        href="index.html"
-        class="flex items-center gap-3 rounded-xl bg-sky-50 p-4 font-semibold text-sky-700"
-      >
-        <span class="material-symbols-outlined">home</span>
-        Volver al foro
-      </a>
+    <section class="card">
+      <h1>Crear publicación</h1>
+      <p class="subtitle">Comparte un tema con la comunidad gamer.</p>
+      <p id="auth-status" class="auth-status">Verificando sesión…</p>
 
-      <a
-        href="login.html"
-        class="flex items-center gap-3 rounded-xl p-4 font-semibold text-slate-600 hover:bg-slate-100"
-      >
-        <span class="material-symbols-outlined">person</span>
-        Iniciar sesión
-      </a>
-    </nav>
-  </aside>
-
-  <!-- Único encabezado; sticky evita que tape el formulario -->
-  <header class="sticky top-0 z-30 border-b border-slate-200 bg-white">
-    <div class="mx-auto flex h-16 w-full max-w-3xl items-center justify-between px-4">
-      <button
-        type="button"
-        onclick="toggleDrawer()"
-        aria-label="Abrir menú"
-        class="rounded-full p-2 text-sky-600 hover:bg-slate-100"
-      >
-        <span class="material-symbols-outlined">menu</span>
-      </button>
-
-      <h1 class="text-lg font-extrabold text-sky-600 sm:text-xl">
-        Nueva publicación
-      </h1>
-
-      <a
-        href="index.html"
-        aria-label="Volver al foro"
-        class="rounded-full p-2 text-slate-600 hover:bg-slate-100"
-      >
-        <span class="material-symbols-outlined">close</span>
-      </a>
-    </div>
-  </header>
-
-  <main class="mx-auto w-full max-w-3xl flex-1 px-4 py-6 sm:py-10">
-    <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8">
-      <div class="mb-6">
-        <h2 class="text-2xl font-extrabold">Comparte con la comunidad</h2>
-        <p class="mt-2 text-sm text-slate-500">
-          Completa los campos y publica tu mensaje en el foro.
-        </p>
-      </div>
-
-      <div
-        id="auth-message"
-        class="mb-5 hidden rounded-xl bg-amber-50 p-4 text-sm text-amber-900"
-        role="status"
-      ></div>
-
-      <form id="post-form" class="space-y-5">
-        <div>
-          <label for="category" class="mb-2 block text-sm font-bold">
-            Comunidad
-          </label>
-          <select
-            id="category"
-            name="category"
-            required
-            class="w-full rounded-xl border-slate-300 bg-white px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
-          >
-            <option value="">Seleccionar comunidad</option>
-            <option value="rakion">Rakion</option>
-            <option value="bloody-striker">Bloody Striker</option>
-            <option value="general">Comunidad General</option>
+      <form id="form-post">
+        <div class="field">
+          <label for="categoria">Categoría</label>
+          <select id="categoria" required>
+            <option value="">Selecciona una categoría</option>
+            <option value="noticias">Noticias y Anuncios</option>
+            <option value="torneos">Torneos</option>
+            <option value="descargas-juegos">Descargas Juegos</option>
+            <option value="servidores-mu">Servidores Mu</option>
+            <option value="blood-strike">Blood Strike</option>
+            <option value="free-fire">Free Fire</option>
+            <option value="mobile-legends">Mobile Legends</option>
+            <option value="brawl-star">Brawl Star</option>
+            <option value="gounbound-m">Gounbound M</option>
+            <option value="zona-pokemon">Zona Pokemon</option>
+            <option value="minecraft">Minecraft</option>
+            <option value="zona-dino">Zona Dino</option>
+            <option value="zona-simuladores">Zona Simuladores</option>
+            <option value="zona-libre">Zona Libre</option>
+            <option value="guia-trucos">Guía, Trucos</option>
           </select>
         </div>
 
-        <div>
-          <label for="post-type" class="mb-2 block text-sm font-bold">
-            Tipo de publicación
-          </label>
-          <select
-            id="post-type"
-            name="tipo"
-            required
-            class="w-full rounded-xl border-slate-300 bg-white px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
-          >
+        <div class="field">
+          <label for="tipo">Tipo de publicación</label>
+          <select id="tipo">
             <option value="General">General</option>
             <option value="Guías">Guías</option>
             <option value="Builds">Builds</option>
@@ -163,217 +226,221 @@
           </select>
         </div>
 
-        <div>
-          <div class="mb-2 flex items-center justify-between gap-3">
-            <label for="title" class="block text-sm font-bold">Título</label>
-            <span class="text-xs text-slate-500">
-              <span id="title-count">0</span>/150
-            </span>
-          </div>
+        <div class="field">
+          <label for="titulo">Título</label>
           <input
-            id="title"
-            name="title"
+            id="titulo"
             type="text"
-            maxlength="150"
+            maxlength="160"
+            placeholder="Ej.: Busco equipo para el torneo"
             required
-            placeholder="Escribe el título de tu publicación"
-            class="w-full rounded-xl border-slate-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
           >
         </div>
 
-        <div>
-          <div class="mb-2 flex items-center justify-between gap-3">
-            <label for="content" class="block text-sm font-bold">Contenido</label>
-            <span id="content-count" class="text-xs text-slate-500">0/280</span>
-          </div>
+        <div class="field">
+          <label for="contenido">Contenido</label>
           <textarea
-            id="content"
-            name="content"
-            rows="8"
-            maxlength="280"
+            id="contenido"
+            maxlength="10000"
+            placeholder="Escribe los detalles de tu publicación…"
             required
-            placeholder="¡Comparte algo con la comunidad!"
-            class="min-h-[220px] w-full resize-y rounded-xl border-slate-300 px-4 py-3 leading-7 focus:border-sky-500 focus:ring-sky-500"
           ></textarea>
-          <p class="mt-1 text-xs text-slate-500">Máximo 280 caracteres.</p>
         </div>
 
-        <p
-          id="status"
-          role="status"
-          aria-live="polite"
-          class="hidden rounded-xl p-4 text-sm"
-        ></p>
-
-        <div class="flex flex-col-reverse gap-3 border-t border-slate-200 pt-5 sm:flex-row sm:justify-end">
-          <a
-            href="index.html"
-            class="rounded-xl border border-slate-300 px-5 py-3 text-center font-bold text-slate-700 hover:bg-slate-50"
-          >
-            Cancelar
-          </a>
-
-          <button
-            id="publish-button"
-            type="submit"
-            disabled
-            class="rounded-xl bg-sky-500 px-6 py-3 font-bold text-white hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            Publicar
-          </button>
+        <div class="field">
+          <label for="imagen">Imagen (opcional)</label>
+          <div class="image-picker">
+            <input
+              id="imagen"
+              type="file"
+              accept="image/*"
+              capture="environment"
+            >
+            <p class="help">Puedes elegir una imagen del teléfono o tomar una foto. Máximo 5 MB.</p>
+          </div>
+          <img id="preview" class="preview" alt="Vista previa de la imagen">
         </div>
+
+        <div id="message" class="message" role="status" aria-live="polite"></div>
+
+        <button id="submit-button" class="submit" type="submit">
+          Publicar tema
+        </button>
       </form>
     </section>
   </main>
 
-  <script>
-    const SUPABASE_URL = "https://zrrpjbqduwtaxsfbsuum.supabase.co";
-    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp";
+  <script type="module">
+    import { supabase } from './conexion.js';
 
-    const supabaseClient = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
+    const BUCKET = 'post-images';
+    const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
-    const form = document.getElementById("post-form");
-    const publishButton = document.getElementById("publish-button");
-    const authMessage = document.getElementById("auth-message");
-    const statusElement = document.getElementById("status");
-    const titleInput = document.getElementById("title");
-    const contentInput = document.getElementById("content");
+    const form = document.getElementById('form-post');
+    const imageInput = document.getElementById('imagen');
+    const preview = document.getElementById('preview');
+    const message = document.getElementById('message');
+    const submitButton = document.getElementById('submit-button');
+    const authStatus = document.getElementById('auth-status');
 
-    let currentUser = null;
-
-    function toggleDrawer() {
-      document.body.classList.toggle("drawer-open");
-      document.body.classList.toggle("overflow-hidden");
+    function showMessage(text, type) {
+      message.textContent = text;
+      message.className = `message ${type}`;
     }
 
-    function showStatus(message, type) {
-      statusElement.textContent = message;
-      statusElement.className = "rounded-xl p-4 text-sm";
-
-      if (type === "success") {
-        statusElement.classList.add("bg-green-50", "text-green-800");
-      } else {
-        statusElement.classList.add("bg-red-50", "text-red-800");
-      }
+    function clearMessage() {
+      message.textContent = '';
+      message.className = 'message';
     }
 
-    function updateAuthUI() {
-      const isConfigured = SUPABASE_PUBLISHABLE_KEY !== "TU_PUBLISHABLE_KEY";
+    imageInput.addEventListener('change', () => {
+      clearMessage();
+      preview.removeAttribute('src');
+      preview.style.display = 'none';
 
-      if (!isConfigured) {
-        authMessage.textContent =
-          "Configura la publishable key de Supabase en este archivo para activar la publicación.";
-        authMessage.classList.remove("hidden");
-        publishButton.disabled = true;
+      const file = imageInput.files?.[0];
+      if (!file) return;
+
+      if (!file.type.startsWith('image/')) {
+        imageInput.value = '';
+        showMessage('Selecciona un archivo de imagen válido.', 'error');
         return;
       }
 
-      if (!currentUser) {
-        authMessage.innerHTML = "";
-        authMessage.append("Debes iniciar sesión para publicar. ");
-
-        const loginLink = document.createElement("a");
-        loginLink.href = "login.html";
-        loginLink.textContent = "Iniciar sesión";
-        loginLink.className = "font-bold underline";
-        authMessage.appendChild(loginLink);
-
-        authMessage.classList.remove("hidden");
-        publishButton.disabled = true;
+      if (file.size > MAX_IMAGE_SIZE) {
+        imageInput.value = '';
+        showMessage('La imagen supera el máximo permitido de 5 MB.', 'error');
         return;
       }
 
-      authMessage.classList.add("hidden");
-      publishButton.disabled = false;
-    }
-
-    function updateCounters() {
-      document.getElementById("title-count").textContent =
-        titleInput.value.length;
-
-      document.getElementById("content-count").textContent =
-        `${contentInput.value.length}/280`;
-    }
-
-    titleInput.addEventListener("input", updateCounters);
-    contentInput.addEventListener("input", updateCounters);
-
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      statusElement.classList.add("hidden");
-
-      if (!currentUser) {
-        showStatus("Inicia sesión antes de publicar.", "error");
-        return;
-      }
-
-      const title = titleInput.value.trim();
-      const content = contentInput.value.trim();
-      const category = document.getElementById("category").value;
-      const type = document.getElementById("post-type").value;
-
-      if (!title || !content || !category || !type) {
-        showStatus(
-          "Completa el título, contenido, comunidad y tipo de publicación.",
-          "error"
-        );
-        return;
-      }
-
-      publishButton.disabled = true;
-      publishButton.textContent = "Publicando…";
-
-      const { error } = await supabaseClient
-        .from("posts")
-        .insert({
-          titulo: title,
-          contenido: content,
-          "categoría": category,
-          tipo: type,
-          author_id: currentUser.id
-        });
-
-      publishButton.textContent = "Publicar";
-      publishButton.disabled = false;
-
-      if (error) {
-        showStatus(`No se pudo publicar: ${error.message}`, "error");
-        return;
-      }
-
-      showStatus("¡Publicación creada!", "success");
-
-      const forumLink = document.createElement("a");
-      forumLink.href = "index.html";
-      forumLink.textContent = " Ir al foro";
-      forumLink.className = "ml-1 font-bold underline";
-      statusElement.appendChild(forumLink);
-
-      form.reset();
-      updateCounters();
+      preview.src = URL.createObjectURL(file);
+      preview.style.display = 'block';
     });
 
-    async function init() {
-      if (SUPABASE_PUBLISHABLE_KEY === "TU_PUBLISHABLE_KEY") {
-        updateAuthUI();
+    async function checkSession() {
+      const { data, error } = await supabase.auth.getUser();
+
+      if (error) {
+        authStatus.textContent = 'No se pudo comprobar la sesión. Vuelve a iniciar sesión.';
         return;
       }
 
-      const { data, error } = await supabaseClient.auth.getSession();
-      currentUser = error ? null : data.session?.user ?? null;
-      updateAuthUI();
+      if (!data.user) {
+        authStatus.textContent = 'Debes iniciar sesión para publicar.';
+        submitButton.disabled = true;
+        return;
+      }
 
-      supabaseClient.auth.onAuthStateChange((_event, session) => {
-        currentUser = session?.user ?? null;
-        updateAuthUI();
-      });
+      authStatus.textContent = `Sesión activa: ${data.user.email || 'usuario autenticado'}`;
     }
 
-    updateCounters();
-    init();
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      clearMessage();
+
+      const titulo = document.getElementById('titulo').value.trim();
+      const contenido = document.getElementById('contenido').value.trim();
+      const categoria = document.getElementById('categoria').value;
+      const tipo = document.getElementById('tipo').value;
+      const file = imageInput.files?.[0] ?? null;
+
+      if (!titulo || !contenido || !categoria) {
+        showMessage('Completa la categoría, el título y el contenido.', 'error');
+        return;
+      }
+
+      if (file && (!file.type.startsWith('image/') || file.size > MAX_IMAGE_SIZE)) {
+        showMessage('La imagen debe ser válida y no superar 5 MB.', 'error');
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.textContent = file ? 'Subiendo imagen y publicando…' : 'Publicando…';
+
+      let uploadedPath = null;
+
+      try {
+        const { data: authData, error: authError } = await supabase.auth.getUser();
+        if (authError) throw authError;
+
+        const user = authData.user;
+        if (!user) {
+          throw new Error('Inicia sesión antes de publicar.');
+        }
+
+        let imageUrl = null;
+
+        if (file) {
+          const extensions = {
+            'image/jpeg': 'jpg',
+            'image/png': 'png',
+            'image/webp': 'webp',
+            'image/gif': 'gif',
+            'image/avif': 'avif'
+          };
+
+          const extension = extensions[file.type];
+          if (!extension) {
+            throw new Error('Formato no admitido. Usa JPG, PNG, WEBP, GIF o AVIF.');
+          }
+
+          uploadedPath = `${user.id}/${crypto.randomUUID()}.${extension}`;
+
+          const { error: uploadError } = await supabase.storage
+            .from(BUCKET)
+            .upload(uploadedPath, file, {
+              contentType: file.type,
+              cacheControl: '3600',
+              upsert: false
+            });
+
+          if (uploadError) throw uploadError;
+
+          const { data: publicData } = supabase.storage
+            .from(BUCKET)
+            .getPublicUrl(uploadedPath);
+
+          imageUrl = publicData.publicUrl;
+        }
+
+        const { error: insertError } = await supabase
+          .from('posts')
+          .insert({
+            titulo,
+            contenido,
+            'categoría': categoria,
+            tipo: tipo || null,
+            image_url: imageUrl
+          });
+
+        if (insertError) throw insertError;
+
+        form.reset();
+        preview.removeAttribute('src');
+        preview.style.display = 'none';
+
+        showMessage('¡Publicación creada correctamente! Puedes volver al foro.', 'success');
+
+        const backLink = document.createElement('a');
+        backLink.href = 'index.html';
+        backLink.textContent = 'Volver al foro';
+        backLink.className = 'success-link';
+        message.appendChild(document.createElement('br'));
+        message.appendChild(backLink);
+      } catch (error) {
+        if (uploadedPath) {
+          await supabase.storage.from(BUCKET).remove([uploadedPath]);
+        }
+
+        console.error('Error al crear la publicación:', error);
+        showMessage(`No se pudo crear la publicación: ${error.message}`, 'error');
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Publicar tema';
+      }
+    });
+
+    checkSession();
   </script>
 </body>
 </html>
