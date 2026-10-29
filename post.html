@@ -3,293 +3,422 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Crear publicación</title>
+  <title>Crear publicación | Mi Foro</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
 
   <style>
+    :root {
+      color-scheme: light;
+      --bg: #f3f5fa;
+      --surface: #fff;
+      --text: #202638;
+      --muted: #687187;
+      --border: #dfe4ee;
+      --primary: #5146e5;
+      --primary-dark: #4035cf;
+      --soft: #f7f8fc;
+      --warning: #fff4d7;
+      --success: #e8f8ee;
+      --error: #ffeded;
+      --radius: 16px;
+    }
+
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      padding: 24px 14px;
-      background: #f4f6fa;
-      color: #202638;
-      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.5 Arial, Helvetica, sans-serif;
+    }
+
+    a { color: var(--primary); }
+
+    .topbar {
+      padding: 16px 20px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar-inner {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      margin: 0;
+      font-size: 19px;
+      font-weight: 800;
+    }
+
+    .back-link {
+      text-decoration: none;
+      font-weight: 700;
     }
 
     main {
-      width: min(100%, 780px);
+      width: min(1180px, 100%);
       margin: 0 auto;
+      padding: 28px 18px 50px;
     }
 
-    .card {
-      padding: clamp(18px, 4vw, 32px);
-      border: 1px solid #e1e5ed;
-      border-radius: 16px;
-      background: #fff;
-      box-shadow: 0 8px 28px rgb(20 30 60 / 8%);
+    .page-heading { margin: 0 0 22px; }
+
+    .page-heading h1 {
+      margin: 0 0 6px;
+      font-size: clamp(25px, 4vw, 34px);
+      line-height: 1.2;
     }
 
-    h1 { margin-top: 0; }
+    .page-heading p {
+      margin: 0;
+      color: var(--muted);
+    }
 
-    label, .field-label {
+    .notice {
+      margin-bottom: 18px;
+      padding: 13px 15px;
+      border-radius: 10px;
+      background: var(--warning);
+      overflow-wrap: anywhere;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+      align-items: start;
+      gap: 20px;
+    }
+
+    .panel {
+      min-width: 0;
+      padding: clamp(17px, 3vw, 26px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: 0 8px 24px rgb(31 42 68 / 5%);
+    }
+
+    .panel h2 {
+      margin: 0 0 18px;
+      font-size: 20px;
+    }
+
+    .field { margin-bottom: 18px; }
+
+    .field label, .field-title {
       display: block;
-      margin: 18px 0 8px;
+      margin-bottom: 7px;
       font-weight: 700;
     }
 
     input, select {
       width: 100%;
-      padding: 12px;
-      border: 1px solid #cbd1dc;
-      border-radius: 8px;
-      background: #fff;
-      color: #202638;
+      min-height: 44px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: white;
+      color: var(--text);
       font: inherit;
     }
 
-    .toolbar, .actions, .emojis {
+    input:focus, select:focus, #editor:focus {
+      outline: 2px solid rgb(81 70 229 / 35%);
+      border-color: var(--primary);
+    }
+
+    .toolbar {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
       gap: 8px;
+      margin: 9px 0;
     }
 
-    .toolbar { margin: 10px 0; }
-
-    button, .file-label {
-      padding: 9px 12px;
-      border: 1px solid #cbd1dc;
-      border-radius: 8px;
-      background: #f5f6fa;
-      color: #202638;
+    button, .upload-label {
+      min-height: 40px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: var(--soft);
+      color: var(--text);
       font: inherit;
+      font-weight: 700;
       cursor: pointer;
     }
 
-    button:hover, .file-label:hover { background: #e9ecf4; }
-
-    #image-input { display: none; }
-
-    #editor {
-      min-height: 260px;
-      padding: 14px;
-      border: 1px solid #cbd1dc;
-      border-radius: 10px;
-      line-height: 1.6;
-      overflow-wrap: anywhere;
-      white-space: pre-wrap;
-    }
-
-    #editor:focus {
-      outline: 2px solid #6366f1;
-      outline-offset: 2px;
-    }
-
-    #editor:empty::before {
-      content: attr(data-placeholder);
-      color: #858c9b;
-    }
-
-    #editor img, #preview-content img {
-      display: block;
-      max-width: 100%;
-      height: auto;
-      max-height: 500px;
-      margin: 12px 0;
-      border-radius: 10px;
-    }
-
-    .emojis { margin: 8px 0; }
-
-    .emojis button {
-      min-width: 40px;
-      font-size: 20px;
-    }
-
-    .actions { margin-top: 20px; }
-
-    #publish-button {
-      border-color: #4f46e5;
-      background: #4f46e5;
-      color: white;
-      font-weight: 700;
-    }
-
-    #status {
-      min-height: 24px;
-      overflow-wrap: anywhere;
-    }
-
-    #auth-warning {
-      margin-bottom: 16px;
-      padding: 12px;
-      border-radius: 8px;
-      background: #fff2cf;
-    }
-
-    #preview {
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      background: rgb(0 0 0 / 58%);
-      overflow-y: auto;
-    }
-
-    #preview[hidden] { display: none; }
-
-    .preview-card {
-      width: min(100%, 780px);
-      max-height: calc(100dvh - 32px);
-      padding: clamp(18px, 4vw, 32px);
-      border-radius: 16px;
-      background: white;
-      overflow-y: auto;
-      overflow-wrap: anywhere;
-    }
-
-    .preview-meta {
-      color: #667085;
-      font-size: 14px;
-    }
-
-    #preview-content { line-height: 1.6; }
-
-    #close-preview { float: right; }
+    button:hover, .upload-label:hover { background: #eceef6; }
 
     button:disabled {
       opacity: .55;
       cursor: not-allowed;
     }
+
+    #editor {
+      min-height: 280px;
+      width: 100%;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+    }
+
+    #editor:empty::before {
+      content: attr(data-placeholder);
+      color: #8790a2;
+      pointer-events: none;
+    }
+
+    #editor img, .preview-content img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 12px 0;
+      border-radius: 10px;
+    }
+
+    #image-input { display: none; }
+
+    .emoji-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin: 10px 0;
+    }
+
+    .emoji-row button {
+      min-width: 40px;
+      padding: 5px 8px;
+      font-size: 20px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .primary-button {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: white;
+    }
+
+    .primary-button:hover {
+      background: var(--primary-dark);
+      color: white;
+    }
+
+    #status {
+      min-height: 24px;
+      margin: 12px 0 0;
+      overflow-wrap: anywhere;
+    }
+
+    #status.success {
+      padding: 10px;
+      border-radius: 8px;
+      background: var(--success);
+    }
+
+    #status.error {
+      padding: 10px;
+      border-radius: 8px;
+      background: var(--error);
+    }
+
+    .preview-panel {
+      position: sticky;
+      top: 18px;
+    }
+
+    .preview-category {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: #eeedff;
+      color: #4035cf;
+      font-size: 13px;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .preview-title {
+      margin: 0 0 12px;
+      font-size: 23px;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+    }
+
+    .preview-content {
+      min-height: 90px;
+      color: #3c4353;
+      overflow-wrap: anywhere;
+    }
+
+    .preview-empty { color: var(--muted); }
+
+    .hint {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 850px) {
+      .layout { grid-template-columns: minmax(0, 1fr); }
+      .preview-panel { position: static; }
+    }
+
+    @media (max-width: 520px) {
+      main { padding: 20px 12px 36px; }
+      .topbar { padding: 14px 12px; }
+      .topbar-inner { align-items: flex-start; }
+      .actions > button { flex: 1 1 100%; }
+      #editor { min-height: 240px; }
+    }
   </style>
 </head>
 
 <body>
-  <main>
-    <p><a href="index.html">← Volver al inicio</a></p>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <p class="brand">Mi Foro</p>
+      <a class="back-link" href="index.html">← Volver al foro</a>
+    </div>
+  </header>
 
-    <div id="auth-warning" hidden>
-      Inicia sesión para crear una publicacióon.
-      <a id="login-link" href="login.html">Ir a iniciar sesión</a>
+  <main>
+    <section class="page-heading">
+      <h1>Crear publicación</h1>
+      <p>Escribe tu publicación. La vista previa se actualizará mientras editas.</p>
+    </section>
+
+    <div id="auth-warning" class="notice" hidden>
+      Necesitas iniciar sesión para publicar.
+      <a id="login-link" href="login.html">Iniciar sesión</a>
     </div>
 
-    <section class="card">
-      <h1>Crear publicación</h1>
-      <p>Completa los campos y pulsa Publicar.</p>
+    <div class="layout">
+      <section class="panel">
+        <h2>Detalles de la publicación</h2>
 
-      <form id="post-form">
-        <label for="post-icon">Icono</label>
-        <select id="post-icon">
-          <option value="">Sin icono</option>
-          <option value="🎮">🎮 Videojuegos</option>
-          <option value="📢">📢 Anuncio</option>
-          <option value="🏆">🏆 Torneo</option>
-          <option value="💡">💡 Consejo</option>
-          <option value="🛠️">🛠️ Hardware</option>
-          <option value="❓">❓ Pregunta</option>
-        </select>
+        <form id="post-form">
+          <div class="field">
+            <label for="post-title">Título</label>
+            <input id="post-title" type="text" maxlength="150"
+                   placeholder="Escribe un título claro" required>
+          </div>
 
-        <label for="post-title">Título</label>
-        <input id="post-title" type="text" maxlength="150"
-               placeholder="Escribe el título" required>
+          <div class="field">
+            <label for="post-icon">Icono (opcional)</label>
+            <select id="post-icon">
+              <option value="">Sin icono</option>
+              <option value="🎮">🎮 Videojuegos</option>
+              <option value="📢">📢 Anuncio</option>
+              <option value="🏆">🏆 Torneo</option>
+              <option value="💡">💡 Consejo</option>
+              <option value="🛠️">🛠️ Hardware</option>
+              <option value="❓">❓ Pregunta</option>
+            </select>
+          </div>
 
-        <label for="post-category">Categoría</label>
-        <select id="post-category" required>
-          <option value="">Selecciona una categoría</option>
-          <option value="feed-noticias">Noticias</option>
-          <option value="feed-mu">Servidores Mu</option>
-          <option value="feed-Blood">Blood Strike</option>
-          <option value="feed-Free">Free Fire</option>
-          <option value="feed-mobiles">Mobile Legends</option>
-          <option value="feed-brawl">Brawl Star</option>
-          <option value="feed-Gounbound">Gounbound</option>
-          <option value="Feed-pokemon">Zona Pokémon</option>
-          <option value="feed-minicraft">Minecraft</option>
-          <option value="feed-dino">Zona Dino</option>
-          <option value="feed-sim">Zona Simuladores</option>
-          <option value="feed-libre">Zona Libre</option>
-          <option value="feed-guia">Zona Guía</option>
-        </select>
+          <div class="field">
+            <label for="post-category">Categoría</label>
+            <select id="post-category" required>
+              <option value="">Selecciona una categoría</option>
+              <option value="feed-noticias">Noticias</option>
+              <option value="feed-mu">Servidores Mu</option>
+              <option value="feed-Blood">Blood Strike</option>
+              <option value="feed-Free">Free Fire</option>
+              <option value="feed-mobiles">Mobile Legends</option>
+              <option value="feed-brawl">Brawl Star</option>
+              <option value="feed-Gounbound">Gounbound</option>
+              <option value="Feed-pokemon">Zona Pokémon</option>
+              <option value="feed-minicraft">Minecraft</option>
+              <option value="feed-dino">Zona Dino</option>
+              <option value="feed-sim">Zona Simuladores</option>
+              <option value="feed-libre">Zona Libre</option>
+              <option value="feed-guia">Zona Guía</option>
+            </select>
+          </div>
 
-        <label for="post-type">Tipo (opcional)</label>
-        <select id="post-type">
-          <option value="">Sin tipo</option>
-          <option value="Guías">Guías</option>
-          <option value="Builds">Builds</option>
-          <option value="Bugs">Bugs</option>
-          <option value="General">General</option>
-        </select>
+          <div class="field">
+            <label for="post-type">Tipo (opcional)</label>
+            <select id="post-type">
+              <option value="">Sin tipo</option>
+              <option value="Guías">Guías</option>
+              <option value="Builds">Builds</option>
+              <option value="Bugs">Bugs</option>
+              <option value="General">General</option>
+            </select>
+          </div>
 
-        <span class="field-label">Contenido</span>
+          <div class="field">
+            <span class="field-title">Contenido</span>
 
-        <div class="toolbar">
-          <button type="button" data-format="bold"><b>Negrita</b></button>
-          <button type="button" data-format="italic"><i>Cursiva</i></button>
-          <button type="button" data-format="underline"><u>Subrayado</u></button>
+            <div class="toolbar" aria-label="Formato del contenido">
+              <button type="button" data-format="bold" title="Negrita"><b>B</b></button>
+              <button type="button" data-format="italic" title="Cursiva"><i>I</i></button>
+              <button type="button" data-format="underline" title="Subrayado"><u>U</u></button>
 
-          <label for="font-size" style="margin:0">Tamaño</label>
-          <select id="font-size" style="width:auto">
-            <option value="">Normal</option>
-            <option value="2">Pequeño</option>
-            <option value="4">Grande</option>
-            <option value="5">Muy grande</option>
-          </select>
+              <label for="image-input" class="upload-label">Subir imagen</label>
+              <input id="image-input" type="file"
+                     accept="image/jpeg,image/png,image/webp,image/gif">
+            </div>
 
-          <label for="font-color" style="margin:0">Color</label>
-          <input id="font-color" type="color" value="#202638"
-                 style="width:45px;height:40px;padding:3px">
+            <div class="emoji-row" aria-label="Insertar emoji">
+              <button type="button" data-emoji="😀">😀</button>
+              <button type="button" data-emoji="😂">😂</button>
+              <button type="button" data-emoji="🔥">🔥</button>
+              <button type="button" data-emoji="🎮">🎮</button>
+              <button type="button" data-emoji="❤️">❤️</button>
+              <button type="button" data-emoji="👍">👍</button>
+              <button type="button" data-emoji="🏆">🏆</button>
+            </div>
 
-          <button id="color-button" type="button">Aplicar color</button>
+            <div id="editor" contenteditable="true" role="textbox"
+                 aria-multiline="true"
+                 data-placeholder="Escribe aquí el contenido de tu publicación…"></div>
+            <p class="hint">Puedes pegar texto y usar los botones para dar formato.</p>
+          </div>
 
-          <label for="image-input" class="file-label">Subir imagen</label>
-          <input id="image-input" type="file"
-                 accept="image/jpeg,image/png,image/webp,image/gif">
+          <div class="actions">
+            <button id="publish-button" class="primary-button" type="submit">
+              Publicar
+            </button>
+            <button id="clear-button" type="button">Limpiar formulario</button>
+          </div>
+
+          <p id="status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <aside class="panel preview-panel">
+        <h2>Vista previa</h2>
+        <span id="preview-category" class="preview-category">Categoría</span>
+        <h3 id="preview-title" class="preview-title">Título de tu publicación</h3>
+        <div id="preview-content" class="preview-content">
+          <p class="preview-empty">El contenido aparecerá aquí mientras escribes.</p>
         </div>
-
-        <div class="emojis">
-          <button type="button" data-emoji="😀">😀</button>
-          <button type="button" data-emoji="😂">😂</button>
-          <button type="button" data-emoji="🔥">🔥</button>
-          <button type="button" data-emoji="🎮">🎮</button>
-          <button type="button" data-emoji="❤️">❤️</button>
-          <button type="button" data-emoji="👍">👍</button>
-          <button type="button" data-emoji="🏆">🏆</button>
-        </div>
-
-        <div id="editor" contenteditable="true"
-             data-placeholder="Escribe aquí el contenido de la publicación…"></div>
-
-        <div class="actions">
-          <button id="publish-button" type="submit">Publicar</button>
-          <button id="preview-button" type="button">Vista previa</button>
-        </div>
-
-        <p id="status" role="status" aria-live="polite"></p>
-      </form>
-    </section>
-
-    <section id="preview" hidden>
-      <article class="preview-card">
-        <button id="close-preview" type="button">Cerrar</button>
-        <p id="preview-meta" class="preview-meta"></p>
-        <h2 id="preview-title"></h2>
-        <div id="preview-content"></div>
-      </article>
-    </section>
+      </aside>
+    </div>
   </main>
 
   <script>
-    // Tu URL del proyecto y publishable key.
-    // No coloques aquí una service_role key.
     const SUPABASE_URL = "https://zrrpjbqduwtaxsfbsuum.supabase.co";
     const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp";
-
     const BUCKET_NAME = "post-images";
     const LOGIN_URL = "login.html";
 
@@ -298,87 +427,98 @@
       SUPABASE_PUBLISHABLE_KEY
     );
 
-    const editor = document.getElementById("editor");
     const form = document.getElementById("post-form");
-    const status = document.getElementById("status");
+    const editor = document.getElementById("editor");
+    const statusEl = document.getElementById("status");
     const publishButton = document.getElementById("publish-button");
     const authWarning = document.getElementById("auth-warning");
-    const preview = document.getElementById("preview");
 
     document.getElementById("login-link").href = LOGIN_URL;
 
-    function showStatus(message) {
-      status.textContent = message;
+    function setStatus(message, kind = "") {
+      statusEl.textContent = message;
+      statusEl.className = kind;
     }
 
-    async function getUser() {
+    async function getCurrentUser() {
       const { data, error } = await supabaseClient.auth.getUser();
-      if (error) return null;
-      return data.user;
+      return error ? null : data.user;
     }
 
-    async function checkLogin() {
-      const user = await getUser();
+    async function updateAuthState() {
+      const user = await getCurrentUser();
       authWarning.hidden = Boolean(user);
       publishButton.disabled = !user;
     }
 
-    function insertAtCursor(element) {
-      editor.focus();
+    function updatePreview() {
+      const icon = document.getElementById("post-icon").value;
+      const title = document.getElementById("post-title").value.trim();
+      const categorySelect = document.getElementById("post-category");
+      const categoryLabel =
+        categorySelect.selectedIndex > 0
+          ? categorySelect.options[categorySelect.selectedIndex].text
+          : "Categoría";
 
+      document.getElementById("preview-title").textContent =
+        `${icon ? icon + " " : ""}${title || "Título de tu publicación"}`;
+
+      document.getElementById("preview-category").textContent = categoryLabel;
+
+      const safeHtml = DOMPurify.sanitize(editor.innerHTML, {
+        USE_PROFILES: { html: true }
+      });
+
+      document.getElementById("preview-content").innerHTML =
+        safeHtml || '<p class="preview-empty">El contenido aparecerá aquí mientras escribes.</p>';
+    }
+
+    document.getElementById("post-title").addEventListener("input", updatePreview);
+    document.getElementById("post-icon").addEventListener("change", updatePreview);
+    document.getElementById("post-category").addEventListener("change", updatePreview);
+    editor.addEventListener("input", updatePreview);
+
+    document.querySelectorAll("[data-format]").forEach((button) => {
+      button.addEventListener("click", () => {
+        editor.focus();
+        document.execCommand(button.dataset.format, false, null);
+        updatePreview();
+      });
+    });
+
+    function insertAtCursor(node) {
+      editor.focus();
       const selection = window.getSelection();
 
       if (!selection || selection.rangeCount === 0) {
-        editor.appendChild(element);
+        editor.appendChild(node);
         return;
       }
 
       const range = selection.getRangeAt(0);
 
       if (!editor.contains(range.commonAncestorContainer)) {
-        editor.appendChild(element);
+        editor.appendChild(node);
         return;
       }
 
       range.deleteContents();
-      range.insertNode(element);
-      range.setStartAfter(element);
-      range.setEndAfter(element);
+      range.insertNode(node);
+      range.setStartAfter(node);
+      range.setEndAfter(node);
       selection.removeAllRanges();
       selection.addRange(range);
     }
 
-    document.querySelectorAll("[data-format]").forEach((button) => {
-      button.addEventListener("click", () => {
-        editor.focus();
-        document.execCommand(button.dataset.format, false, null);
-      });
-    });
-
-    document.getElementById("color-button").addEventListener("click", () => {
-      editor.focus();
-      document.execCommand(
-        "foreColor",
-        false,
-        document.getElementById("font-color").value
-      );
-    });
-
-    document.getElementById("font-size").addEventListener("change", (event) => {
-      if (!event.target.value) return;
-      editor.focus();
-      document.execCommand("fontSize", false, event.target.value);
-      event.target.value = "";
-    });
-
     document.querySelectorAll("[data-emoji]").forEach((button) => {
       button.addEventListener("click", () => {
         insertAtCursor(document.createTextNode(button.dataset.emoji));
+        updatePreview();
       });
     });
 
     document.getElementById("image-input").addEventListener("change", async (event) => {
-      const file = event.target.files && event.target.files[0];
+      const file = event.target.files?.[0];
       event.target.value = "";
 
       if (!file) return;
@@ -391,35 +531,36 @@
       };
 
       if (!extensions[file.type]) {
-        showStatus("Elige una imagen JPG, PNG, WEBP o GIF.");
+        setStatus("Elige una imagen JPG, PNG, WEBP o GIF.", "error");
         return;
       }
 
       if (file.size > 5 * 1024 * 1024) {
-        showStatus("La imagen no puede superar 5 MB.");
+        setStatus("La imagen no puede superar 5 MB.", "error");
         return;
       }
 
-      const user = await getUser();
+      const user = await getCurrentUser();
 
       if (!user) {
         authWarning.hidden = false;
-        showStatus("Inicia sesión antes de subir imágenes.");
+        setStatus("Inicia sesión para subir imágenes.", "error");
         return;
       }
 
-      const path = `${user.id}/${crypto.randomUUID()}.${extensions[file.type]}`;
-      showStatus("Subiendo imagen…");
+      const fileId = crypto.randomUUID
+        ? crypto.randomUUID()
+        : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+      const path = `${user.id}/${fileId}.${extensions[file.type]}`;
+      setStatus("Subiendo imagen…");
 
       const { error } = await supabaseClient.storage
         .from(BUCKET_NAME)
-        .upload(path, file, {
-          contentType: file.type,
-          upsert: false
-        });
+        .upload(path, file, { contentType: file.type, upsert: false });
 
       if (error) {
-        showStatus(`Error al subir la imagen: ${error.message}`);
+        setStatus(`No se pudo subir la imagen: ${error.message}`, "error");
         return;
       }
 
@@ -433,52 +574,26 @@
       image.loading = "lazy";
 
       insertAtCursor(image);
-      showStatus("Imagen agregada.");
+      updatePreview();
+      setStatus("Imagen agregada al contenido.", "success");
     });
 
-    document.getElementById("preview-button").addEventListener("click", () => {
-      const icon = document.getElementById("post-icon").value;
-      const title = document.getElementById("post-title").value.trim();
-      const categorySelect = document.getElementById("post-category");
-      const categoryText =
-        categorySelect.options[categorySelect.selectedIndex]?.text || "";
-
-      document.getElementById("preview-title").textContent =
-        `${icon ? icon + " " : ""}${title || "Título de la publicación"}`;
-
-      document.getElementById("preview-meta").textContent = categoryText;
-      document.getElementById("preview-content").innerHTML =
-        DOMPurify.sanitize(editor.innerHTML, {
-          USE_PROFILES: { html: true }
-        }) || "<p>El contenido aparecerá aquí.</p>";
-
-      preview.hidden = false;
-    });
-
-    function closePreview() {
-      preview.hidden = true;
-    }
-
-    document.getElementById("close-preview")
-      .addEventListener("click", closePreview);
-
-    preview.addEventListener("click", (event) => {
-      if (event.target === preview) closePreview();
-    });
-
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") closePreview();
+    document.getElementById("clear-button").addEventListener("click", () => {
+      form.reset();
+      editor.innerHTML = "";
+      setStatus("");
+      updatePreview();
     });
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      showStatus("");
+      setStatus("");
 
-      const user = await getUser();
+      const user = await getCurrentUser();
 
       if (!user) {
         authWarning.hidden = false;
-        showStatus("Inicia sesión para publicar.");
+        setStatus("Inicia sesión antes de publicar.", "error");
         return;
       }
 
@@ -491,17 +606,17 @@
       });
 
       if (!title) {
-        showStatus("Escribe un título.");
+        setStatus("Escribe un título.", "error");
         return;
       }
 
       if (!category) {
-        showStatus("Selecciona una categoría.");
+        setStatus("Selecciona una categoría.", "error");
         return;
       }
 
       if (!editor.textContent.trim() && !editor.querySelector("img")) {
-        showStatus("Escribe contenido o agrega una imagen.");
+        setStatus("Escribe contenido o agrega una imagen.", "error");
         return;
       }
 
@@ -517,25 +632,26 @@
           tipo: type || null
         });
 
-      publishButton.disabled = false;
       publishButton.textContent = "Publicar";
+      await updateAuthState();
 
       if (error) {
-        showStatus(`No se pudo publicar: ${error.message}`);
+        setStatus(`No se pudo publicar: ${error.message}`, "error");
         return;
       }
 
       form.reset();
       editor.innerHTML = "";
-      showStatus("¡Publicación creada correctamente!");
+      updatePreview();
+      setStatus("¡Publicación creada correctamente!", "success");
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
-    checkLogin();
-
     supabaseClient.auth.onAuthStateChange(() => {
-      checkLogin();
+      updateAuthState();
     });
+
+    updateAuthState();
   </script>
 </body>
 </html>
