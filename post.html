@@ -1,426 +1,208 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Crear publicación | Mi Foro</title>
+  <title>Crear publicación | Foro</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
 
   <style>
-    :root {
-      color-scheme: light;
-      --bg: #f3f5fa;
-      --surface: #fff;
-      --text: #202638;
-      --muted: #687187;
-      --border: #dfe4ee;
-      --primary: #5146e5;
-      --primary-dark: #4035cf;
-      --soft: #f7f8fc;
-      --warning: #fff4d7;
-      --success: #e8f8ee;
-      --error: #ffeded;
-      --radius: 16px;
-    }
-
-    * { box-sizing: border-box; }
-
     body {
-      margin: 0;
-      min-height: 100vh;
-      background: var(--bg);
-      color: var(--text);
-      font: 16px/1.5 Arial, Helvetica, sans-serif;
+      font-family: "Plus Jakarta Sans", sans-serif;
     }
 
-    a { color: var(--primary); }
-
-    .topbar {
-      padding: 16px 20px;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
+    .drawer-open #side-drawer {
+      transform: translateX(0);
     }
 
-    .topbar-inner {
-      width: min(1180px, 100%);
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+    .drawer-open #drawer-backdrop {
+      opacity: 1;
+      pointer-events: auto;
     }
 
-    .brand {
-      margin: 0;
-      font-size: 19px;
-      font-weight: 800;
-    }
-
-    .back-link {
-      text-decoration: none;
-      font-weight: 700;
-    }
-
-    main {
-      width: min(1180px, 100%);
-      margin: 0 auto;
-      padding: 28px 18px 50px;
-    }
-
-    .page-heading { margin: 0 0 22px; }
-
-    .page-heading h1 {
-      margin: 0 0 6px;
-      font-size: clamp(25px, 4vw, 34px);
-      line-height: 1.2;
-    }
-
-    .page-heading p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .notice {
-      margin-bottom: 18px;
-      padding: 13px 15px;
-      border-radius: 10px;
-      background: var(--warning);
-      overflow-wrap: anywhere;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
-      align-items: start;
-      gap: 20px;
-    }
-
-    .panel {
-      min-width: 0;
-      padding: clamp(17px, 3vw, 26px);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--surface);
-      box-shadow: 0 8px 24px rgb(31 42 68 / 5%);
-    }
-
-    .panel h2 {
-      margin: 0 0 18px;
-      font-size: 20px;
-    }
-
-    .field { margin-bottom: 18px; }
-
-    .field label, .field-title {
-      display: block;
-      margin-bottom: 7px;
-      font-weight: 700;
-    }
-
-    input, select {
-      width: 100%;
-      min-height: 44px;
-      padding: 10px 12px;
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      background: white;
-      color: var(--text);
-      font: inherit;
-    }
-
-    input:focus, select:focus, #editor:focus {
-      outline: 2px solid rgb(81 70 229 / 35%);
-      border-color: var(--primary);
-    }
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 9px 0;
-    }
-
-    button, .upload-label {
-      min-height: 40px;
-      padding: 8px 12px;
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      background: var(--soft);
-      color: var(--text);
-      font: inherit;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    button:hover, .upload-label:hover { background: #eceef6; }
-
-    button:disabled {
-      opacity: .55;
-      cursor: not-allowed;
-    }
-
-    #editor {
-      min-height: 280px;
-      width: 100%;
-      padding: 15px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: #fff;
-      line-height: 1.7;
-      overflow-wrap: anywhere;
-      white-space: pre-wrap;
-    }
-
-    #editor:empty::before {
-      content: attr(data-placeholder);
-      color: #8790a2;
-      pointer-events: none;
-    }
-
-    #editor img, .preview-content img {
-      display: block;
-      max-width: 100%;
-      height: auto;
-      margin: 12px 0;
-      border-radius: 10px;
-    }
-
-    #image-input { display: none; }
-
-    .emoji-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      margin: 10px 0;
-    }
-
-    .emoji-row button {
-      min-width: 40px;
-      padding: 5px 8px;
-      font-size: 20px;
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .primary-button {
-      border-color: var(--primary);
-      background: var(--primary);
-      color: white;
-    }
-
-    .primary-button:hover {
-      background: var(--primary-dark);
-      color: white;
-    }
-
-    #status {
-      min-height: 24px;
-      margin: 12px 0 0;
-      overflow-wrap: anywhere;
-    }
-
-    #status.success {
-      padding: 10px;
-      border-radius: 8px;
-      background: var(--success);
-    }
-
-    #status.error {
-      padding: 10px;
-      border-radius: 8px;
-      background: var(--error);
-    }
-
-    .preview-panel {
-      position: sticky;
-      top: 18px;
-    }
-
-    .preview-category {
-      display: inline-block;
-      margin-bottom: 12px;
-      padding: 5px 10px;
-      border-radius: 999px;
-      background: #eeedff;
-      color: #4035cf;
-      font-size: 13px;
-      font-weight: 700;
-      overflow-wrap: anywhere;
-    }
-
-    .preview-title {
-      margin: 0 0 12px;
-      font-size: 23px;
-      line-height: 1.3;
-      overflow-wrap: anywhere;
-    }
-
-    .preview-content {
-      min-height: 90px;
-      color: #3c4353;
-      overflow-wrap: anywhere;
-    }
-
-    .preview-empty { color: var(--muted); }
-
-    .hint {
-      margin: 7px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    @media (max-width: 850px) {
-      .layout { grid-template-columns: minmax(0, 1fr); }
-      .preview-panel { position: static; }
-    }
-
-    @media (max-width: 520px) {
-      main { padding: 20px 12px 36px; }
-      .topbar { padding: 14px 12px; }
-      .topbar-inner { align-items: flex-start; }
-      .actions > button { flex: 1 1 100%; }
-      #editor { min-height: 240px; }
+    .material-symbols-outlined {
+      font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 24;
     }
   </style>
 </head>
 
-<body>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <p class="brand">Mi Foro</p>
-      <a class="back-link" href="index.html">← Volver al foro</a>
+<body class="min-h-screen bg-slate-50 text-slate-900">
+
+  <!-- Fondo del menú -->
+  <div
+    id="drawer-backdrop"
+    class="fixed inset-0 z-40 bg-black/50 opacity-0 pointer-events-none transition-opacity"
+    onclick="toggleDrawer()"
+  ></div>
+
+  <!-- Menú lateral -->
+  <aside
+    id="side-drawer"
+    class="fixed inset-y-0 left-0 z-50 flex w-[280px] -translate-x-full flex-col bg-white shadow-2xl transition-transform duration-300"
+  >
+    <div class="flex items-center justify-between border-b border-slate-200 p-5">
+      <h2 class="text-xl font-extrabold text-sky-600">Menú del foro</h2>
+      <button
+        type="button"
+        onclick="toggleDrawer()"
+        aria-label="Cerrar menú"
+        class="rounded-full p-2 hover:bg-slate-100"
+      >
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <nav class="flex-1 space-y-2 p-4">
+      <a href="index.html" class="flex items-center gap-3 rounded-xl bg-sky-50 p-4 font-semibold text-sky-700">
+        <span class="material-symbols-outlined">home</span>
+        Volver al foro
+      </a>
+      <a href="login.html" class="flex items-center gap-3 rounded-xl p-4 font-semibold text-slate-600 hover:bg-slate-100">
+        <span class="material-symbols-outlined">person</span>
+        Iniciar sesión
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Barra superior -->
+  <header class="sticky top-0 z-30 border-b border-slate-200 bg-white">
+    <div class="mx-auto flex h-16 max-w-3xl items-center justify-between px-4">
+      <button
+        type="button"
+        onclick="toggleDrawer()"
+        aria-label="Abrir menú"
+        class="rounded-full p-2 text-sky-600 hover:bg-slate-100"
+      >
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+
+      <h1 class="text-lg font-extrabold text-sky-600 sm:text-xl">Nueva publicación</h1>
+
+      <a href="index.html" aria-label="Volver al foro" class="rounded-full p-2 text-slate-600 hover:bg-slate-100">
+        <span class="material-symbols-outlined">close</span>
+      </a>
     </div>
   </header>
 
-  <main>
-    <section class="page-heading">
-      <h1>Crear publicación</h1>
-      <p>Escribe tu publicación. La vista previa se actualizará mientras editas.</p>
-    </section>
+  <main class="mx-auto w-full max-w-3xl px-4 py-6 sm:py-10">
+    <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8">
+      <div class="mb-6">
+        <h2 class="text-2xl font-extrabold">Comparte con la comunidad</h2>
+        <p class="mt-2 text-sm text-slate-500">
+          Elige una comunidad, escribe tu publicación y presiona “Publicar”.
+        </p>
+      </div>
 
-    <div id="auth-warning" class="notice" hidden>
-      Necesitas iniciar sesión para publicar.
-      <a id="login-link" href="login.html">Iniciar sesión</a>
-    </div>
+      <div id="auth-message" class="mb-5 hidden rounded-xl bg-amber-50 p-4 text-sm text-amber-900">
+        Debes iniciar sesión para publicar.
+        <a href="login.html" class="font-bold underline">Iniciar sesión</a>
+      </div>
 
-    <div class="layout">
-      <section class="panel">
-        <h2>Detalles de la publicación</h2>
-
-        <form id="post-form">
-          <div class="field">
-            <label for="post-title">Título</label>
-            <input id="post-title" type="text" maxlength="150"
-                   placeholder="Escribe un título claro" required>
-          </div>
-
-          <div class="field">
-            <label for="post-icon">Icono (opcional)</label>
-            <select id="post-icon">
-              <option value="">Sin icono</option>
-              <option value="🎮">🎮 Videojuegos</option>
-              <option value="📢">📢 Anuncio</option>
-              <option value="🏆">🏆 Torneo</option>
-              <option value="💡">💡 Consejo</option>
-              <option value="🛠️">🛠️ Hardware</option>
-              <option value="❓">❓ Pregunta</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="post-category">Categoría</label>
-            <select id="post-category" required>
-              <option value="">Selecciona una categoría</option>
-              <option value="feed-noticias">Noticias</option>
-              <option value="feed-mu">Servidores Mu</option>
-              <option value="feed-Blood">Blood Strike</option>
-              <option value="feed-Free">Free Fire</option>
-              <option value="feed-mobiles">Mobile Legends</option>
-              <option value="feed-brawl">Brawl Star</option>
-              <option value="feed-Gounbound">Gounbound</option>
-              <option value="Feed-pokemon">Zona Pokémon</option>
-              <option value="feed-minicraft">Minecraft</option>
-              <option value="feed-dino">Zona Dino</option>
-              <option value="feed-sim">Zona Simuladores</option>
-              <option value="feed-libre">Zona Libre</option>
-              <option value="feed-guia">Zona Guía</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="post-type">Tipo (opcional)</label>
-            <select id="post-type">
-              <option value="">Sin tipo</option>
-              <option value="Guías">Guías</option>
-              <option value="Builds">Builds</option>
-              <option value="Bugs">Bugs</option>
-              <option value="General">General</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <span class="field-title">Contenido</span>
-
-            <div class="toolbar" aria-label="Formato del contenido">
-              <button type="button" data-format="bold" title="Negrita"><b>B</b></button>
-              <button type="button" data-format="italic" title="Cursiva"><i>I</i></button>
-              <button type="button" data-format="underline" title="Subrayado"><u>U</u></button>
-
-              <label for="image-input" class="upload-label">Subir imagen</label>
-              <input id="image-input" type="file"
-                     accept="image/jpeg,image/png,image/webp,image/gif">
-            </div>
-
-            <div class="emoji-row" aria-label="Insertar emoji">
-              <button type="button" data-emoji="😀">😀</button>
-              <button type="button" data-emoji="😂">😂</button>
-              <button type="button" data-emoji="🔥">🔥</button>
-              <button type="button" data-emoji="🎮">🎮</button>
-              <button type="button" data-emoji="❤️">❤️</button>
-              <button type="button" data-emoji="👍">👍</button>
-              <button type="button" data-emoji="🏆">🏆</button>
-            </div>
-
-            <div id="editor" contenteditable="true" role="textbox"
-                 aria-multiline="true"
-                 data-placeholder="Escribe aquí el contenido de tu publicación…"></div>
-            <p class="hint">Puedes pegar texto y usar los botones para dar formato.</p>
-          </div>
-
-          <div class="actions">
-            <button id="publish-button" class="primary-button" type="submit">
-              Publicar
-            </button>
-            <button id="clear-button" type="button">Limpiar formulario</button>
-          </div>
-
-          <p id="status" role="status" aria-live="polite"></p>
-        </form>
-      </section>
-
-      <aside class="panel preview-panel">
-        <h2>Vista previa</h2>
-        <span id="preview-category" class="preview-category">Categoría</span>
-        <h3 id="preview-title" class="preview-title">Título de tu publicación</h3>
-        <div id="preview-content" class="preview-content">
-          <p class="preview-empty">El contenido aparecerá aquí mientras escribes.</p>
+      <form id="post-form" class="space-y-5">
+        <div>
+          <label for="category" class="mb-2 block text-sm font-bold">Comunidad</label>
+          <select
+            id="category"
+            name="category"
+            required
+            class="w-full rounded-xl border-slate-300 bg-white px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+          >
+            <option value="">Seleccionar comunidad</option>
+            <option value="rakion">Rakion</option>
+            <option value="bloody-striker">Bloody Striker</option>
+            <option value="general">Comunidad General</option>
+          </select>
+          <p class="mt-1 text-xs text-slate-500">
+            Los valores deben coincidir con las categorías que usa tu foro.
+          </p>
         </div>
-      </aside>
-    </div>
+
+        <div>
+          <label for="post-type" class="mb-2 block text-sm font-bold">Tipo de publicación</label>
+          <select
+            id="post-type"
+            name="tipo"
+            required
+            class="w-full rounded-xl border-slate-300 bg-white px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+          >
+            <option value="General">General</option>
+            <option value="Guías">Guías</option>
+            <option value="Builds">Builds</option>
+            <option value="Bugs">Bugs</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="title" class="mb-2 block text-sm font-bold">Título</label>
+          <input
+            id="title"
+            name="title"
+            type="text"
+            maxlength="150"
+            required
+            placeholder="Escribe el título de tu publicación"
+            class="w-full rounded-xl border-slate-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+          >
+          <p class="mt-1 text-right text-xs text-slate-500"><span id="title-count">0</span>/150</p>
+        </div>
+
+        <div>
+          <div class="mb-2 flex items-center justify-between gap-3">
+            <label for="content" class="block text-sm font-bold">Contenido</label>
+            <span id="content-count" class="text-xs text-slate-500">0/280</span>
+          </div>
+
+          <textarea
+            id="content"
+            name="content"
+            rows="8"
+            maxlength="280"
+            required
+            placeholder="¡Comparte algo con la comunidad!"
+            class="w-full resize-y rounded-xl border-slate-300 px-4 py-3 leading-7 focus:border-sky-500 focus:ring-sky-500"
+          ></textarea>
+          <p class="mt-1 text-xs text-slate-500">Máximo 280 caracteres.</p>
+        </div>
+
+        <p id="status" role="status" aria-live="polite" class="hidden rounded-xl p-4 text-sm"></p>
+
+        <div class="flex flex-col-reverse gap-3 border-t border-slate-200 pt-5 sm:flex-row sm:justify-end">
+          <a
+            href="index.html"
+            class="rounded-xl border border-slate-300 px-5 py-3 text-center font-bold text-slate-700 hover:bg-slate-50"
+          >
+            Cancelar
+          </a>
+
+          <button
+            id="publish-button"
+            type="submit"
+            disabled
+            class="rounded-xl bg-sky-500 px-6 py-3 font-bold text-white hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Publicar
+          </button>
+        </div>
+      </form>
+    </section>
   </main>
 
   <script>
+    // Este es el URL del proyecto que ya está conectado a tu foro.
     const SUPABASE_URL = "https://zrrpjbqduwtaxsfbsuum.supabase.co";
+
+    // Pega aquí la publishable key del proyecto. Nunca uses la service_role key.
     const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp";
-    const BUCKET_NAME = "post-images";
+
     const LOGIN_URL = "login.html";
+    const FORUM_URL = "index.html";
 
     const supabaseClient = window.supabase.createClient(
       SUPABASE_URL,
@@ -428,195 +210,72 @@
     );
 
     const form = document.getElementById("post-form");
-    const editor = document.getElementById("editor");
-    const statusEl = document.getElementById("status");
     const publishButton = document.getElementById("publish-button");
-    const authWarning = document.getElementById("auth-warning");
+    const authMessage = document.getElementById("auth-message");
+    const statusElement = document.getElementById("status");
+    const titleInput = document.getElementById("title");
+    const contentInput = document.getElementById("content");
 
-    document.getElementById("login-link").href = LOGIN_URL;
+    let currentUser = null;
 
-    function setStatus(message, kind = "") {
-      statusEl.textContent = message;
-      statusEl.className = kind;
+    function toggleDrawer() {
+      document.body.classList.toggle("drawer-open");
+      document.body.classList.toggle("overflow-hidden");
     }
 
-    async function getCurrentUser() {
+    function showStatus(message, kind) {
+      statusElement.textContent = message;
+      statusElement.className = "rounded-xl p-4 text-sm";
+
+      if (kind === "success") {
+        statusElement.classList.add("bg-green-50", "text-green-800");
+      } else {
+        statusElement.classList.add("bg-red-50", "text-red-800");
+      }
+    }
+
+    function updateCounters() {
+      document.getElementById("title-count").textContent = titleInput.value.length;
+      document.getElementById("content-count").textContent =
+        `${contentInput.value.length}/280`;
+    }
+
+    async function refreshAuth() {
+      if (SUPABASE_PUBLISHABLE_KEY === "TU_PUBLISHABLE_KEY") {
+        authMessage.classList.remove("hidden");
+        authMessage.textContent =
+          "Falta configurar la publishable key de Supabase en este archivo.";
+        publishButton.disabled = true;
+        return;
+      }
+
       const { data, error } = await supabaseClient.auth.getUser();
-      return error ? null : data.user;
+      currentUser = error ? null : data.user;
+
+      authMessage.classList.toggle("hidden", Boolean(currentUser));
+      publishButton.disabled = !currentUser;
     }
 
-    async function updateAuthState() {
-      const user = await getCurrentUser();
-      authWarning.hidden = Boolean(user);
-      publishButton.disabled = !user;
-    }
-
-    function updatePreview() {
-      const icon = document.getElementById("post-icon").value;
-      const title = document.getElementById("post-title").value.trim();
-      const categorySelect = document.getElementById("post-category");
-      const categoryLabel =
-        categorySelect.selectedIndex > 0
-          ? categorySelect.options[categorySelect.selectedIndex].text
-          : "Categoría";
-
-      document.getElementById("preview-title").textContent =
-        `${icon ? icon + " " : ""}${title || "Título de tu publicación"}`;
-
-      document.getElementById("preview-category").textContent = categoryLabel;
-
-      const safeHtml = DOMPurify.sanitize(editor.innerHTML, {
-        USE_PROFILES: { html: true }
-      });
-
-      document.getElementById("preview-content").innerHTML =
-        safeHtml || '<p class="preview-empty">El contenido aparecerá aquí mientras escribes.</p>';
-    }
-
-    document.getElementById("post-title").addEventListener("input", updatePreview);
-    document.getElementById("post-icon").addEventListener("change", updatePreview);
-    document.getElementById("post-category").addEventListener("change", updatePreview);
-    editor.addEventListener("input", updatePreview);
-
-    document.querySelectorAll("[data-format]").forEach((button) => {
-      button.addEventListener("click", () => {
-        editor.focus();
-        document.execCommand(button.dataset.format, false, null);
-        updatePreview();
-      });
-    });
-
-    function insertAtCursor(node) {
-      editor.focus();
-      const selection = window.getSelection();
-
-      if (!selection || selection.rangeCount === 0) {
-        editor.appendChild(node);
-        return;
-      }
-
-      const range = selection.getRangeAt(0);
-
-      if (!editor.contains(range.commonAncestorContainer)) {
-        editor.appendChild(node);
-        return;
-      }
-
-      range.deleteContents();
-      range.insertNode(node);
-      range.setStartAfter(node);
-      range.setEndAfter(node);
-      selection.removeAllRanges();
-      selection.addRange(range);
-    }
-
-    document.querySelectorAll("[data-emoji]").forEach((button) => {
-      button.addEventListener("click", () => {
-        insertAtCursor(document.createTextNode(button.dataset.emoji));
-        updatePreview();
-      });
-    });
-
-    document.getElementById("image-input").addEventListener("change", async (event) => {
-      const file = event.target.files?.[0];
-      event.target.value = "";
-
-      if (!file) return;
-
-      const extensions = {
-        "image/jpeg": "jpg",
-        "image/png": "png",
-        "image/webp": "webp",
-        "image/gif": "gif"
-      };
-
-      if (!extensions[file.type]) {
-        setStatus("Elige una imagen JPG, PNG, WEBP o GIF.", "error");
-        return;
-      }
-
-      if (file.size > 5 * 1024 * 1024) {
-        setStatus("La imagen no puede superar 5 MB.", "error");
-        return;
-      }
-
-      const user = await getCurrentUser();
-
-      if (!user) {
-        authWarning.hidden = false;
-        setStatus("Inicia sesión para subir imágenes.", "error");
-        return;
-      }
-
-      const fileId = crypto.randomUUID
-        ? crypto.randomUUID()
-        : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-
-      const path = `${user.id}/${fileId}.${extensions[file.type]}`;
-      setStatus("Subiendo imagen…");
-
-      const { error } = await supabaseClient.storage
-        .from(BUCKET_NAME)
-        .upload(path, file, { contentType: file.type, upsert: false });
-
-      if (error) {
-        setStatus(`No se pudo subir la imagen: ${error.message}`, "error");
-        return;
-      }
-
-      const { data } = supabaseClient.storage
-        .from(BUCKET_NAME)
-        .getPublicUrl(path);
-
-      const image = document.createElement("img");
-      image.src = data.publicUrl;
-      image.alt = "Imagen de la publicación";
-      image.loading = "lazy";
-
-      insertAtCursor(image);
-      updatePreview();
-      setStatus("Imagen agregada al contenido.", "success");
-    });
-
-    document.getElementById("clear-button").addEventListener("click", () => {
-      form.reset();
-      editor.innerHTML = "";
-      setStatus("");
-      updatePreview();
-    });
+    titleInput.addEventListener("input", updateCounters);
+    contentInput.addEventListener("input", updateCounters);
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      setStatus("");
+      statusElement.classList.add("hidden");
 
-      const user = await getCurrentUser();
-
-      if (!user) {
-        authWarning.hidden = false;
-        setStatus("Inicia sesión antes de publicar.", "error");
+      if (!currentUser) {
+        await refreshAuth();
+        showStatus("Inicia sesión antes de publicar.", "error");
         return;
       }
 
-      const title = document.getElementById("post-title").value.trim();
-      const icon = document.getElementById("post-icon").value;
-      const category = document.getElementById("post-category").value;
+      const title = titleInput.value.trim();
+      const content = contentInput.value.trim();
+      const category = document.getElementById("category").value;
       const type = document.getElementById("post-type").value;
-      const content = DOMPurify.sanitize(editor.innerHTML, {
-        USE_PROFILES: { html: true }
-      });
 
-      if (!title) {
-        setStatus("Escribe un título.", "error");
-        return;
-      }
-
-      if (!category) {
-        setStatus("Selecciona una categoría.", "error");
-        return;
-      }
-
-      if (!editor.textContent.trim() && !editor.querySelector("img")) {
-        setStatus("Escribe contenido o agrega una imagen.", "error");
+      if (!title || !content || !category || !type) {
+        showStatus("Completa el título, contenido, comunidad y tipo.", "error");
         return;
       }
 
@@ -626,32 +285,38 @@
       const { error } = await supabaseClient
         .from("posts")
         .insert({
-          titulo: `${icon ? icon + " " : ""}${title}`,
+          titulo: title,
           contenido: content,
           "categoría": category,
-          tipo: type || null
+          tipo: type,
+          author_id: currentUser.id
         });
 
       publishButton.textContent = "Publicar";
-      await updateAuthState();
+      publishButton.disabled = false;
 
       if (error) {
-        setStatus(`No se pudo publicar: ${error.message}`, "error");
+        showStatus(`No se pudo publicar: ${error.message}`, "error");
         return;
       }
 
+      showStatus("¡Publicación creada! Ya puedes volver al foro para verla.", "success");
       form.reset();
-      editor.innerHTML = "";
-      updatePreview();
-      setStatus("¡Publicación creada correctamente!", "success");
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      updateCounters();
+
+      const returnLink = document.createElement("a");
+      returnLink.href = FORUM_URL;
+      returnLink.textContent = " Ir al foro";
+      returnLink.className = "ml-1 font-bold underline";
+      statusElement.appendChild(returnLink);
     });
 
     supabaseClient.auth.onAuthStateChange(() => {
-      updateAuthState();
+      refreshAuth();
     });
 
-    updateAuthState();
+    updateCounters();
+    refreshAuth();
   </script>
 </body>
 </html>
