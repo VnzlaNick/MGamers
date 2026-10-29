@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Crear publicación | Foro MGamers</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nueva publicación | Foro</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,181 +16,159 @@
   <style>
     body {
       font-family: "Plus Jakarta Sans", sans-serif;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .drawer-open #side-drawer {
-      transform: translateX(0);
-    }
-
-    .drawer-open #drawer-backdrop {
-      opacity: 1;
-      pointer-events: auto;
     }
 
     .material-symbols-outlined {
-      font-variation-settings: "FILL" 0, "wght=500", "GRAD" 0, "opsz" 24;
+      font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 24;
     }
 
-    /* Scrollbar sutil para el formulario en móvil */
-    ::-webkit-scrollbar {
-      width: 6px;
+    #side-drawer {
+      transform: translateX(-100%);
     }
-    ::-webkit-scrollbar-track {
-      background: transparent;
+
+    #drawer-backdrop {
+      opacity: 0;
+      pointer-events: none;
     }
-    ::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 9999px;
+
+    body.drawer-open #side-drawer {
+      transform: translateX(0);
+    }
+
+    body.drawer-open #drawer-backdrop {
+      opacity: 1;
+      pointer-events: auto;
     }
   </style>
 </head>
 
-<body class="min-h-screen bg-slate-100/80 text-slate-900 flex flex-col antialiased">
+<body class="flex min-h-screen flex-col overflow-x-hidden bg-slate-50 text-slate-900">
 
-  <!-- Fondo del menú drawer -->
+  <!-- Fondo del menú -->
   <div
     id="drawer-backdrop"
-    class="fixed inset-0 z-40 bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-sm"
+    class="fixed inset-0 z-40 bg-black/50 transition-opacity duration-300"
     onclick="toggleDrawer()"
   ></div>
 
   <!-- Menú lateral -->
   <aside
     id="side-drawer"
-    class="fixed inset-y-0 left-0 z-50 flex w-[280px] -translate-x-full flex-col bg-white shadow-2xl transition-transform duration-300 ease-out"
+    class="fixed inset-y-0 left-0 z-50 flex w-[280px] flex-col bg-white shadow-2xl transition-transform duration-300"
   >
     <div class="flex items-center justify-between border-b border-slate-200 p-5">
-      <div class="flex items-center gap-2">
-        <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-600 text-white font-extrabold text-sm">M</span>
-        <h2 class="text-xl font-extrabold text-sky-600 tracking-tight">MGamers</h2>
-      </div>
+      <h2 class="text-xl font-extrabold text-sky-600">Menú del foro</h2>
       <button
         type="button"
         onclick="toggleDrawer()"
         aria-label="Cerrar menú"
-        class="rounded-full p-2 text-slate-500 hover:bg-slate-100 transition-colors"
+        class="rounded-full p-2 hover:bg-slate-100"
       >
         <span class="material-symbols-outlined">close</span>
       </button>
     </div>
 
     <nav class="flex-1 space-y-2 p-4">
-      <a href="index.html" class="flex items-center gap-3 rounded-xl bg-sky-50 p-4 font-semibold text-sky-700">
-        <span class="material-symbols-outlined text-sky-600">home</span>
+      <a
+        href="index.html"
+        class="flex items-center gap-3 rounded-xl bg-sky-50 p-4 font-semibold text-sky-700"
+      >
+        <span class="material-symbols-outlined">home</span>
         Volver al foro
       </a>
-      <a href="login.html" class="flex items-center gap-3 rounded-xl p-4 font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
-        <span class="material-symbols-outlined text-slate-500">person</span>
+
+      <a
+        href="login.html"
+        class="flex items-center gap-3 rounded-xl p-4 font-semibold text-slate-600 hover:bg-slate-100"
+      >
+        <span class="material-symbols-outlined">person</span>
         Iniciar sesión
       </a>
     </nav>
-    <div class="p-4 border-t border-slate-100 text-xs text-slate-400 text-center">
-      MGamers • Comunidad móvil
-    </div>
   </aside>
 
-  <!-- Barra superior (Header) pegajosa con altura contenida -->
-  <header class="sticky top-0 z-30 border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
-    <div class="mx-auto flex h-14 sm:h-16 max-w-2xl items-center justify-between px-4">
+  <!-- Único encabezado; sticky evita que tape el formulario -->
+  <header class="sticky top-0 z-30 border-b border-slate-200 bg-white">
+    <div class="mx-auto flex h-16 w-full max-w-3xl items-center justify-between px-4">
       <button
         type="button"
         onclick="toggleDrawer()"
         aria-label="Abrir menú"
-        class="rounded-full p-2 text-slate-700 hover:bg-slate-100 active:bg-slate-200 transition-colors"
+        class="rounded-full p-2 text-sky-600 hover:bg-slate-100"
       >
         <span class="material-symbols-outlined">menu</span>
       </button>
 
-      <div class="flex items-center gap-2">
-        <span class="material-symbols-outlined text-sky-600 text-xl font-bold">add_box</span>
-        <h1 class="text-base sm:text-lg font-extrabold text-slate-800 tracking-tight">Nuevo Tema Gamer</h1>
-      </div>
+      <h1 class="text-lg font-extrabold text-sky-600 sm:text-xl">
+        Nueva publicación
+      </h1>
 
-      <a href="index.html" aria-label="Cerrar y volver al foro" class="rounded-full p-2 text-slate-500 hover:bg-slate-100 active:bg-slate-200 transition-colors">
+      <a
+        href="index.html"
+        aria-label="Volver al foro"
+        class="rounded-full p-2 text-slate-600 hover:bg-slate-100"
+      >
         <span class="material-symbols-outlined">close</span>
       </a>
     </div>
   </header>
 
-  <!-- Contenedor principal responsive: sin desbordamiento ni cortes -->
-  <main class="flex-1 w-full max-w-2xl mx-auto px-3 sm:px-6 py-4 sm:py-8 flex flex-col justify-start">
-    <section class="rounded-2xl border border-slate-200 bg-white p-4 sm:p-7 shadow-sm transition-all">
-      
-      <!-- Encabezado de la tarjeta -->
-      <div class="mb-5 border-b border-slate-100 pb-4">
-        <div class="flex items-center gap-2">
-          <span class="inline-flex items-center justify-center rounded-lg bg-sky-100 p-1.5 text-sky-600">
-            <span class="material-symbols-outlined text-xl">forum</span>
-          </span>
-          <h2 class="text-lg sm:text-xl font-extrabold text-slate-900">Comparte con la comunidad</h2>
-        </div>
-        <p class="mt-1 text-xs sm:text-sm text-slate-500">
-          Elige la categoría, escribe tu publicación y presiona "Publicar".
+  <main class="mx-auto w-full max-w-3xl flex-1 px-4 py-6 sm:py-10">
+    <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8">
+      <div class="mb-6">
+        <h2 class="text-2xl font-extrabold">Comparte con la comunidad</h2>
+        <p class="mt-2 text-sm text-slate-500">
+          Completa los campos y publica tu mensaje en el foro.
         </p>
       </div>
 
-      <!-- Banner de autenticación -->
-      <div id="auth-message" class="mb-4 hidden rounded-xl bg-amber-50 border border-amber-200/70 p-3.5 text-xs sm:text-sm text-amber-900 flex items-center justify-between gap-3">
-        <div class="flex items-center gap-2">
-          <span class="material-symbols-outlined text-amber-600 text-lg">info</span>
-          <span>Debes iniciar sesión para publicar.</span>
-        </div>
-        <a href="login.html" class="font-bold text-amber-900 underline whitespace-nowrap hover:text-amber-700">Iniciar sesión</a>
-      </div>
+      <div
+        id="auth-message"
+        class="mb-5 hidden rounded-xl bg-amber-50 p-4 text-sm text-amber-900"
+        role="status"
+      ></div>
 
-      <!-- Formulario optimizado para móvil -->
-      <form id="post-form" class="space-y-4">
-        
-        <!-- Categoría del foro / Comunidad -->
+      <form id="post-form" class="space-y-5">
         <div>
-          <label for="category" class="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-600">Comunidad / Categoría</label>
-          <div class="relative">
-            <select
-              id="category"
-              name="category"
-              required
-              class="w-full appearance-none rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 sm:py-3 pr-10 text-sm text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
-            >
-              <option value="" disabled selected>Seleccionar comunidad</option>
-              <option value="rakion">Rakion</option>
-              <option value="bloody-striker">Bloody Striker</option>
-              <option value="general">Comunidad General</option>
-              <option value="noticias">Noticias y Anuncios</option>
-            </select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400">
-              <span class="material-symbols-outlined text-xl">expand_more</span>
-            </div>
-          </div>
+          <label for="category" class="mb-2 block text-sm font-bold">
+            Comunidad
+          </label>
+          <select
+            id="category"
+            name="category"
+            required
+            class="w-full rounded-xl border-slate-300 bg-white px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+          >
+            <option value="">Seleccionar comunidad</option>
+            <option value="rakion">Rakion</option>
+            <option value="bloody-striker">Bloody Striker</option>
+            <option value="general">Comunidad General</option>
+          </select>
         </div>
 
-        <!-- Tipo de publicación -->
         <div>
-          <label for="post-type" class="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-600">Tipo de publicación</label>
-          <div class="relative">
-            <select
-              id="post-type"
-              name="tipo"
-              required
-              class="w-full appearance-none rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 sm:py-3 pr-10 text-sm text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
-            >
-              <option value="General">General</option>
-              <option value="Guías">Guías</option>
-              <option value="Builds">Builds</option>
-              <option value="Bugs">Bugs</option>
-              <option value="Busco Grupo">Busco Grupo / Leveo</option>
-            </select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400">
-              <span class="material-symbols-outlined text-xl">expand_more</span>
-            </div>
-          </div>
+          <label for="post-type" class="mb-2 block text-sm font-bold">
+            Tipo de publicación
+          </label>
+          <select
+            id="post-type"
+            name="tipo"
+            required
+            class="w-full rounded-xl border-slate-300 bg-white px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+          >
+            <option value="General">General</option>
+            <option value="Guías">Guías</option>
+            <option value="Builds">Builds</option>
+            <option value="Bugs">Bugs</option>
+          </select>
         </div>
 
-        <!-- Título -->
         <div>
-          <div class="mb-1.5 flex items-center justify-between">
-            <label for="title" class="block text-xs font-bold uppercase tracking-wider text-slate-600">Título de la publicación</label>
-            <span class="text-[11px] text-slate-400"><span id="title-count">0</span>/150</span>
+          <div class="mb-2 flex items-center justify-between gap-3">
+            <label for="title" class="block text-sm font-bold">Título</label>
+            <span class="text-xs text-slate-500">
+              <span id="title-count">0</span>/150
+            </span>
           </div>
           <input
             id="title"
@@ -198,38 +176,39 @@
             type="text"
             maxlength="150"
             required
-            placeholder="Ej: Busco gente para levear en Rakion"
-            class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 sm:py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
+            placeholder="Escribe el título de tu publicación"
+            class="w-full rounded-xl border-slate-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
           >
         </div>
 
-        <!-- Contenido -->
         <div>
-          <div class="mb-1.5 flex items-center justify-between">
-            <label for="content" class="block text-xs font-bold uppercase tracking-wider text-slate-600">Contenido del mensaje</label>
-            <span id="content-count" class="text-[11px] text-slate-400">0/280</span>
+          <div class="mb-2 flex items-center justify-between gap-3">
+            <label for="content" class="block text-sm font-bold">Contenido</label>
+            <span id="content-count" class="text-xs text-slate-500">0/280</span>
           </div>
-
           <textarea
             id="content"
             name="content"
-            rows="4"
+            rows="8"
             maxlength="280"
             required
-            placeholder="Escribe aquí los detalles de tu publicación..."
-            class="w-full resize-none rounded-xl border border-slate-300 px-3.5 py-2.5 sm:py-3 text-sm leading-relaxed text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
+            placeholder="¡Comparte algo con la comunidad!"
+            class="min-h-[220px] w-full resize-y rounded-xl border-slate-300 px-4 py-3 leading-7 focus:border-sky-500 focus:ring-sky-500"
           ></textarea>
-          <p class="mt-1 text-[11px] text-slate-400">Máximo 280 caracteres.</p>
+          <p class="mt-1 text-xs text-slate-500">Máximo 280 caracteres.</p>
         </div>
 
-        <!-- Alerta de estado -->
-        <p id="status" role="status" aria-live="polite" class="hidden rounded-xl p-3 text-xs sm:text-sm transition-all"></p>
+        <p
+          id="status"
+          role="status"
+          aria-live="polite"
+          class="hidden rounded-xl p-4 text-sm"
+        ></p>
 
-        <!-- Botones de acción fijos o adaptativos -->
-        <div class="flex flex-col-reverse gap-2.5 border-t border-slate-100 pt-4 sm:flex-row sm:justify-end">
+        <div class="flex flex-col-reverse gap-3 border-t border-slate-200 pt-5 sm:flex-row sm:justify-end">
           <a
             href="index.html"
-            class="rounded-xl border border-slate-300 px-5 py-2.5 text-center text-sm font-semibold text-slate-700 hover:bg-slate-50 active:bg-slate-100 transition-colors"
+            class="rounded-xl border border-slate-300 px-5 py-3 text-center font-bold text-slate-700 hover:bg-slate-50"
           >
             Cancelar
           </a>
@@ -238,10 +217,9 @@
             id="publish-button"
             type="submit"
             disabled
-            class="inline-flex items-center justify-center gap-2 rounded-xl bg-sky-500 px-6 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-sky-600 active:bg-sky-700 disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
+            class="rounded-xl bg-sky-500 px-6 py-3 font-bold text-white hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <span class="material-symbols-outlined text-lg">send</span>
-            <span>Publicar</span>
+            Publicar
           </button>
         </div>
       </form>
@@ -251,9 +229,6 @@
   <script>
     const SUPABASE_URL = "https://zrrpjbqduwtaxsfbsuum.supabase.co";
     const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp";
-
-    const LOGIN_URL = "login.html";
-    const FORUM_URL = "index.html";
 
     const supabaseClient = window.supabase.createClient(
       SUPABASE_URL,
@@ -274,38 +249,53 @@
       document.body.classList.toggle("overflow-hidden");
     }
 
-    function showStatus(message, kind) {
+    function showStatus(message, type) {
       statusElement.textContent = message;
-      statusElement.className = "rounded-xl p-3 text-xs sm:text-sm";
+      statusElement.className = "rounded-xl p-4 text-sm";
 
-      if (kind === "success") {
-        statusElement.classList.add("bg-green-50", "text-green-800", "border", "border-green-200");
+      if (type === "success") {
+        statusElement.classList.add("bg-green-50", "text-green-800");
       } else {
-        statusElement.classList.add("bg-red-50", "text-red-800", "border", "border-red-200");
+        statusElement.classList.add("bg-red-50", "text-red-800");
       }
-      statusElement.classList.remove("hidden");
     }
 
-    function updateCounters() {
-      document.getElementById("title-count").textContent = titleInput.value.length;
-      document.getElementById("content-count").textContent =
-        `${contentInput.value.length}/280`;
-    }
+    function updateAuthUI() {
+      const isConfigured = SUPABASE_PUBLISHABLE_KEY !== "TU_PUBLISHABLE_KEY";
 
-    async function refreshAuth() {
-      if (SUPABASE_PUBLISHABLE_KEY === "TU_PUBLISHABLE_KEY") {
-        authMessage.classList.remove("hidden");
+      if (!isConfigured) {
         authMessage.textContent =
-          "Falta configurar la publishable key de Supabase en este archivo.";
+          "Configura la publishable key de Supabase en este archivo para activar la publicación.";
+        authMessage.classList.remove("hidden");
         publishButton.disabled = true;
         return;
       }
 
-      const { data, error } = await supabaseClient.auth.getUser();
-      currentUser = error ? null : data.user;
+      if (!currentUser) {
+        authMessage.innerHTML = "";
+        authMessage.append("Debes iniciar sesión para publicar. ");
 
-      authMessage.classList.toggle("hidden", Boolean(currentUser));
-      publishButton.disabled = !currentUser;
+        const loginLink = document.createElement("a");
+        loginLink.href = "login.html";
+        loginLink.textContent = "Iniciar sesión";
+        loginLink.className = "font-bold underline";
+        authMessage.appendChild(loginLink);
+
+        authMessage.classList.remove("hidden");
+        publishButton.disabled = true;
+        return;
+      }
+
+      authMessage.classList.add("hidden");
+      publishButton.disabled = false;
+    }
+
+    function updateCounters() {
+      document.getElementById("title-count").textContent =
+        titleInput.value.length;
+
+      document.getElementById("content-count").textContent =
+        `${contentInput.value.length}/280`;
     }
 
     titleInput.addEventListener("input", updateCounters);
@@ -316,7 +306,6 @@
       statusElement.classList.add("hidden");
 
       if (!currentUser) {
-        await refreshAuth();
         showStatus("Inicia sesión antes de publicar.", "error");
         return;
       }
@@ -327,18 +316,15 @@
       const type = document.getElementById("post-type").value;
 
       if (!title || !content || !category || !type) {
-        showStatus("Completa el título, contenido, comunidad y tipo.", "error");
+        showStatus(
+          "Completa el título, contenido, comunidad y tipo de publicación.",
+          "error"
+        );
         return;
       }
 
       publishButton.disabled = true;
-      publishButton.innerHTML = `
-        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
-        <span>Publicando…</span>
-      `;
+      publishButton.textContent = "Publicando…";
 
       const { error } = await supabaseClient
         .from("posts")
@@ -350,7 +336,7 @@
           author_id: currentUser.id
         });
 
-      publishButton.innerHTML = `<span class="material-symbols-outlined text-lg">send</span><span>Publicar</span>`;
+      publishButton.textContent = "Publicar";
       publishButton.disabled = false;
 
       if (error) {
@@ -358,23 +344,36 @@
         return;
       }
 
-      showStatus("¡Publicación creada! Ya puedes volver al foro para verla.", "success");
+      showStatus("¡Publicación creada!", "success");
+
+      const forumLink = document.createElement("a");
+      forumLink.href = "index.html";
+      forumLink.textContent = " Ir al foro";
+      forumLink.className = "ml-1 font-bold underline";
+      statusElement.appendChild(forumLink);
+
       form.reset();
       updateCounters();
-
-      const returnLink = document.createElement("a");
-      returnLink.href = FORUM_URL;
-      returnLink.textContent = " Ir al foro";
-      returnLink.className = "ml-1 font-bold underline";
-      statusElement.appendChild(returnLink);
     });
 
-    supabaseClient.auth.onAuthStateChange(() => {
-      refreshAuth();
-    });
+    async function init() {
+      if (SUPABASE_PUBLISHABLE_KEY === "TU_PUBLISHABLE_KEY") {
+        updateAuthUI();
+        return;
+      }
+
+      const { data, error } = await supabaseClient.auth.getSession();
+      currentUser = error ? null : data.session?.user ?? null;
+      updateAuthUI();
+
+      supabaseClient.auth.onAuthStateChange((_event, session) => {
+        currentUser = session?.user ?? null;
+        updateAuthUI();
+      });
+    }
 
     updateCounters();
-    refreshAuth();
+    init();
   </script>
 </body>
 </html>
