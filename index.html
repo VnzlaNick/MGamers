@@ -197,28 +197,46 @@
     </div>
     <div class="divide-y divide-portal-border">
     
-     <!-- Sección 1: Noticias y Anuncios -->
-     <a href="sub.html?categoria=noticias" class="forum-row p-4 flex gap-4 hover:bg-portal-blue/5 transition-colors block"> 
-      <div class="flex-shrink-0">
-       <div class="w-10 h-10 rounded-lg bg-portal-blue/10 flex items-center justify-center border border-portal-blue/20">
-        <span class="material-symbols-outlined text-portal-blue">folder</span>
-       </div>
-      </div> 
-      <div class="flex-grow">
-       <div class="flex justify-between items-start">
-        <h3 class="font-bold text-sm text-portal-text hover:text-portal-blue">Noticias y Anuncios</h3>
-        <div class="text-[10px] text-portal-text-muted text-right leading-tight">
-         <p class="font-semibold text-portal-text">0</p>
-         <p>posts</p>
-        </div>
-       </div>
-       <p class="text-[11px] text-portal-text-muted mt-0.5 leading-normal">Todo lo que ocurre de interesante sobre la Comunidad y en el mundo.</p>
-       <div class="mt-2.5 flex items-center gap-2 text-[10px] text-portal-text-muted bg-portal-bg rounded-md p-2 border border-portal-border/50">
-        <span class="material-symbols-outlined text-[14px]">chat_bubble</span> 
-        <span id="feed-noticias" class="truncate">Detienen 2 personas por... <span class="text-portal-blue font-medium">Rossy9</span></span>
-       </div>
-      </div> 
-      </a>
+      
+      <!-- Sección 1: Noticias y Anuncios -->
+<a
+  href="sub.html?categoria=noticias"
+  class="forum-row p-4 flex gap-4 hover:bg-portal-blue/5 transition-colors block"
+>
+  <div class="flex-shrink-0">
+    <div class="w-10 h-10 rounded-lg bg-portal-blue/10 flex items-center justify-center border border-portal-blue/20">
+      <span class="material-symbols-outlined text-portal-blue">folder</span>
+    </div>
+  </div>
+
+  <div class="flex-grow">
+    <div class="flex justify-between items-start">
+      <h3 class="font-bold text-sm text-portal-text hover:text-portal-blue">
+        Noticias y Anuncios
+      </h3>
+
+      <div class="text-[10px] text-portal-text-muted text-right leading-tight">
+        <p class="font-semibold text-portal-text" data-post-count="noticias">0</p>
+        <p>posts</p>
+      </div>
+    </div>
+
+    <p class="text-[11px] text-portal-text-muted mt-0.5 leading-normal">
+      Todo lo que ocurre de interesante sobre la Comunidad y en el mundo.
+    </p>
+
+    <div class="mt-2.5 flex items-center gap-2 text-[10px] text-portal-text-muted bg-portal-bg rounded-md p-2 border border-portal-border/50">
+      <span class="material-symbols-outlined text-[14px]">chat_bubble</span>
+      <span id="feed-noticias" class="truncate">Cargando publicación...</span>
+    </div>
+  </div>
+</a>
+      
+      
+      
+      
+      
+      
   
   
      </a> <!-- Sección 1: Torneos -->
@@ -727,7 +745,6 @@
 </a>
 
 
-
 <a href="mant.html" class="flex flex-col items-center gap-1 text-portal-text-muted">
   <span class="material-symbols-outlined text-[24px]">notifications</span>
   <span class="text-[10px] font-bold">Nota</span>
@@ -821,6 +838,106 @@
 <script type="module">
   import { supabase } from './conexion.js';
 
+  // Los valores antiguos de "valores" permiten contar y mostrar
+  // las publicaciones que ya existen con categorías anteriores.
+  const CATEGORIAS = {
+    noticias: {
+      valores: ['noticias', 'feed-noticias'],
+      feed: 'feed-noticias'
+    },
+    torneos: {
+      valores: ['torneos', 'feed-torneos'],
+      feed: 'feed-torneos'
+    },
+    'descargas-juegos': {
+      valores: ['descargas-juegos', 'feed-descargas'],
+      feed: 'feed-descargas'
+    },
+    'servidores-mu': {
+      valores: ['servidores-mu', 'feed-mu'],
+      feed: 'feed-mu'
+    },
+    'blood-strike': {
+      valores: ['blood-strike', 'bloody-striker', 'feed-blood'],
+      feed: 'feed-blood'
+    },
+    'free-fire': {
+      valores: ['free-fire', 'feed-Free'],
+      feed: 'feed-free'
+    },
+    'mobile-legends': {
+      valores: ['mobile-legends', 'feed-mobiles'],
+      feed: 'feed-mobiles'
+    },
+    'brawl-star': {
+      valores: ['brawl-star', 'feed-brawl'],
+      feed: 'feed-brawl'
+    },
+    'gounbound-m': {
+      valores: ['gounbound-m', 'feed-Gounbound'],
+      feed: 'feed-gounb'
+    },
+    'zona-pokemon': {
+      valores: ['zona-pokemon', 'Feed-pokemon'],
+      feed: 'feed-pokemon'
+    },
+    minecraft: {
+      valores: ['minecraft', 'feed-minecraft'],
+      feed: 'feed-minecraft'
+    },
+    'zona-dino': {
+      valores: ['zona-dino', 'feed-dino'],
+      feed: 'feed-dino'
+    },
+    'zona-simuladores': {
+      valores: ['zona-simuladores', 'feed-sim'],
+      feed: 'feed-sim'
+    },
+    'zona-libre': {
+      valores: ['zona-libre', 'feed-libre'],
+      feed: 'feed-libre'
+    },
+    'guia-trucos': {
+      valores: ['guia-trucos', 'feed-guia'],
+      feed: 'feed-guia'
+    }
+  };
+
+  function actualizarContadores(categoria, total) {
+    document
+      .querySelectorAll(`[data-post-count="${categoria}"]`)
+      .forEach((elemento) => {
+        elemento.textContent = String(total ?? 0);
+      });
+  }
+
+  function mostrarUltimoPost(elementId, post) {
+    const elemento = document.getElementById(elementId);
+    if (!elemento) return;
+
+    elemento.textContent = post?.titulo || 'Sin publicaciones todavía';
+  }
+
+  async function cargarMuroDelForo() {
+    const consultas = Object.entries(CATEGORIAS).map(
+      async ([categoria, configuracion]) => {
+        const { data, error, count } = await supabase
+          .from('posts')
+          .select('id, titulo, created_at', { count: 'exact' })
+          .in('categoría', configuracion.valores)
+          .order('created_at', { ascending: false })
+          .limit(1);
+
+        if (error) throw error;
+
+        actualizarContadores(categoria, count);
+        mostrarUltimoPost(configuracion.feed, data?.[0]);
+      }
+    );
+
+    await Promise.all(consultas);
+  }
+
   function abrirModalPost() {
     document.getElementById('modal-post')?.classList.remove('hidden');
   }
@@ -829,81 +946,15 @@
     document.getElementById('modal-post')?.classList.add('hidden');
   }
 
-  // Mantener el menú disponible si no está definido en otro script.
-  if (typeof window.toggleDrawer !== 'function') {
-    window.toggleDrawer = function () {
-      const drawer = document.getElementById('side-drawer');
-      const backdrop = document.getElementById('drawer-backdrop');
-
-      if (drawer && backdrop) {
-        drawer.classList.toggle('-translate-x-full');
-        backdrop.classList.toggle('opacity-0');
-        backdrop.classList.toggle('opacity-100');
-        backdrop.classList.toggle('pointer-events-none');
-        backdrop.classList.toggle('pointer-events-auto');
-      }
-    };
-  }
-
-  function mostrarPost(elementId, post) {
-    const elemento = document.getElementById(elementId);
-    if (!elemento || !post) return;
-
-    const autor = document.createElement('span');
-    autor.className = 'text-portal-blue font-medium';
-    autor.textContent = `@${post.author || 'Anónimo'}`;
-
-    elemento.replaceChildren(
-      document.createTextNode(`${post.title || ''} `),
-      autor
-    );
-  }
-
-  async function cargarMuroDelForo() {
-    try {
-      const { data: posts, error } = await supabase
-        .from('posts')
-        .select('title, author, category, created_at')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-
-      const ultimoPorCategoria = {};
-
-      for (const post of posts ?? []) {
-        if (post.category && !ultimoPorCategoria[post.category]) {
-          ultimoPorCategoria[post.category] = post;
-        }
-      }
-
-      mostrarPost('feed-noticias', ultimoPorCategoria['Noticias']);
-      mostrarPost('feed-torneos', ultimoPorCategoria['Torneos']);
-      mostrarPost('feed-descargas', ultimoPorCategoria['Descargas']);
-      mostrarPost('feed-mu', ultimoPorCategoria['Servidores Mu']);
-      mostrarPost('feed-blood', ultimoPorCategoria['Blood Striker']);
-      mostrarPost('feed-free', ultimoPorCategoria['Free Fire']);
-      mostrarPost('feed-mobiles', ultimoPorCategoria['Mobiles Legends']);
-      mostrarPost('feed-brawl', ultimoPorCategoria['brawl Star']);
-      mostrarPost('feed-gound', ultimoPorCategoria['Gounbound M']);
-      mostrarPost('feed-pokemon', ultimoPorCategoria['Zona Pokemon']);
-      mostrarPost('feed-minecraft', ultimoPorCategoria['Minecraft']);
-      mostrarPost('feed-dino', ultimoPorCategoria['Zona Dino']);
-      mostrarPost('feed-sim', ultimoPorCategoria['Zona simuladores']);
-      mostrarPost('feed-libre', ultimoPorCategoria['Zona Libre']);
-      mostrarPost('feed-guia', ultimoPorCategoria['Guias, Trucos']);
-      
-    } catch (error) {
-      console.error('Error al cargar las publicaciones:', error.message);
-    }
-  }
-
   async function guardarPostEnSupabase(event) {
     event.preventDefault();
 
-    const autor = document.getElementById('input-username')?.value.trim() ?? '';
-    const categoria = document.getElementById('select-tag')?.value ?? '';
-    const titulo = document.getElementById('input-title')?.value.trim() ?? '';
-    const contenido = document.getElementById('input-content')?.value.trim() ?? '';
+    const categoria =
+      document.getElementById('select-tag')?.value?.trim() ?? '';
+    const titulo =
+      document.getElementById('input-title')?.value?.trim() ?? '';
+    const contenido =
+      document.getElementById('input-content')?.value?.trim() ?? '';
 
     if (!categoria || !titulo || !contenido) {
       alert('Completa la categoría, el título y el contenido.');
@@ -911,22 +962,33 @@
     }
 
     try {
-      const { error } = await supabase
-        .from('posts')
-        .insert({
-          title: titulo,
-          content: contenido,
-          author: autor || null,
-          category: categoria
-        });
+      // La política posts_insert_own requiere que el usuario haya iniciado sesión.
+      const { data: userData, error: userError } =
+        await supabase.auth.getUser();
+
+      if (userError) throw userError;
+
+      if (!userData.user) {
+        alert('Inicia sesión para poder publicar.');
+        return;
+      }
+
+      const { error } = await supabase.from('posts').insert({
+        titulo,
+        contenido,
+        'categoría': categoria
+        // author_id se asigna con el valor por defecto auth.uid()
+      });
 
       if (error) throw error;
 
       document.getElementById('form-nuevo-post')?.reset();
       cerrarModalPost();
 
-      alert('¡Publicación guardada!');
+      // Actualiza inmediatamente el último post y los contadores.
       await cargarMuroDelForo();
+
+      alert('¡Publicación guardada!');
     } catch (error) {
       console.error('Error al guardar la publicación:', error.message);
       alert(`No se pudo guardar la publicación: ${error.message}`);
@@ -934,7 +996,9 @@
   }
 
   function iniciarEventos() {
-    cargarMuroDelForo();
+    cargarMuroDelForo().catch((error) => {
+      console.error('Error al cargar publicaciones y contadores:', error.message);
+    });
 
     document
       .getElementById('form-nuevo-post')
@@ -958,8 +1022,6 @@
     iniciarEventos();
   }
 </script>
-
-
 
 
 
