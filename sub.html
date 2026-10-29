@@ -239,28 +239,36 @@
     <div id="post-list" class="space-y-4"></div>
   </main>
 
-  <!-- Navegación inferior -->
-  <nav class="fixed bottom-0 left-0 right-0 bg-surface-container-lowest backdrop-blur-md border-t border-outline-variant px-4 py-1 flex justify-between items-center z-[80] pb-2">
-    <a href="index.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
-      <span class="material-symbols-outlined text-[24px]">home</span>
-      <span class="text-[10px] font-bold">Inicio</span>
-    </a>
 
-    <a href="mant.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
-      <span class="material-symbols-outlined text-[24px]">volunteer_activism</span>
-      <span class="text-[10px] font-bold">Off</span>
-    </a>
+ <!-- Bottom Barra de Navegación -->
+ <nav class="fixed bottom-0 left-4 right-4 bg-blue backdrop-blur-md border-t border-poral-border px-2 py-1 flex justify-between items-center z-[80] pb-2">
 
-    <a href="mant.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
-      <span class="material-symbols-outlined text-[24px]">chat_bubble</span>
-      <span class="text-[10px] font-bold">Off</span>
-    </a>
+<a href="index.html" class="flex flex-col items-center gap-1 text-portal-text-muted">
+  <span class="material-symbols-outlined text-[24px]">home</span>
+  <span class="text-[10px] font-bold">Inicio</span>
+</a>
 
-    <a href="mant.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
-      <span class="material-symbols-outlined text-[24px]">person</span>
-      <span class="text-[10px] font-bold">Off</span>
-    </a>
-  </nav>
+<a href="post.html" class="flex flex-col items-center gap-1 text-portal-text-muted">
+  <span class="material-symbols-outlined text-[24px]">person</span>
+  <span class="text-[10px] font-bold">Nuevo</span>
+</a>
+
+<a href="bdona.html" class="flex flex-col items-center gap-1 text-portal-text-muted">
+  <span class="material-symbols-outlined text-[24px]">volunteer_activism</span>
+  <span class="text-[10px] font-bold">Donar</span>
+</a>
+
+
+<a href="mant.html" class="flex flex-col items-center gap-1 text-portal-text-muted">
+  <span class="material-symbols-outlined text-[24px]">notifications</span>
+  <span class="text-[10px] font-bold">Nota</span>
+</a>
+
+<a href="inres.html" class="flex flex-col items-center gap-1 text-portal-text-muted">
+  <span class="material-symbols-outlined text-[24px]">Person</span>
+  <span class="text-[10px] font-bold">Ingreso</span>
+</a>
+
 
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
@@ -511,14 +519,10 @@
     searchInput.addEventListener("input", renderPosts);
     loadPosts();
   
-</
-script
->
+</script>
 
   
-<
-script
->
+<script>
 
     function toggleDrawer() {
       document.body.classList.toggle("drawer-open");
@@ -533,17 +537,11 @@ script
       }
     });
   
-</
-script
->
+</script>
 
-</
-body
->
+</body>
 
-</
-html
->
+</html>
 
 
 
