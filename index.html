@@ -855,8 +855,7 @@
 <script type="module">
   import { supabase } from './conexion.js';
 
-  // Los valores antiguos de "valores" permiten contar y mostrar
-  // las publicaciones que ya existen con categorías anteriores.
+  // Los valores antiguos permiten contar publicaciones con categorías anteriores.
   const CATEGORIAS = {
     noticias: {
       valores: ['noticias', 'feed-noticias'],
@@ -928,31 +927,74 @@
       });
   }
 
-  function mostrarUltimoPost(elementId, post) {
+  function mostrarUltimoPost(elementId, post, username) {
     const elemento = document.getElementById(elementId);
     if (!elemento) return;
 
-    elemento.textContent = post?.titulo || 'Sin publicaciones todavía';
+    if (!post) {
+      elemento.textContent = 'Sin publicaciones todavía';
+      return;
+    }
+
+    elemento.textContent =
+      `${post.titulo || 'Sin título'} — por ${username || 'Autor'}`;
   }
 
   async function cargarMuroDelForo() {
-    const consultas = Object.entries(CATEGORIAS).map(
-      async ([categoria, configuracion]) => {
-        const { data, error, count } = await supabase
-          .from('posts')
-          .select('id, titulo, created_at', { count: 'exact' })
-          .in('categoría', configuracion.valores)
-          .order('created_at', { ascending: false })
-          .limit(1);
+    const resultados = await Promise.all(
+      Object.entries(CATEGORIAS).map(
+        async ([categoria, configuracion]) => {
+          const { data, error, count } = await supabase
+            .from('posts')
+            .select('id, titulo, created_at, author_id', { count: 'exact' })
+            .in('categoría', configuracion.valores)
+            .order('created_at', { ascending: false })
+            .limit(1);
 
-        if (error) throw error;
+          if (error) throw error;
 
-        actualizarContadores(categoria, count);
-        mostrarUltimoPost(configuracion.feed, data?.[0]);
-      }
+          actualizarContadores(categoria, count);
+
+          return {
+            feed: configuracion.feed,
+            post: data?.[0] ?? null
+          };
+        }
+      )
     );
 
-    await Promise.all(consultas);
+    const authorIds = [
+      ...new Set(
+        resultados
+          .map(({ post }) => post?.author_id)
+          .filter(Boolean)
+      )
+    ];
+
+    const nombresPorId = {};
+
+    if (authorIds.length > 0) {
+      const { data: autores, error } = await supabase
+        .from('autores_publicos')
+        .select('auth_user_id, username')
+        .in('auth_user_id', authorIds);
+
+      if (error) {
+        console.error('No se pudieron cargar los nombres de autores:', error.message);
+      } else {
+        for (const autor of autores ?? []) {
+          nombresPorId[autor.auth_user_id] = autor.username;
+        }
+      }
+    }
+
+    for (const { feed, post } of resultados) {
+      mostrarUltimoPost(
+        feed,
+        post,
+        post ? nombresPorId[post.author_id] : null
+      );
+    }
   }
 
   function abrirModalPost() {
@@ -1002,7 +1044,6 @@
       document.getElementById('form-nuevo-post')?.reset();
       cerrarModalPost();
 
-      // Actualiza inmediatamente el último post y los contadores.
       await cargarMuroDelForo();
 
       alert('¡Publicación guardada!');
@@ -1039,8 +1080,6 @@
     iniciarEventos();
   }
 </script>
-
-
 
 
 
