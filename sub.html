@@ -269,75 +269,258 @@
   <span class="text-[10px] font-bold">Ingreso</span>
 </a>
 
- <!-- módulo -->
-<script type="module">
-  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-  const SUPABASE_URL = "https://zrrpjbqduwtaxsfbsuum.supabase.co";
-  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp";
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-  const DEFAULT_IMAGE = "https://img.wpfc.ml/24h/apm9c6.jpg";
-  const DEFAULT_DESCRIPTION = "Comunidad Oficial de Jugadores";
+    const SUPABASE_URL = "https://zrrpjbqduwtaxsfbsuum.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp";
 
-  const params = new URLSearchParams(window.location.search);
+    const DEFAULT_IMAGE = "https://img.wpfc.ml/24h/apm9c6.jpg";
+    const DEFAULT_DESCRIPTION = "Comunidad Oficial de Jugadores";
 
-  const category = (params.get("categoria") || "").trim();
-  const categoryName = (params.get("nombre") || category || "Servidores Mu").trim();
-  const categoryDescription = (params.get("descripcion") || DEFAULT_DESCRIPTION).trim();
-  const categoryImage = params.get("imagen");
+    const params = new URLSearchParams(window.location.search);
 
-  const titleElement = document.getElementById("subcategory-title");
-  const descriptionElement = document.getElementById("subcategory-description");
-  const imageElement = document.getElementById("subcategory-image");
-  const searchInput = document.getElementById("post-search");
-  const postList = document.getElementById("post-list");
-  const statusElement = document.getElementById("post-status");
-  const filterButtons = document.querySelectorAll(".filter-button");
+    const category = (params.get("categoria") || "").trim();
+    const categoryName = (params.get("nombre") || category || "Servidores Mu").trim();
+    const categoryDescription = (params.get("descripcion") || DEFAULT_DESCRIPTION).trim();
+    const categoryImage = params.get("imagen");
 
-  let selectedType = "";
-  let allPosts = [];
-  let profilesById = {};
-  let supabase = null;
-  let requestVersion = 0;
+    const titleElement = document.getElementById("subcategory-title");
+    const descriptionElement = document.getElementById("subcategory-description");
+    const imageElement = document.getElementById("subcategory-image");
+    const searchInput = document.getElementById("post-search");
+    const postList = document.getElementById("post-list");
+    const statusElement = document.getElementById("post-status");
+    const filterButtons = document.querySelectorAll(".filter-button");
 
-  titleElement.textContent = categoryName;
-  descriptionElement.textContent = categoryDescription;
-  document.title = `${categoryName} | Modelo Base`;
-  searchInput.placeholder = `Buscar en ${categoryName}...`;
-  imageElement.alt = categoryName;
-  imageElement.src = DEFAULT_IMAGE;
+    let selectedType = "";
+    let allPosts = [];
+    let supabase = null;
+    let requestVersion = 0;
 
-  if (categoryImage) {
-    try {
-      const parsedImageUrl = new URL(categoryImage);
-      if (parsedImageUrl.protocol === "https:") {
-        imageElement.src = parsedImageUrl.href;
+    titleElement.textContent = categoryName;
+    descriptionElement.textContent = categoryDescription;
+    document.title = `${categoryName} | Modelo Base`;
+    searchInput.placeholder = `Buscar en ${categoryName}...`;
+    imageElement.alt = categoryName;
+
+    // Solo acepta direcciones HTTPS; si no se pasa una imagen válida, usa la predeterminada.
+    if (categoryImage) {
+      try {
+        const parsedImageUrl = new URL(categoryImage);
+        if (parsedImageUrl.protocol === "https:") {
+          imageElement.src = parsedImageUrl.href;
+        }
+      } catch {
+        imageElement.src = DEFAULT_IMAGE;
       }
-    } catch {
-      imageElement.src = DEFAULT_IMAGE;
     }
-  }
 
-  imageElement.addEventListener("error", () => {
-    if (imageElement.src !== DEFAULT_IMAGE) {
+    imageElement.addEventListener("error", () => {
       imageElement.src = DEFAULT_IMAGE;
+    });
+
+    function setStatus(message) {
+      statusElement.textContent = message;
+      statusElement.classList.toggle("hidden", !message);
     }
-  });
 
-  function setStatus(message) {
-    statusElement.textContent = message;
-    statusElement.classList.toggle("hidden", !message);
-  }
+    function timeAgo(dateValue) {
+      if (!dateValue) return "";
 
-  function timeAgo(dateValue) {
-    if (!dateValue) return "";
+      const seconds = Math.floor((Date.now() - new Date(dateValue).getTime()) / 1000);
+      if (!Number.isFinite(seconds)) return "";
 
-    const seconds = Math.floor((Date.now() - new Date(dateValue).getTime()) / 1000);
-    if (!Number.isFinite(seconds)) return "";
+      if (seconds < 60) return "Ahora";
+      if (seconds < 3600) return `Hace ${Math.floor(seconds / 60)} min`;
+      if (seconds < 86400) return `Hace ${Math.floor(seconds / 3600)} horas`;
+      if (seconds < 604800) return `Hace ${Math.floor(seconds / 86400)} días`;
 
-    if (seconds < 60) return "Ahora";
-    if (seconds < 3600) return `Hace ${Math.floor(seconds / 60)} min`;
-    if (seconds < 86400) return `Hace ${Math.floor(seconds /
+      return new Date(dateValue).toLocaleDateString("es");
+    }
+
+    function makeElement(tag, className, text) {
+      const element = document.createElement(tag);
+      if (className) element.className = className;
+      if (text !== undefined) element.textContent = text;
+      return element;
+    }
+
+    function renderPosts() {
+      postList.replaceChildren();
+
+      const searchText = searchInput.value.trim().toLocaleLowerCase("es");
+
+      const visiblePosts = allPosts.filter((post) => {
+        const matchesType = !selectedType || post.tipo === selectedType;
+        const searchableText = `${post.titulo || ""} ${post.contenido || ""}`.toLocaleLowerCase("es");
+        const matchesSearch = !searchText || searchableText.includes(searchText);
+        return matchesType && matchesSearch;
+      });
+
+      if (visiblePosts.length === 0) {
+        setStatus("No hay publicaciones para este filtro.");
+        return;
+      }
+
+      setStatus("");
+
+      const typeLabels = {
+        "Guías": "GUÍA",
+        "Builds": "BUILDS",
+        "Bugs": "BUGS",
+        "General": "GENERAL"
+      };
+
+      visiblePosts.forEach((post) => {
+        const link = makeElement("a", "block group no-underline");
+        link.href = `fpost.html?id=${encodeURIComponent(post.id)}`;
+
+        const article = makeElement(
+          "article",
+          "bg-surface-container-lowest border border-outline-variant p-4 rounded-xl active:scale-[0.98] transition-transform"
+        );
+
+        const authorRow = makeElement("div", "flex items-center gap-3 mb-3");
+
+        const avatarFrame = makeElement(
+          "div",
+          "w-10 h-10 rounded-full border border-outline-variant overflow-hidden bg-primary-container flex items-center justify-center"
+        );
+        avatarFrame.appendChild(
+          makeElement("span", "text-white text-sm font-bold", "J")
+        );
+
+        const authorInfo = makeElement("div", "flex-1");
+        authorInfo.appendChild(
+          makeElement("p", "font-label-bold text-label-bold text-on-background", "Jugador")
+        );
+        authorInfo.appendChild(
+          makeElement("p", "font-body-sm text-[11px] text-outline", timeAgo(post.created_at))
+        );
+
+        const tag = makeElement(
+          "span",
+          "bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-md font-label-bold text-[9px]",
+          typeLabels[post.tipo] || "PUBLICACIÓN"
+        );
+
+        authorRow.append(avatarFrame, authorInfo, tag);
+
+        const heading = makeElement(
+          "h3",
+          "font-headline-md text-headline-md text-primary mb-2 group-hover:underline",
+          post.titulo || "Publicación sin título"
+        );
+
+        const content = makeElement(
+          "p",
+          "font-body-md text-body-sm text-on-surface-variant line-clamp-2 mb-4",
+          post.contenido || ""
+        );
+
+        const footer = makeElement(
+          "div",
+          "flex items-center justify-between border-t border-outline-variant pt-3 mt-1"
+        );
+
+        const counts = makeElement("div", "flex gap-4");
+
+        const likes = makeElement("div", "flex items-center gap-1.5 text-on-surface-variant");
+        likes.appendChild(makeElement("span", "material-symbols-outlined text-[18px]", "thumb_up"));
+        likes.appendChild(
+          makeElement("span", "font-label-bold text-label-bold", String(post.like_count ?? 0))
+        );
+
+        const comments = makeElement("div", "flex items-center gap-1.5 text-on-surface-variant");
+        comments.appendChild(makeElement("span", "material-symbols-outlined text-[18px]", "chat_bubble"));
+        comments.appendChild(
+          makeElement("span", "font-label-bold text-label-bold", String(post.comment_count ?? 0))
+        );
+
+        counts.append(likes, comments);
+        footer.appendChild(counts);
+
+        article.append(authorRow, heading, content, footer);
+        link.appendChild(article);
+        postList.appendChild(link);
+      });
+    }
+
+    async function loadPosts() {
+      if (!category) {
+        setStatus("Falta la subcategoría en la dirección de esta página.");
+        return;
+      }
+
+      if (
+        !SUPABASE_URL ||
+        !SUPABASE_PUBLISHABLE_KEY ||
+        SUPABASE_URL.startsWith("PON_AQUI") ||
+        SUPABASE_PUBLISHABLE_KEY.startsWith("PON_AQUI")
+      ) {
+        setStatus("Falta configurar la URL y la publishable key de Supabase en este archivo.");
+        return;
+      }
+
+      if (!supabase) {
+        supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+      }
+
+      const currentRequest = ++requestVersion;
+      setStatus("Cargando publicaciones…");
+
+      let query = supabase
+        .from("posts")
+        .select("id, created_at, titulo, contenido, tipo, like_count, comment_count")
+        .eq("categoría", category)
+        .order("created_at", { ascending: false });
+
+      if (selectedType) {
+        query = query.eq("tipo", selectedType);
+      }
+
+      const { data, error } = await query;
+      
+      // Evita que una respuesta anterior reemplace los resultados del filtro más reciente.
+      if (currentRequest !== requestVersion) return;
+      
+      if (error) {
+        console.error("Error cargando publicaciones:", error);
+        setStatus("No se pudieron cargar las publicaciones.");
+        return;
+      }
+      allPosts = data || [];
+      renderPosts();
+    }
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        filterButtons.forEach((item) => {
+          item.classList.remove("bg-primary", "text-on-primary");
+          item.classList.add(
+            "border",
+            "border-outline-variant",
+            "bg-surface-container-lowest",
+            "text-on-surface-variant"
+          );
+        });
+        button.classList.add("bg-primary", "text-on-primary");
+        button.classList.remove(
+          "border",
+          "border-outline-variant",
+          "bg-surface-container-lowest",
+          "text-on-surface-variant"
+        );
+        selectedType = button.dataset.type || "";
+        loadPosts();
+      });
+    });
+    searchInput.addEventListener("input", renderPosts);
+    loadPosts();
+  
+</script>
+
   
 <script>
 
