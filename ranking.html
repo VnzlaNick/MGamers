@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ranking Gunbound</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 24px;
+      background: #0f172a;
+      color: #f8fafc;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    #rangos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 16px;
+      max-width: 900px;
+      margin: 24px auto;
+    }
+
+    .rango {
+      padding: 16px;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      background: #1e293b;
+      text-align: center;
+    }
+
+    .rango img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 10px;
+    }
+
+    #estado {
+      text-align: center;
+      color: #cbd5e1;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Ranking</h1>
+  <p id="estado">Cargando rangos…</p>
+  <main id="rangos" aria-live="polite"></main>
+
+  <script>
+    const SUPABASE_URL = 'https://zrrpjbqduwtaxsfbsuum.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp';
+
+    async function cargarRangos() {
+      const estado = document.getElementById('estado');
+      const contenedor = document.getElementById('rangos');
+
+      try {
+        const url = new URL(`${SUPABASE_URL}/rest/v1/rangos_gunbound`);
+        url.searchParams.set('select', 'nombre,emblema_url');
+        url.searchParams.set('order', 'nombre.asc');
+
+        const respuesta = await fetch(url, {
+          headers: {
+            apikey: SUPABASE_KEY,
+            Authorization: `Bearer ${SUPABASE_KEY}`
+          }
+        });
+
+        if (!respuesta.ok) {
+          throw new Error(`Error al consultar Supabase (${respuesta.status})`);
+        }
+
+        const rangos = await respuesta.json();
+        contenedor.replaceChildren();
+
+        if (rangos.length === 0) {
+          estado.textContent = 'No hay rangos para mostrar.';
+          return;
+        }
+
+        rangos.forEach((rango) => {
+          const tarjeta = document.createElement('article');
+          tarjeta.className = 'rango';
+
+          const emblema = document.createElement('img');
+          emblema.src = rango.emblema_url;
+          emblema.alt = `Emblema de ${rango.nombre}`;
+
+          const nombre = document.createElement('strong');
+          nombre.textContent = rango.nombre;
+
+          tarjeta.append(emblema, nombre);
+          contenedor.appendChild(tarjeta);
+        });
+
+        estado.textContent = '';
+      } catch (error) {
+        console.error(error);
+        estado.textContent =
+          'No se pudo cargar el listado. Revisa la clave y el acceso a la tabla.';
+      }
+    }
+
+    cargarRangos();
+  </script>
+</body>
+</html>
