@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GamersPro | Publicación</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    rel="stylesheet"
+  />
+
+  <style>
+    body {
+      font-family: "Plus Jakarta Sans", sans-serif;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+    }
+
+    .drawer-open #side-drawer {
+      transform: translateX(0);
+    }
+
+    .drawer-open #drawer-backdrop {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-slate-50 pb-28 text-slate-900">
+  <!-- Fondo del menú -->
+  <div
+    id="drawer-backdrop"
+    class="pointer-events-none fixed inset-0 z-[60] bg-black/50 opacity-0 transition-opacity duration-300"
+    onclick="toggleDrawer(false)"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Menú lateral -->
+  <aside
+    id="side-drawer"
+    class="fixed left-0 top-0 z-[70] flex h-full w-[280px] -translate-x-full flex-col bg-white shadow-2xl transition-transform duration-300"
+    aria-label="Menú principal"
+  >
+    <div class="flex items-center justify-between border-b border-slate-200 bg-sky-50 p-6">
+      <a href="index.html" class="text-2xl font-extrabold tracking-tight text-sky-500">
+        GamersPro
+      </a>
+      <button
+        type="button"
+        class="rounded-full p-2 hover:bg-slate-100"
+        onclick="toggleDrawer(false)"
+        aria-label="Cerrar menú"
+      >
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <nav class="flex-1 space-y-2 overflow-y-auto p-4">
+      <a href="index.html" class="flex items-center gap-4 rounded-xl bg-sky-50 p-4 font-bold text-sky-600">
+        <span class="material-symbols-outlined">newspaper</span>
+        Inicio
+      </a>
+      <a href="#" class="flex items-center gap-4 rounded-xl p-4 font-semibold text-slate-600 hover:bg-slate-100">
+        <span class="material-symbols-outlined">sports_esports</span>
+        Torneos
+      </a>
+      <a href="#" class="flex items-center gap-4 rounded-xl p-4 font-semibold text-slate-600 hover:bg-slate-100">
+        <span class="material-symbols-outlined">groups</span>
+        Comunidad
+      </a>
+      <a href="#" class="flex items-center gap-4 rounded-xl p-4 font-semibold text-slate-600 hover:bg-slate-100">
+        <span class="material-symbols-outlined">leaderboard</span>
+        Ranking
+      </a>
+      <a href="#" class="flex items-center gap-4 rounded-xl p-4 font-semibold text-slate-600 hover:bg-slate-100">
+        <span class="material-symbols-outlined">person</span>
+        Mi perfil
+      </a>
+    </nav>
+
+    <div class="border-t border-slate-200 p-4">
+      <button
+        type="button"
+        class="flex w-full items-center justify-center gap-2 rounded-lg p-3 font-bold text-red-600 hover:bg-red-50"
+      >
+        <span class="material-symbols-outlined">logout</span>
+        Cerrar sesión
+      </button>
+    </div>
+  </aside>
+
+  <!-- Barra superior -->
+  <header id="app-header" class="fixed top-0 z-50 w-full border-b border-slate-200 bg-white">
+    <div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
+      <button
+        type="button"
+        class="rounded-full p-2 text-sky-500 hover:bg-slate-100"
+        onclick="toggleDrawer(true)"
+        aria-label="Abrir menú"
+      >
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+
+      <a href="index.html" class="text-2xl font-extrabold tracking-tight text-sky-500">
+        GamersPro
+      </a>
+
+      <button
+        type="button"
+        class="rounded-full p-2 text-sky-500 hover:bg-slate-100"
+        aria-label="Buscar"
+      >
+        <span class="material-symbols-outlined">search</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="mx-auto min-h-screen max-w-3xl px-5 pb-12 pt-20">
+    <!-- Información de la publicación -->
+    <section class="mb-6">
+      <div class="mb-5 flex items-center gap-2">
+        <span class="rounded bg-sky-500 px-2 py-1 text-xs font-bold text-white">
+          OFICIAL
+        </span>
+        <span class="text-sm text-slate-500">Hace 2 horas</span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <img
+          class="h-11 w-11 rounded-full border border-sky-200 object-cover"
+          src="https://i.pravatar.cc/100?img=12"
+          alt="Avatar de GamersPj"
+        />
+
+        <div>
+          <p class="font-bold text-sky-600">GamersPj</p>
+          <p class="text-sm text-slate-500">Community Lead</p>
+        </div>
+
+        <button
+          type="button"
+          class="ml-auto flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-slate-100 text-sky-600 active:scale-95"
+          aria-label="Seguir usuario"
+        >
+          <span class="material-symbols-outlined">person_add</span>
+        </button>
+      </div>
+    </section>
+
+    <article>
+      <h1 class="mb-5 text-2xl font-extrabold leading-tight sm:text-3xl">
+        Actualización 2.5: Nuevos Mapas y Héroes
+      </h1>
+
+      <!-- Imagen principal -->
+      <div class="relative mb-6 overflow-hidden rounded-xl border border-slate-200">
+        <img
+          class="aspect-[1.75] w-full object-cover"
+          src="https://img.wpfc.ml/90d/mm/2ttg9w.png"
+          alt="Imagen de la actualización 2.5"
+        />
+        <span class="absolute bottom-4 left-4 rounded-full border border-white/50 bg-white/90 px-3 py-1 text-xs font-semibold text-sky-600">
+          V2.5.0
+        </span>
+      </div>
+
+      <!-- Contenido -->
+      <div class="mb-8 space-y-5 text-sm leading-7 text-slate-600 sm:text-base">
+        <p>
+          ¡Saludos, Leyendas! La espera ha terminado. La
+          <strong class="text-sky-600">Versión 2.5</strong> ya está aquí,
+          trayendo una revolución visual y táctica al campo de batalla. Esta
+          actualización se centra en la expansión vertical y la manipulación
+          de energía.
+        </p>
+
+        <div class="rounded-xl border-l-4 border-sky-500 bg-slate-100 p-4">
+          <h2 class="mb-2 text-lg font-bold text-sky-600">
+            Nuevo mapa: Cyber-Valley
+          </h2>
+          <p class="text-slate-700">
+            Un cañón tecnológico situado en las tierras baldías de Neo-Tokyo.
+            Cyber-Valley introduce puentes de luz sólida que se activan
+            mediante paneles de control, permitiendo flanqueos estratégicos y
+            cierres de zona instantáneos.
+          </p>
+        </div>
+
+        <p>
+          También damos la bienvenida a
+          <strong class="text-slate-800">Nova-Pulse</strong>, nuestra nueva
+          heroína de clase Asalto. Su habilidad definitiva, “Singularidad de
+          Neón”, crea un campo de gravedad cero que deja a los enemigos
+          vulnerables mientras ella se desliza a velocidades supersónicas.
+        </p>
+
+        <p>
+          Hemos ajustado el balance de las armas de energía y optimizado el
+          rendimiento en dispositivos de gama media. Preparaos para el
+          despliegue.
+        </p>
+      </div>
+    </article>
+
+    <!-- Interacciones -->
+    <section class="mb-8 flex items-center justify-between border-y border-slate-200 py-4">
+      <div class="flex items-center gap-6">
+        <button
+          type="button"
+          class="flex items-center gap-1.5 text-slate-500"
+          onclick="toggleLike(this)"
+          aria-label="Me gusta"
+          aria-pressed="false"
+        >
+          <span class="material-symbols-outlined">favorite</span>
+          <span class="like-count text-sm">124</span>
+        </button>
+
+        <a href="#comments" class="flex items-center gap-1.5 text-slate-500">
+          <span class="material-symbols-outlined">chat_bubble</span>
+          <span class="text-sm">45</span>
+        </a>
+
+        <button type="button" class="flex items-center gap-1.5 text-slate-500" aria-label="Compartir">
+          <span class="material-symbols-outlined">share</span>
+          <span class="text-sm">12</span>
+        </button>
+      </div>
+
+      <button
+        type="button"
+        class="text-sky-600"
+        onclick="toggleBookmark(this)"
+        aria-label="Guardar publicación"
+        aria-pressed="false"
+      >
+        <span class="material-symbols-outlined">bookmark</span>
+      </button>
+    </section>
+
+    <!-- Comentarios de ejemplo -->
+    <section id="comments" class="mb-10 space-y-6">
+      <h2 class="text-xl font-bold">Comentarios (45)</h2>
+
+      <div class="flex gap-4">
+        <img class="h-10 w-10 rounded-full object-cover" src="https://i.pravatar.cc/100?img=33" alt="Avatar de CyberHunter_99" />
+        <div class="flex-1">
+          <div class="flex items-center justify-between gap-2">
+            <span class="font-bold text-sky-600">CyberHunter_99</span>
+            <time class="text-xs uppercase text-slate-500">Hace 1 h</time>
+          </div>
+          <p class="mt-1 text-sm leading-6 text-slate-700">
+            ¿Nova-Pulse estará disponible en el pase de batalla gratuito o solo premium?
+          </p>
+          <div class="mt-2 flex gap-4">
+            <button type="button" class="text-xs font-bold uppercase text-sky-600">Responder</button>
+            <button type="button" class="text-xs uppercase text-slate-500" onclick="toggleCommentLike(this)">Me gusta</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex gap-4">
+        <img class="h-10 w-10 rounded-full object-cover" src="https://i.pravatar.cc/100?img=47" alt="Avatar de NeonValkyrie" />
+        <div class="flex-1">
+          <div class="flex items-center justify-between gap-2">
+            <span class="font-bold text-sky-600">NeonValkyrie</span>
+            <time class="text-xs uppercase text-slate-500">Hace 45 min</time>
+          </div>
+          <p class="mt-1 text-sm leading-6 text-slate-700">
+            El diseño de Cyber-Valley es increíble. ¡Por fin un mapa que premia el movimiento vertical!
+          </p>
+          <div class="mt-2 flex gap-4">
+            <button type="button" class="text-xs font-bold uppercase text-sky-600">Responder</button>
+            <button type="button" class="text-xs uppercase text-slate-500" onclick="toggleCommentLike(this)">Me gusta</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex gap-4">
+        <img class="h-10 w-10 rounded-full object-cover" src="https://i.pravatar.cc/100?img=8" alt="Avatar de PixelBot" />
+        <div class="flex-1">
+          <div class="flex items-center justify-between gap-2">
+            <span class="font-bold text-sky-600">PixelBot</span>
+            <time class="text-xs uppercase text-slate-500">Hace 12 min</time>
+          </div>
+          <p class="mt-1 text-sm leading-6 text-slate-700">
+            Espero que hayan arreglado el bug del dash infinito de Zephyr. 🙏
+          </p>
+          <div class="mt-2 flex gap-4">
+            <button type="button" class="text-xs font-bold uppercase text-sky-600">Responder</button>
+            <button type="button" class="text-xs uppercase text-slate-500" onclick="toggleCommentLike(this)">Me gusta</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Campo de comentario -->
+  <form
+    id="comment-form"
+    class="fixed bottom-0 left-0 z-40 w-full bg-gradient-to-t from-slate-50 via-slate-50/95 to-transparent px-4 pb-5 pt-4"
+  >
+    <div class="mx-auto flex max-w-3xl items-center gap-3 rounded-full border border-slate-200 bg-slate-100 p-2 shadow-lg">
+      <img
+        class="h-8 w-8 rounded-full object-cover"
+        src="https://i.pravatar.cc/100?img=5"
+        alt="Tu avatar"
+      />
+      <input
+        id="comment-input"
+        class="min-w-0 flex-1 border-0 bg-transparent text-sm focus:ring-0"
+        type="text"
+        placeholder="Escribe un comentario..."
+        aria-label="Escribe un comentario"
+      />
+      <button
+        type="submit"
+        class="flex h-10 w-10 items-center justify-center rounded-full bg-sky-500 text-white active:scale-90"
+        aria-label="Enviar comentario"
+      >
+        <span class="material-symbols-outlined">send</span>
+      </button>
+    </div>
+  </form>
+
+  <script>
+    function toggleDrawer(open) {
+      const shouldOpen =
+        typeof open === "boolean"
+          ? open
+          : !document.body.classList.contains("drawer-open");
+
+      document.body.classList.toggle("drawer-open", shouldOpen);
+      document.body.classList.toggle("overflow-hidden", shouldOpen);
+    }
+
+    function toggleLike(button) {
+      const liked = button.getAttribute("aria-pressed") === "true";
+      const count = button.querySelector(".like-count");
+      const icon = button.querySelector(".material-symbols-outlined");
+      const nextCount = Number.parseInt(count.textContent, 10) + (liked ? -1 : 1);
+
+      button.setAttribute("aria-pressed", String(!liked));
+      count.textContent = String(nextCount);
+      button.classList.toggle("text-sky-600", !liked);
+      button.classList.toggle("text-slate-500", liked);
+      icon.style.fontVariationSettings = liked
+        ? '"FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24'
+        : '"FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24';
+    }
+
+    function toggleBookmark(button) {
+      const saved = button.getAttribute("aria-pressed") === "true";
+      const icon = button.querySelector(".material-symbols-outlined");
+
+      button.setAttribute("aria-pressed", String(!saved));
+      icon.style.fontVariationSettings = saved
+        ? '"FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24'
+        : '"FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24';
+    }
+
+    function toggleCommentLike(button) {
+      const liked = button.getAttribute("aria-pressed") === "true";
+      button.setAttribute("aria-pressed", String(!liked));
+      button.classList.toggle("text-sky-600", !liked);
+      button.classList.toggle("text-slate-500", liked);
+    }
+
+    document.getElementById("comment-form").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const input = document.getElementById("comment-input");
+      const content = input.value.trim();
+
+      if (!content) return;
+
+      // Demostración local: no guarda el comentario en Supabase.
+      const comment = document.createElement("p");
+      comment.className = "mx-12 rounded-lg bg-sky-50 p-3 text-sm text-slate-700";
+      comment.textContent = content;
+
+      document.getElementById("comments").appendChild(comment);
+      input.value = "";
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") toggleDrawer(false);
+    });
+
+    window.addEventListener("scroll", function () {
+      document
+        .getElementById("app-header")
+        .classList.toggle("shadow-md", window.scrollY > 20);
+    });
+  </script>
+</body>
+</html>
