@@ -2,14 +2,14 @@
 <html class="light" lang="es">
 <head>
   <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Subcategoría | Modelo Base</title>
 
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 
-  <script id="tailwind-config">
+  <script>
     tailwind.config = {
       darkMode: "class",
       theme: {
@@ -19,50 +19,15 @@
             "on-secondary-container": "#566475",
             "outline": "#6f7882",
             "background": "#f7f9fb",
-            "error-container": "#ffdad6",
-            "surface-dim": "#d8dadc",
-            "surface-bright": "#f7f9fb",
-            "tertiary-container": "#929ba3",
-            "surface-container-highest": "#e0e3e5",
-            "on-tertiary": "#ffffff",
-            "primary-container": "#1da1f2",
-            "surface-variant": "#e0e3e5",
-            "on-primary": "#ffffff",
-            "secondary-fixed": "#d6e4f9",
-            "inverse-surface": "#2d3133",
-            "on-surface-variant": "#3f4851",
-            "surface-container": "#eceef0",
-            "tertiary": "#575f67",
             "surface-container-lowest": "#ffffff",
-            "tertiary-fixed": "#dbe4ed",
-            "on-primary-fixed": "#001d32",
-            "on-error": "#ffffff",
-            "on-background": "#191c1e",
-            "secondary-container": "#d3e1f6",
-            "surface": "#f7f9fb",
-            "on-secondary-fixed-variant": "#3a4859",
-            "inverse-on-surface": "#eff1f3",
-            "primary-fixed-dim": "#95ccff",
-            "on-tertiary-fixed-variant": "#3f484f",
-            "on-primary-fixed-variant": "#004a75",
-            "inverse-primary": "#95ccff",
-            "surface-tint": "#1da1f2",
-            "on-surface": "#191c1e",
-            "on-primary-container": "#003554",
-            "primary-fixed": "#cde5ff",
-            "on-secondary-fixed": "#0f1c2c",
-            "on-tertiary-container": "#2a333a",
-            "on-secondary": "#ffffff",
-            "on-error-container": "#93000a",
-            "tertiary-fixed-dim": "#bfc8d0",
-            "on-tertiary-fixed": "#141d23",
-            "secondary": "#525f71",
-            "surface-container-high": "#e6e8ea",
             "surface-container-low": "#f2f4f6",
             "primary": "#1da1f2",
-            "secondary-fixed-dim": "#bac8dc",
-            "error": "#ba1a1a",
-            "brand-orange": "#ff5722"
+            "primary-container": "#1da1f2",
+            "on-primary": "#ffffff",
+            "on-surface": "#191c1e",
+            "on-surface-variant": "#3f4851",
+            "secondary-container": "#d3e1f6",
+            "error": "#ba1a1a"
           },
           borderRadius: {
             "DEFAULT": "0.25rem",
@@ -71,56 +36,47 @@
             "full": "9999px"
           },
           spacing: {
-            "card-padding": "1rem",
-            "container-margin": "1rem",
-            "inline-gutter": "1rem",
-            "section-padding": "1.5rem",
-            "stack-gap": "0.75rem"
+            "container-margin": "1rem"
           },
           fontFamily: {
-            "label-sm": ["Plus Jakarta Sans"],
-            "title-sm": ["Plus Jakarta Sans"],
-            "label-bold": ["Plus Jakarta Sans"],
             "body-md": ["Plus Jakarta Sans"],
-            "display-lg": ["Plus Jakarta Sans"],
             "body-sm": ["Plus Jakarta Sans"],
-            "headline-md": ["Plus Jakarta Sans"]
+            "display-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "label-bold": ["Plus Jakarta Sans"],
+            "title-sm": ["Plus Jakarta Sans"]
           },
           fontSize: {
-            "label-sm": ["10px", { lineHeight: "14px", letterSpacing: "0.01em", fontWeight: "500" }],
-            "title-sm": ["14px", { lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "700" }],
-            "label-bold": ["11px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "700" }],
-            "body-md": ["14px", { lineHeight: "22px", letterSpacing: "0px", fontWeight: "400" }],
-            "display-lg": ["24px", { lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "800" }],
-            "body-sm": ["12px", { lineHeight: "18px", letterSpacing: "0px", fontWeight: "400" },
-            ],
-            "headline-md": ["18px", { lineHeight: "24px", letterSpacing: "-0.01em", fontWeight: "700" }]
+            "label-bold": ["11px", { lineHeight: "16px", fontWeight: "700" }],
+            "body-md": ["14px", { lineHeight: "22px" }],
+            "body-sm": ["12px", { lineHeight: "18px" }],
+            "display-lg": ["24px", { lineHeight: "32px", fontWeight: "800" }],
+            "headline-md": ["18px", { lineHeight: "24px", fontWeight: "700" }],
+            "title-sm": ["14px", { lineHeight: "20px", fontWeight: "700" }]
           }
         }
       }
-    }
+    };
   </script>
 
   <style>
     .material-symbols-outlined {
       font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
     }
-    .news-shadow {
-      box-shadow: 0px 10px 30px rgba(0,0,0,0.05);
-    }
-    .active-nav-glow {
-      filter: drop-shadow(0 0 8px rgba(29, 161, 242, 0.4));
-    }
+
     .hide-scrollbar::-webkit-scrollbar {
       display: none;
     }
+
     .hide-scrollbar {
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
+
     .drawer-open #side-drawer {
       transform: translateX(0);
     }
+
     .drawer-open #drawer-backdrop {
       opacity: 1;
       pointer-events: auto;
@@ -128,52 +84,59 @@
   </style>
 </head>
 
-<body class="bg-background text-on-background font-body-md min-h-screen pb-24">
+<body class="bg-background text-on-surface font-body-md min-h-screen pb-24">
 
   <!-- Fondo del menú -->
   <div
-    class="fixed inset-0 bg-black/50 z-[60] opacity-0 pointer-events-none transition-opacity duration-300"
     id="drawer-backdrop"
+    class="fixed inset-0 z-[60] bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300"
     onclick="toggleDrawer()">
   </div>
 
   <!-- Menú lateral -->
   <aside
-    class="fixed top-0 left-0 h-full w-[280px] bg-surface-container-lowest z-[70] -translate-x-full transition-transform duration-300 ease-in-out shadow-2xl flex flex-col"
-    id="side-drawer">
+    id="side-drawer"
+    class="fixed top-0 left-0 z-[70] flex h-full w-[280px] -translate-x-full flex-col bg-white shadow-2xl transition-transform duration-300 ease-in-out">
 
-    <div class="p-6 border-b border-outline-variant flex items-center justify-between bg-primary-container/10">
-      <h2 class="text-display-lg font-display-lg text-primary tracking-tighter">MGamers</h2>
-      <button class="p-2 rounded-full hover:bg-surface-container-low transition-colors" onclick="toggleDrawer()">
+    <div class="flex items-center justify-between border-b border-outline-variant bg-primary/10 p-6">
+      <h2 class="font-display-lg text-display-lg tracking-tighter text-primary">MGamers</h2>
+      <button
+        type="button"
+        class="rounded-full p-2 transition-colors hover:bg-surface-container-low"
+        aria-label="Cerrar menú"
+        onclick="toggleDrawer()">
         <span class="material-symbols-outlined text-on-surface-variant">close</span>
       </button>
     </div>
 
-    <nav class="flex-1 overflow-y-auto p-4 space-y-2">
-      <a class="flex items-center gap-4 p-4 rounded-xl text-primary font-title-sm bg-primary/10 transition-colors" href="index.html">
+    <nav class="flex-1 space-y-2 overflow-y-auto p-4" aria-label="Menú principal">
+      <a class="flex items-center gap-4 rounded-xl bg-primary/10 p-4 font-title-sm text-primary" href="index.html">
         <span class="material-symbols-outlined">newspaper</span>
         Inicio
       </a>
-      <a class="flex items-center gap-4 p-4 rounded-xl text-on-surface-variant font-title-sm hover:bg-surface-container-low transition-colors" href="#">
+      <a class="flex items-center gap-4 rounded-xl p-4 font-title-sm text-on-surface-variant transition-colors hover:bg-surface-container-low" href="#">
         <span class="material-symbols-outlined">sports_esports</span>
         Torneos
       </a>
-      <a class="flex items-center gap-4 p-4 rounded-xl text-on-surface-variant font-title-sm hover:bg-surface-container-low transition-colors" href="#">
+      <a class="flex items-center gap-4 rounded-xl p-4 font-title-sm text-on-surface-variant transition-colors hover:bg-surface-container-low" href="#">
         <span class="material-symbols-outlined">groups</span>
         Comunidad
       </a>
-      <a class="flex items-center gap-4 p-4 rounded-xl text-on-surface-variant font-title-sm hover:bg-surface-container-low transition-colors" href="#">
+      <a class="flex items-center gap-4 rounded-xl p-4 font-title-sm text-on-surface-variant transition-colors hover:bg-surface-container-low" href="#">
         <span class="material-symbols-outlined">leaderboard</span>
         Ranking
       </a>
-      <a class="flex items-center gap-4 p-4 rounded-xl text-on-surface-variant font-title-sm hover:bg-surface-container-low transition-colors" href="#">
+      <a class="flex items-center gap-4 rounded-xl p-4 font-title-sm text-on-surface-variant transition-colors hover:bg-surface-container-low" href="#">
         <span class="material-symbols-outlined">person</span>
         Mi Perfil
       </a>
     </nav>
 
-    <div class="p-4 border-t border-outline-variant">
-      <button class="w-full flex items-center justify-center gap-2 p-3 text-error font-title-sm hover:bg-error-container/20 rounded-lg transition-colors" onclick="toggleDrawer()">
+    <div class="border-t border-outline-variant p-4">
+      <button
+        type="button"
+        class="flex w-full items-center justify-center gap-2 rounded-lg p-3 font-title-sm text-error transition-colors hover:bg-red-50"
+        onclick="toggleDrawer()">
         <span class="material-symbols-outlined">logout</span>
         Cerrar
       </button>
@@ -181,94 +144,93 @@
   </aside>
 
   <!-- Barra superior -->
-  <header class="fixed top-0 w-full z-50 bg-surface-container-lowest border-b border-outline-variant">
-    <div class="flex items-center justify-between px-container-margin h-16 w-full max-w-screen-xl mx-auto">
-      <button class="active:scale-95 transition-transform duration-200 hover:bg-surface-container-low p-2 rounded-full" onclick="toggleDrawer()">
+  <header class="fixed top-0 z-50 w-full border-b border-outline-variant bg-white">
+    <div class="mx-auto flex h-16 w-full max-w-screen-xl items-center justify-between px-container-margin">
+      <button
+        type="button"
+        class="rounded-full p-2 transition-transform hover:bg-surface-container-low active:scale-95"
+        aria-label="Abrir menú"
+        onclick="toggleDrawer()">
         <span class="material-symbols-outlined text-primary">menu</span>
       </button>
-      <h1 class="text-display-lg font-display-lg text-primary tracking-tighter">Movil Gamers</h1>
-      <span class="w-10"></span>
+
+      <h1 class="font-display-lg text-display-lg tracking-tighter text-primary">Movil Gamers</h1>
+      <span class="w-10" aria-hidden="true"></span>
     </div>
   </header>
 
-  <main class="pt-20 px-6 max-w-md mx-auto">
-
-    <!-- Encabezado de la subcategoría -->
+  <main class="mx-auto max-w-md px-6 pt-20">
     <section class="mb-6">
-      <div class="relative h-40 rounded-xl overflow-hidden mb-4">
+      <!-- Encabezado de la subcategoría -->
+      <div class="relative mb-4 h-40 overflow-hidden rounded-xl">
         <img
           id="subcategory-image"
-          class="w-full h-full object-cover"
+          class="h-full w-full object-cover"
           src="https://img.wpfc.ml/30d/sh/d6v83r.jpg"
           alt="Imagen de la subcategoría"/>
-        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+        <div class="absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-4">
           <div>
-            <h2 id="subcategory-title" class="text-white font-headline-md text-headline-md">Servidores Mu</h2>
-            <p id="subcategory-description" class="text-white/80 font-body-sm text-body-sm">Comunidad Oficial de Jugadores</p>
+            <h2 id="subcategory-title" class="font-headline-md text-headline-md text-white">Servidores Mu</h2>
+            <p id="subcategory-description" class="font-body-sm text-body-sm text-white/80">Comunidad Oficial de Jugadores</p>
           </div>
         </div>
       </div>
 
-      <!-- Búsqueda -->
+      <!-- Búsqueda y filtros -->
       <div class="space-y-4">
         <div class="relative">
           <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
           <input
             id="post-search"
-            class="w-full pl-10 pr-4 py-3 rounded-xl border border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:border-transparent outline-none font-body-md text-body-md"
+            class="w-full rounded-xl border border-outline-variant bg-white py-3 pl-10 pr-4 font-body-md text-body-md outline-none focus:border-transparent focus:ring-2 focus:ring-primary"
             placeholder="Buscar publicaciones..."
             type="search"/>
         </div>
 
-        <!-- Filtros por tipo -->
-        <div id="type-filters" class="flex gap-2 overflow-x-auto pb-2 hide-scrollbar">
-          <button data-type="" class="filter-button bg-primary text-on-primary px-4 py-1.5 rounded-full font-label-bold text-label-bold whitespace-nowrap">Todo</button>
-          <button data-type="Guías" class="filter-button px-4 py-1.5 rounded-full font-label-bold text-label-bold border border-outline-variant bg-surface-container-lowest text-on-surface-variant whitespace-nowrap">Guías</button>
-          <button data-type="Builds" class="filter-button px-4 py-1.5 rounded-full font-label-bold text-label-bold border border-outline-variant bg-surface-container-lowest text-on-surface-variant whitespace-nowrap">Builds</button>
-          <button data-type="Bugs" class="filter-button px-4 py-1.5 rounded-full font-label-bold text-label-bold border border-outline-variant bg-surface-container-lowest text-on-surface-variant whitespace-nowrap">Bugs</button>
-          <button data-type="General" class="filter-button px-4 py-1.5 rounded-full font-label-bold text-label-bold border border-outline-variant bg-surface-container-lowest text-on-surface-variant whitespace-nowrap">General</button>
+        <div id="type-filters" class="hide-scrollbar flex gap-2 overflow-x-auto pb-2">
+          <button type="button" data-type="" class="filter-button whitespace-nowrap rounded-full bg-primary px-4 py-1.5 font-label-bold text-label-bold text-white">Todo</button>
+          <button type="button" data-type="Guías" class="filter-button whitespace-nowrap rounded-full border border-outline-variant bg-white px-4 py-1.5 font-label-bold text-label-bold text-on-surface-variant">Guías</button>
+          <button type="button" data-type="Builds" class="filter-button whitespace-nowrap rounded-full border border-outline-variant bg-white px-4 py-1.5 font-label-bold text-label-bold text-on-surface-variant">Builds</button>
+          <button type="button" data-type="Bugs" class="filter-button whitespace-nowrap rounded-full border border-outline-variant bg-white px-4 py-1.5 font-label-bold text-label-bold text-on-surface-variant">Bugs</button>
+          <button type="button" data-type="General" class="filter-button whitespace-nowrap rounded-full border border-outline-variant bg-white px-4 py-1.5 font-label-bold text-label-bold text-on-surface-variant">General</button>
         </div>
       </div>
     </section>
 
-    <p id="post-status" class="text-center text-on-surface-variant text-body-sm py-3" aria-live="polite">
+    <p id="post-status" class="py-3 text-center font-body-sm text-body-sm text-on-surface-variant" aria-live="polite">
       Cargando publicaciones…
     </p>
 
-    <!-- Las tarjetas se generan desde Supabase -->
     <div id="post-list" class="space-y-4"></div>
   </main>
 
+  <!-- Barra inferior de navegación -->
+  <nav class="fixed bottom-0 left-4 right-4 z-[80] flex items-center justify-between border-t border-outline-variant bg-white/95 px-2 pb-2 pt-1 backdrop-blur-md" aria-label="Navegación inferior">
+    <a href="index.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
+      <span class="material-symbols-outlined text-[24px]">home</span>
+      <span class="text-[10px] font-bold">Inicio</span>
+    </a>
 
- <!-- Bottom Barra de Navegación -->
- <nav class="fixed bottom-0 left-4 right-4 bg-blue backdrop-blur-md border-t border-poral-border px-2 py-1 flex justify-between items-center z-[80] pb-2">
+    <a href="post.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
+      <span class="material-symbols-outlined text-[24px]">edit_square</span>
+      <span class="text-[10px] font-bold">Nuevo</span>
+    </a>
 
-<a href="index.html" class="flex flex-col items-center gap-1 text-portal-text-muted">
-  <span class="material-symbols-outlined text-[24px]">home</span>
-  <span class="text-[10px] font-bold">Inicio</span>
-</a>
+    <a href="bdona.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
+      <span class="material-symbols-outlined text-[24px]">volunteer_activism</span>
+      <span class="text-[10px] font-bold">Donar</span>
+    </a>
 
-<a href="post.html" class="flex flex-col items-center gap-1 text-portal-text-muted">
-  <span class="material-symbols-outlined text-[24px]">person</span>
-  <span class="text-[10px] font-bold">Nuevo</span>
-</a>
+    <a href="mant.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
+      <span class="material-symbols-outlined text-[24px]">notifications</span>
+      <span class="text-[10px] font-bold">Nota</span>
+    </a>
 
-<a href="bdona.html" class="flex flex-col items-center gap-1 text-portal-text-muted">
-  <span class="material-symbols-outlined text-[24px]">volunteer_activism</span>
-  <span class="text-[10px] font-bold">Donar</span>
-</a>
-
-
-<a href="mant.html" class="flex flex-col items-center gap-1 text-portal-text-muted">
-  <span class="material-symbols-outlined text-[24px]">notifications</span>
-  <span class="text-[10px] font-bold">Nota</span>
-</a>
-
-<a href="inres.html" class="flex flex-col items-center gap-1 text-portal-text-muted">
-  <span class="material-symbols-outlined text-[24px]">Person</span>
-  <span class="text-[10px] font-bold">Ingreso</span>
-</a>
-
+    <a href="inres.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
+      <span class="material-symbols-outlined text-[24px]">person</span>
+      <span class="text-[10px] font-bold">Ingreso</span>
+    </a>
+  </nav>
 
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
@@ -280,7 +242,6 @@
     const DEFAULT_DESCRIPTION = "Comunidad Oficial de Jugadores";
 
     const params = new URLSearchParams(window.location.search);
-
     const category = (params.get("categoria") || "").trim();
     const categoryName = (params.get("nombre") || category || "Servidores Mu").trim();
     const categoryDescription = (params.get("descripcion") || DEFAULT_DESCRIPTION).trim();
@@ -305,7 +266,6 @@
     searchInput.placeholder = `Buscar en ${categoryName}...`;
     imageElement.alt = categoryName;
 
-    // Solo acepta direcciones HTTPS; si no se pasa una imagen válida, usa la predeterminada.
     if (categoryImage) {
       try {
         const parsedImageUrl = new URL(categoryImage);
@@ -318,7 +278,9 @@
     }
 
     imageElement.addEventListener("error", () => {
-      imageElement.src = DEFAULT_IMAGE;
+      if (imageElement.src !== DEFAULT_IMAGE) {
+        imageElement.src = DEFAULT_IMAGE;
+      }
     });
 
     function setStatus(message) {
@@ -329,15 +291,16 @@
     function timeAgo(dateValue) {
       if (!dateValue) return "";
 
-      const seconds = Math.floor((Date.now() - new Date(dateValue).getTime()) / 1000);
-      if (!Number.isFinite(seconds)) return "";
+      const date = new Date(dateValue);
+      const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
 
+      if (!Number.isFinite(seconds)) return "";
       if (seconds < 60) return "Ahora";
       if (seconds < 3600) return `Hace ${Math.floor(seconds / 60)} min`;
       if (seconds < 86400) return `Hace ${Math.floor(seconds / 3600)} horas`;
       if (seconds < 604800) return `Hace ${Math.floor(seconds / 86400)} días`;
 
-      return new Date(dateValue).toLocaleDateString("es");
+      return date.toLocaleDateString("es");
     }
 
     function makeElement(tag, className, text) {
@@ -374,27 +337,25 @@
       };
 
       visiblePosts.forEach((post) => {
-        const link = makeElement("a", "block group no-underline");
-        link.href = `fpost.html?id=${encodeURIComponent(post.id)}`;
+        const link = makeElement("a", "group block no-underline");
+        link.href = `ficha.html?id=${encodeURIComponent(post.id)}`;
 
         const article = makeElement(
           "article",
-          "bg-surface-container-lowest border border-outline-variant p-4 rounded-xl active:scale-[0.98] transition-transform"
+          "rounded-xl border border-outline-variant bg-white p-4 transition-transform active:scale-[0.98]"
         );
 
-        const authorRow = makeElement("div", "flex items-center gap-3 mb-3");
+        const authorRow = makeElement("div", "mb-3 flex items-center gap-3");
 
         const avatarFrame = makeElement(
           "div",
-          "w-10 h-10 rounded-full border border-outline-variant overflow-hidden bg-primary-container flex items-center justify-center"
+          "flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-outline-variant bg-primary"
         );
-        avatarFrame.appendChild(
-          makeElement("span", "text-white text-sm font-bold", "J")
-        );
+        avatarFrame.appendChild(makeElement("span", "text-sm font-bold text-white", "J"));
 
         const authorInfo = makeElement("div", "flex-1");
         authorInfo.appendChild(
-          makeElement("p", "font-label-bold text-label-bold text-on-background", "Jugador")
+          makeElement("p", "font-label-bold text-label-bold text-on-surface", "Jugador")
         );
         authorInfo.appendChild(
           makeElement("p", "font-body-sm text-[11px] text-outline", timeAgo(post.created_at))
@@ -402,7 +363,7 @@
 
         const tag = makeElement(
           "span",
-          "bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-md font-label-bold text-[9px]",
+          "rounded-md bg-secondary-container px-2 py-0.5 text-[9px] font-label-bold text-on-secondary-container",
           typeLabels[post.tipo] || "PUBLICACIÓN"
         );
 
@@ -410,19 +371,19 @@
 
         const heading = makeElement(
           "h3",
-          "font-headline-md text-headline-md text-primary mb-2 group-hover:underline",
+          "mb-2 font-headline-md text-headline-md text-primary group-hover:underline",
           post.titulo || "Publicación sin título"
         );
 
         const content = makeElement(
           "p",
-          "font-body-md text-body-sm text-on-surface-variant line-clamp-2 mb-4",
+          "mb-4 line-clamp-2 font-body-md text-body-sm text-on-surface-variant",
           post.contenido || ""
         );
 
         const footer = makeElement(
           "div",
-          "flex items-center justify-between border-t border-outline-variant pt-3 mt-1"
+          "mt-1 flex items-center justify-between border-t border-outline-variant pt-3"
         );
 
         const counts = makeElement("div", "flex gap-4");
@@ -454,16 +415,6 @@
         return;
       }
 
-      if (
-        !SUPABASE_URL ||
-        !SUPABASE_PUBLISHABLE_KEY ||
-        SUPABASE_URL.startsWith("PON_AQUI") ||
-        SUPABASE_PUBLISHABLE_KEY.startsWith("PON_AQUI")
-      ) {
-        setStatus("Falta configurar la URL y la publishable key de Supabase en este archivo.");
-        return;
-      }
-
       if (!supabase) {
         supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
       }
@@ -482,67 +433,48 @@
       }
 
       const { data, error } = await query;
-      
-      // Evita que una respuesta anterior reemplace los resultados del filtro más reciente.
+
       if (currentRequest !== requestVersion) return;
-      
+
       if (error) {
         console.error("Error cargando publicaciones:", error);
-        setStatus("No se pudieron cargar las publicaciones.");
+        setStatus("No se pudieron cargar las publicaciones. Revisa la conexión y las políticas RLS de Supabase.");
         return;
       }
+
       allPosts = data || [];
       renderPosts();
     }
+
     filterButtons.forEach((button) => {
       button.addEventListener("click", () => {
         filterButtons.forEach((item) => {
-          item.classList.remove("bg-primary", "text-on-primary");
-          item.classList.add(
-            "border",
-            "border-outline-variant",
-            "bg-surface-container-lowest",
-            "text-on-surface-variant"
-          );
+          item.classList.remove("bg-primary", "text-white");
+          item.classList.add("border", "border-outline-variant", "bg-white", "text-on-surface-variant");
         });
-        button.classList.add("bg-primary", "text-on-primary");
-        button.classList.remove(
-          "border",
-          "border-outline-variant",
-          "bg-surface-container-lowest",
-          "text-on-surface-variant"
-        );
+
+        button.classList.add("bg-primary", "text-white");
+        button.classList.remove("border", "border-outline-variant", "bg-white", "text-on-surface-variant");
+
         selectedType = button.dataset.type || "";
         loadPosts();
       });
     });
+
     searchInput.addEventListener("input", renderPosts);
     loadPosts();
-  
-</script>
+  </script>
 
-  
-<script>
-
+  <script>
     function toggleDrawer() {
       document.body.classList.toggle("drawer-open");
       document.body.classList.toggle("overflow-hidden");
     }
+
     window.addEventListener("scroll", () => {
       const header = document.querySelector("header");
-      if (window.scrollY > 20) {
-        header.classList.add("shadow-md");
-      } else {
-        header.classList.remove("shadow-md");
-      }
+      header.classList.toggle("shadow-md", window.scrollY > 20);
     });
-  
-</script>
-
+  </script>
 </body>
-
 </html>
-
-
-
-
