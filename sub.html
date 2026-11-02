@@ -251,9 +251,7 @@
 
     let selectedType = "";
     let allPosts = [];
-    let supabase;
-    let currentUser = null;
-    let isAdmin = false;
+    let supabase = null;
     let requestVersion = 0;
 
     titleElement.textContent = categoryName;
@@ -320,20 +318,8 @@
         return;
       }
 
-      let safeAvatarUrl;
-      try {
-        const parsedAvatarUrl = new URL(avatarUrl);
-        if (parsedAvatarUrl.protocol !== "https:") throw new Error("URL no segura");
-        safeAvatarUrl = parsedAvatarUrl.href;
-      } catch {
-        avatarFrame.appendChild(
-          makeElement("span", "text-sm font-bold text-white", getInitial(authorName))
-        );
-        return;
-      }
-
       const avatarImage = makeElement("img", "h-full w-full object-cover");
-      avatarImage.src = safeAvatarUrl;
+      avatarImage.src = avatarUrl;
       avatarImage.alt = `Foto de perfil de ${authorName}`;
       avatarImage.loading = "lazy";
 
@@ -346,63 +332,6 @@
       avatarFrame.appendChild(avatarImage);
     }
 
-    async function editPost(post) {
-      const newTitle = window.prompt("Editar título:", post.titulo || "");
-      if (newTitle === null) return;
-
-      const newContent = window.prompt("Editar contenido:", post.contenido || "");
-      if (newContent === null) return;
-
-      const { data, error } = await supabase
-        .from("posts")
-        .update({
-          titulo: newTitle.trim(),
-          contenido: newContent.trim()
-        })
-        .eq("id", post.id)
-        .select("id");
-
-      if (error) {
-        console.error("Error editando publicación:", error);
-        window.alert("No se pudo editar la publicación. Comprueba tu sesión y los permisos.");
-        return;
-      }
-
-      if (!data?.length) {
-        window.alert("No se modificó la publicación. Puede que ya no exista o no tengas permiso.");
-        return;
-      }
-
-      await loadPosts();
-    }
-
-    async function deletePost(post) {
-      const confirmed = window.confirm(
-        `¿Seguro que quieres eliminar "${post.titulo || "esta publicación"}"? Esta acción no se puede deshacer.`
-      );
-
-      if (!confirmed) return;
-
-      const { data, error } = await supabase
-        .from("posts")
-        .delete()
-        .eq("id", post.id)
-        .select("id");
-
-      if (error) {
-        console.error("Error eliminando publicación:", error);
-        window.alert("No se pudo eliminar la publicación. Comprueba tu sesión y los permisos.");
-        return;
-      }
-
-      if (!data?.length) {
-        window.alert("No se eliminó la publicación. Puede que ya no exista o no tengas permiso.");
-        return;
-      }
-
-      await loadPosts();
-    }
-
     function renderPosts() {
       postList.replaceChildren();
 
@@ -410,10 +339,8 @@
 
       const visiblePosts = allPosts.filter((post) => {
         const matchesType = !selectedType || post.tipo === selectedType;
-        const searchableText = `${post.titulo || ""} ${post.contenido || ""}`
-          .toLocaleLowerCase("es");
+        const searchableText = `${post.titulo || ""} ${post.contenido || ""}`.toLocaleLowerCase("es");
         const matchesSearch = !searchText || searchableText.includes(searchText);
-
         return matchesType && matchesSearch;
       });
 
@@ -432,6 +359,9 @@
       };
 
       visiblePosts.forEach((post) => {
+        const link = makeElement("a", "group block no-underline");
+        link.href = `ficha.html?id=${encodeURIComponent(post.id)}`;
+
         const article = makeElement(
           "article",
           "rounded-xl border border-outline-variant bg-white p-4 transition-transform active:scale-[0.98]"
@@ -463,12 +393,11 @@
 
         authorRow.append(avatarFrame, authorInfo, tag);
 
-        const headingLink = makeElement(
-          "a",
-          "mb-2 block font-headline-md text-headline-md text-primary hover:underline"
+        const heading = makeElement(
+          "h3",
+          "mb-2 font-headline-md text-headline-md text-primary group-hover:underline",
+          post.titulo || "Publicación sin título"
         );
-        headingLink.href = `ficha.html?id=${encodeURIComponent(post.id)}`;
-        headingLink.textContent = post.titulo || "Publicación sin título";
 
         const content = makeElement(
           "p",
@@ -498,32 +427,9 @@
         counts.append(likes, comments);
         footer.appendChild(counts);
 
-        article.append(authorRow, headingLink, content, footer);
-
-        if (isAdmin) {
-          const adminActions = makeElement("div", "mt-3 flex justify-end gap-2");
-
-          const editButton = makeElement(
-            "button",
-            "rounded-lg border border-outline-variant px-3 py-2 text-xs font-bold text-on-surface-variant transition-colors hover:bg-surface-container-low",
-            "Editar"
-          );
-          editButton.type = "button";
-          editButton.addEventListener("click", () => editPost(post));
-
-          const deleteButton = makeElement(
-            "button",
-            "rounded-lg bg-red-50 px-3 py-2 text-xs font-bold text-error transition-colors hover:bg-red-100",
-            "Eliminar"
-          );
-          deleteButton.type = "button";
-          deleteButton.addEventListener("click", () => deletePost(post));
-
-          adminActions.append(editButton, deleteButton);
-          article.appendChild(adminActions);
-        }
-
-        postList.appendChild(article);
+        article.append(authorRow, heading, content, footer);
+        link.appendChild(article);
+        postList.appendChild(link);
       });
     }
 
@@ -531,6 +437,10 @@
       if (!category) {
         setStatus("Falta la subcategoría en la dirección de esta página.");
         return;
+      }
+
+      if (!supabase) {
+        supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
       }
 
       const currentRequest = ++requestVersion;
@@ -589,21 +499,11 @@
       button.addEventListener("click", () => {
         filterButtons.forEach((item) => {
           item.classList.remove("bg-primary", "text-white");
-          item.classList.add(
-            "border",
-            "border-outline-variant",
-            "bg-white",
-            "text-on-surface-variant"
-          );
+          item.classList.add("border", "border-outline-variant", "bg-white", "text-on-surface-variant");
         });
 
         button.classList.add("bg-primary", "text-white");
-        button.classList.remove(
-          "border",
-          "border-outline-variant",
-          "bg-white",
-          "text-on-surface-variant"
-        );
+        button.classList.remove("border", "border-outline-variant", "bg-white", "text-on-surface-variant");
 
         selectedType = button.dataset.type || "";
         loadPosts();
@@ -611,29 +511,7 @@
     });
 
     searchInput.addEventListener("input", renderPosts);
-
-    async function initializePage() {
-      supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-
-      const { data, error } = await supabase.auth.getSession();
-
-      if (error) {
-        console.error("Error obteniendo la sesión:", error);
-      }
-
-      currentUser = data?.session?.user || null;
-      isAdmin = currentUser?.app_metadata?.role === "admin";
-
-      await loadPosts();
-
-      supabase.auth.onAuthStateChange((_event, session) => {
-        currentUser = session?.user || null;
-        isAdmin = currentUser?.app_metadata?.role === "admin";
-        renderPosts();
-      });
-    }
-
-    initializePage();
+    loadPosts();
   </script>
 
   <script>
