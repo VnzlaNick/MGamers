@@ -1,11 +1,10 @@
 <!doctype html>
 <html lang="es">
-<head>
+ <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#090d18">
   <title>Crear publicación | Móvil Gamers</title>
-
   <style>
     :root {
       color-scheme: dark;
@@ -179,97 +178,42 @@
       .header { align-items: flex-start; }
     }
   </style>
-</head>
-
-<body>
+ </head>
+ <body>
   <main class="container">
-    <div class="header">
-      <a href="index.html">← Volver al foro</a>
-      <a href="inres.html">Cuenta</a>
-    </div>
-
-    <section class="card">
-      <h1>Crear publicación</h1>
-      <p class="subtitle">Comparte un tema con la comunidad gamer.</p>
-      <p id="auth-status" class="auth-status">Verificando sesión…</p>
-
-      <form id="form-post">
-        <div class="field">
-          <label for="categoria">Categoría</label>
-          <select id="categoria" required>
-            <option value="">Selecciona una categoría</option>
-            <option value="noticias">Noticias y Anuncios</option>
-            <option value="torneos">Torneos</option>
-            <option value="descargas-juegos">Descargas Juegos</option>
-            <option value="servidores-mu">Servidores Mu</option>
-            <option value="blood-strike">Blood Strike</option>
-            <option value="free-fire">Free Fire</option>
-            <option value="mobile-legends">Mobile Legends</option>
-            <option value="brawl-star">Brawl Star</option>
-            <option value="gounbound-m">Gounbound M</option>
-            <option value="zona-pokemon">Zona Pokemon</option>
-            <option value="minecraft">Minecraft</option>
-            <option value="zona-dino">Zona Dino</option>
-            <option value="zona-simuladores">Zona Simuladores</option>
-            <option value="zona-libre">Zona Libre</option>
-            <option value="guia-trucos">Guía, Trucos</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="tipo">Tipo de publicación</label>
-          <select id="tipo">
-            <option value="General">General</option>
-            <option value="Guías">Guías</option>
-            <option value="Builds">Builds</option>
-            <option value="Bugs">Bugs</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="titulo">Título</label>
-          <input
-            id="titulo"
-            type="text"
-            maxlength="160"
-            placeholder="Ej.: Busco equipo para el torneo"
-            required
-          >
-        </div>
-
-        <div class="field">
-          <label for="contenido">Contenido</label>
-          <textarea
-            id="contenido"
-            maxlength="10000"
-            placeholder="Escribe los detalles de tu publicación…"
-            required
-          ></textarea>
-        </div>
-
-        <div class="field">
-          <label for="imagen">Imagen (opcional)</label>
-          <div class="image-picker">
-            <input
-              id="imagen"
-              type="file"
-              accept="image/*"
-              capture="environment"
-            >
-            <p class="help">Puedes elegir una imagen del teléfono o tomar una foto. Máximo 5 MB.</p>
-          </div>
-          <img id="preview" class="preview" alt="Vista previa de la imagen">
-        </div>
-
-        <div id="message" class="message" role="status" aria-live="polite"></div>
-
-        <button id="submit-button" class="submit" type="submit">
-          Publicar tema
-        </button>
-      </form>
-    </section>
+   <div class="header">
+    <a href="index.html">← Volver al foro</a> <a href="inres.html">Cuenta</a>
+   </div>
+   <section class="card">
+    <h1>Crear publicación</h1>
+    <p class="subtitle">Comparte un tema con la comunidad gamer.</p>
+    <p id="auth-status" class="auth-status">Verificando sesión…</p>
+    <form id="form-post">
+     <div class="field">
+      <label for="categoria">Categoría</label> <select id="categoria" required> <option value="">Selecciona una categoría</option> <option value="noticias">Noticias y Anuncios</option> <option value="torneos">Torneos</option> <option value="descargas-juegos">Descargas Juegos</option> <option value="servidores-mu">Servidores Mu</option> <option value="blood-strike">Blood Strike</option> <option value="free-fire">Free Fire</option> <option value="mobile-legends">Mobile Legends</option> <option value="brawl-star">Brawl Star</option> <option value="gounbound-m">Gounbound M</option> <option value="zona-pokemon">Zona Pokemon</option> <option value="minecraft">Minecraft</option> <option value="zona-dino">Zona Dino</option> <option value="zona-simuladores">Zona Simuladores</option> <option value="zona-libre">Zona Libre</option> <option value="guia-trucos">Guía, Trucos</option> </select>
+     </div>
+     <div class="field">
+      <label for="tipo">Tipo de publicación</label> <select id="tipo"> <option value="General">General</option> <option value="Guías">Guías</option> <option value="Builds">Builds</option> <option value="Bugs">Bugs</option> </select>
+     </div>
+     <div class="field">
+      <label for="titulo">Título</label> <input id="titulo" type="text" maxlength="160" placeholder="Ej.: Busco equipo para el torneo" required>
+     </div>
+     <div class="field">
+      <label for="contenido">Contenido</label> <textarea id="contenido" maxlength="10000" placeholder="Escribe los detalles de tu publicación…" required></textarea>
+     </div>
+     <div class="field">
+      <label for="imagen">Imagen (opcional)</label>
+      <div class="image-picker">
+       <input id="imagen" type="file" accept="image/*" capture="environment">
+       <p class="help">Puedes elegir una imagen del teléfono o tomar una foto. Máximo 5 MB.</p>
+      </div>
+      <img id="preview" class="preview" alt="Vista previa de la imagen">
+     </div>
+     <div id="message" class="message" role="status" aria-live="polite"></div>
+     <button id="submit-button" class="submit" type="submit">Publicar tema</button>
+    </form>
+   </section>
   </main>
-
   <script type="module">
     import { supabase } from './conexion.js';
 
@@ -442,5 +386,5 @@
 
     checkSession();
   </script>
-</body>
+ </body>
 </html>

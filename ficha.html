@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GamersPro | Publicación</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    rel="stylesheet"
+  />
+
+  <style>
+    body {
+      font-family: "Plus Jakarta Sans", sans-serif;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+    }
+
+    .drawer-open #side-drawer {
+      transform: translateX(0);
+    }
+
+    .drawer-open #drawer-backdrop {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-slate-50 pb-28 text-slate-900">
+  <div
+    id="drawer-backdrop"
+    class="pointer-events-none fixed inset-0 z-[60] bg-black/50 opacity-0 transition-opacity duration-300"
+    onclick="window.toggleDrawer(false)"
+    aria-hidden="true"
+  ></div>
+
+  <aside
+    id="side-drawer"
+    class="fixed left-0 top-0 z-[70] flex h-full w-[280px] -translate-x-full flex-col bg-white shadow-2xl transition-transform duration-300"
+    aria-label="Menú principal"
+  >
+    <div class="flex items-center justify-between border-b border-slate-200 bg-sky-50 p-6">
+      <a href="index.html" class="text-2xl font-extrabold tracking-tight text-sky-500">
+        GamersPro
+      </a>
+      <button
+        type="button"
+        class="rounded-full p-2 hover:bg-slate-100"
+        onclick="window.toggleDrawer(false)"
+        aria-label="Cerrar menú"
+      >
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <nav class="flex-1 space-y-2 overflow-y-auto p-4">
+      <a href="index.html" class="flex items-center gap-4 rounded-xl bg-sky-50 p-4 font-bold text-sky-600">
+        <span class="material-symbols-outlined">newspaper</span>
+        Inicio
+      </a>
+      <a href="#" class="flex items-center gap-4 rounded-xl p-4 font-semibold text-slate-600 hover:bg-slate-100">
+        <span class="material-symbols-outlined">sports_esports</span>
+        Torneos
+      </a>
+      <a href="#" class="flex items-center gap-4 rounded-xl p-4 font-semibold text-slate-600 hover:bg-slate-100">
+        <span class="material-symbols-outlined">groups</span>
+        Comunidad
+      </a>
+      <a href="#" class="flex items-center gap-4 rounded-xl p-4 font-semibold text-slate-600 hover:bg-slate-100">
+        <span class="material-symbols-outlined">leaderboard</span>
+        Ranking
+      </a>
+      <a href="#" class="flex items-center gap-4 rounded-xl p-4 font-semibold text-slate-600 hover:bg-slate-100">
+        <span class="material-symbols-outlined">person</span>
+        Mi perfil
+      </a>
+    </nav>
+  </aside>
+
+  <header id="app-header" class="fixed top-0 z-50 w-full border-b border-slate-200 bg-white">
+    <div class="mx-auto flex h-16 max-w-3xl items-center justify-between px-4">
+      <button
+        type="button"
+        class="rounded-full p-2 text-sky-500 hover:bg-slate-100"
+        onclick="window.toggleDrawer(true)"
+        aria-label="Abrir menú"
+      >
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+
+      <a href="index.html" class="text-2xl font-extrabold tracking-tight text-sky-500">
+        GamersPro
+      </a>
+
+      <a href="index.html" class="rounded-full p-2 text-sky-500 hover:bg-slate-100" aria-label="Volver al inicio">
+        <span class="material-symbols-outlined">home</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="mx-auto min-h-screen max-w-3xl px-5 pb-12 pt-20">
+    <p id="page-status" class="mb-4 text-sm text-slate-500" role="status" aria-live="polite"></p>
+
+    <section class="mb-5 flex items-center gap-3">
+      <img
+        id="post-avatar"
+        class="h-11 w-11 rounded-full border border-sky-200 object-cover"
+        src="https://i.pravatar.cc/100?img=12"
+        alt="Avatar del autor"
+      />
+
+      <div>
+        <p id="post-author" class="font-bold text-sky-600">Cargando autor...</p>
+        <p id="post-role" class="text-sm text-slate-500">Miembro del foro</p>
+      </div>
+
+      <time id="post-time" class="ml-auto text-xs text-slate-500"></time>
+    </section>
+
+    <article>
+      <h1 id="post-title" class="mb-5 text-2xl font-extrabold leading-tight sm:text-3xl">
+        Cargando publicación...
+      </h1>
+
+      <div id="post-image-container" class="mb-6 overflow-hidden rounded-xl border border-slate-200" hidden>
+        <img
+          id="post-image"
+          class="aspect-[1.75] w-full object-cover"
+          src=""
+          alt="Imagen de la publicación"
+          loading="lazy"
+        />
+      </div>
+
+      <div
+        id="post-content"
+        class="mb-8 whitespace-pre-wrap text-sm leading-7 text-slate-600 sm:text-base"
+      ></div>
+    </article>
+
+    <section class="mb-8 flex items-center justify-between border-y border-slate-200 py-4">
+      <div class="flex items-center gap-6">
+        <button
+          id="like-button"
+          type="button"
+          class="flex items-center gap-1.5 text-slate-500"
+          aria-label="Me gusta"
+          aria-pressed="false"
+          title="Me gusta"
+        >
+          <span class="material-symbols-outlined">favorite</span>
+          <span id="like-count" class="text-sm">0</span>
+        </button>
+
+        <a href="#comments" class="flex items-center gap-1.5 text-slate-500">
+          <span class="material-symbols-outlined">chat_bubble</span>
+          <span id="comment-count" class="text-sm">0</span>
+        </a>
+      </div>
+
+      <button
+        id="bookmark-button"
+        type="button"
+        class="text-slate-500"
+        aria-label="Guardar publicación"
+        aria-pressed="false"
+        title="Guardar publicación"
+      >
+        <span class="material-symbols-outlined">bookmark</span>
+      </button>
+    </section>
+
+    <section id="comments" class="mb-10 space-y-6">
+      <h2 class="text-xl font-bold">
+        Comentarios (<span id="comments-heading-count">0</span>)
+      </h2>
+      <div id="comments-list" class="space-y-6"></div>
+    </section>
+  </main>
+
+  <form
+    id="comment-form"
+    class="fixed bottom-0 left-0 z-40 w-full bg-gradient-to-t from-slate-50 via-slate-50/95 to-transparent px-4 pb-5 pt-4"
+  >
+    <div class="mx-auto flex max-w-3xl items-center gap-3 rounded-full border border-slate-200 bg-slate-100 p-2 shadow-lg">
+      <img
+        class="h-8 w-8 rounded-full object-cover"
+        src="https://i.pravatar.cc/100?img=5"
+        alt="Tu avatar"
+      />
+
+      <input
+        id="comment-input"
+        class="min-w-0 flex-1 border-0 bg-transparent text-sm focus:ring-0"
+        type="text"
+        maxlength="3000"
+        placeholder="Escribe un comentario..."
+        aria-label="Escribe un comentario"
+      />
+
+      <button
+        type="submit"
+        class="flex h-10 w-10 items-center justify-center rounded-full bg-sky-500 text-white active:scale-90"
+        aria-label="Enviar comentario"
+      >
+        <span class="material-symbols-outlined">send</span>
+      </button>
+    </div>
+  </form>
+
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const SUPABASE_URL = "https://zrrpjbqduwtaxsfbsuum.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_7sOPZc2sJT4jExW3gAREgA_GBpRe6Rp";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+    const postId = new URLSearchParams(window.location.search).get("id");
+
+    const statusElement = document.getElementById("page-status");
+    const commentsList = document.getElementById("comments-list");
+    const commentForm = document.getElementById("comment-form");
+
+    let currentUser = null;
+    let currentPost = null;
+    let currentLikeCount = 0;
+
+    function showStatus(message, isError = false) {
+      statusElement.textContent = message;
+      statusElement.classList.toggle("text-red-600", isError);
+      statusElement.classList.toggle("text-slate-500", !isError);
+    }
+
+    function formatDate(value) {
+      if (!value) return "";
+
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "";
+
+      return new Intl.DateTimeFormat("es", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      }).format(date);
+    }
+
+    function avatarUrl(url) {
+      return url || "https://i.pravatar.cc/100?img=12";
+    }
+
+    function setPressed(button, pressed) {
+      button.setAttribute("aria-pressed", String(pressed));
+      button.classList.toggle("text-sky-600", pressed);
+      button.classList.toggle("text-slate-500", !pressed);
+
+      const icon = button.querySelector(".material-symbols-outlined");
+      if (icon) {
+        icon.style.fontVariationSettings = pressed
+          ? '"FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24'
+          : '"FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24';
+      }
+    }
+
+    async function loadProfiles(userIds) {
+      const ids = [...new Set(userIds.filter(Boolean))];
+
+      if (!currentUser || ids.length === 0) return new Map();
+
+      const { data, error } = await supabase
+        .from("usuarios_foro")
+        .select("auth_user_id, username, avatar_url")
+        .in("auth_user_id", ids);
+
+      if (error) {
+        console.warn("No se pudieron cargar algunos perfiles:", error.message);
+        return new Map();
+      }
+
+      return new Map((data || []).map((profile) => [profile.auth_user_id, profile]));
+    }
+
+    async function loadPost() {
+      const { data, error } = await supabase
+        .from("posts")
+        .select("id, titulo, contenido, author_id, created_at, like_count, image_url")
+        .eq("id", postId)
+        .maybeSingle();
+
+      if (error) throw error;
+      if (!data) throw new Error("No se encontró esa publicación.");
+
+      currentPost = data;
+      currentLikeCount = Number(data.like_count || 0);
+
+      const profiles = await loadProfiles([data.author_id]);
+      const author = profiles.get(data.author_id);
+
+      document.getElementById("post-title").textContent = data.titulo || "Sin título";
+      document.getElementById("post-content").textContent = data.contenido || "";
+      document.getElementById("post-author").textContent =
+        author?.username || "Miembro del foro";
+      document.getElementById("post-avatar").src = avatarUrl(author?.avatar_url);
+      document.getElementById("post-time").textContent = formatDate(data.created_at);
+      document.getElementById("like-count").textContent = String(currentLikeCount);
+
+      const image = document.getElementById("post-image");
+      const imageContainer = document.getElementById("post-image-container");
+
+      if (data.image_url) {
+        image.src = data.image_url;
+        image.alt = data.titulo || "Imagen de la publicación";
+        imageContainer.hidden = false;
+      } else {
+        imageContainer.hidden = true;
+      }
+    }
+
+    async function loadComments() {
+      const { data: comments, error } = await supabase
+        .from("post_comments")
+        .select("id, post_id, author_id, parent_id, content, created_at, like_count")
+        .eq("post_id", postId)
+        .is("parent_id", null)
+        .order("created_at", { ascending: true });
+
+      if (error) throw error;
+
+      const rows = comments || [];
+      const profiles = await loadProfiles(rows.map((comment) => comment.author_id));
+
+      let likedCommentIds = new Set();
+
+      if (currentUser && rows.length > 0) {
+        const { data: likes, error: likesError } = await supabase
+          .from("comment_likes")
+          .select("comment_id")
+          .eq("user_id", currentUser.id)
+          .in("comment_id", rows.map((comment) => comment.id));
+
+        if (!likesError) {
+          likedCommentIds = new Set((likes || []).map((like) => String(like.comment_id)));
+        }
+      }
+
+      commentsList.replaceChildren();
+
+      for (const comment of rows) {
+        const profile = profiles.get(comment.author_id);
+        const wrapper = document.createElement("div");
+        wrapper.className = "flex gap-4";
+
+        const avatar = document.createElement("img");
+        avatar.className = "h-10 w-10 rounded-full object-cover";
+        avatar.src = avatarUrl(profile?.avatar_url);
+        avatar.alt = `Avatar de ${profile?.username || "miembro"}`;
+
+        const body = document.createElement("div");
+        body.className = "flex-1";
+
+        const heading = document.createElement("div");
+        heading.className = "flex items-center justify-between gap-2";
+
+        const username = document.createElement("span");
+        username.className = "font-bold text-sky-600";
+        username.textContent = profile?.username || "Miembro del foro";
+
+        const time = document.createElement("time");
+        time.className = "text-xs text-slate-500";
+        time.textContent = formatDate(comment.created_at);
+
+        const content = document.createElement("p");
+        content.className = "mt-1 whitespace-pre-wrap text-sm leading-6 text-slate-700";
+        content.textContent = comment.content;
+
+        const actions = document.createElement("div");
+        actions.className = "mt-2 flex gap-4";
+
+        const likeButton = document.createElement("button");
+        likeButton.type = "button";
+        likeButton.className = "flex items-center gap-1 text-xs text-slate-500";
+        likeButton.setAttribute("aria-label", "Me gusta en comentario");
+        likeButton.dataset.commentLike = String(comment.id);
+
+        const liked = likedCommentIds.has(String(comment.id));
+        setPressed(likeButton, liked);
+
+        const likeText = document.createElement("span");
+        likeText.textContent = "Me gusta";
+
+        const likeCount = document.createElement("span");
+        likeCount.className = "comment-like-count";
+        likeCount.textContent = String(comment.like_count || 0);
+
+        likeButton.append(likeText, likeCount);
+        actions.append(likeButton);
+        heading.append(username, time);
+        body.append(heading, content, actions);
+        wrapper.append(avatar, body);
+        commentsList.append(wrapper);
+      }
+
+      const { count, error: countError } = await supabase
+        .from("post_comments")
+        .select("id", { count: "exact", head: true })
+        .eq("post_id", postId);
+
+      if (!countError) {
+        const total = String(count || 0);
+        document.getElementById("comment-count").textContent = total;
+        document.getElementById("comments-heading-count").textContent = total;
+      }
+    }
+
+    async function loadUserActions() {
+      const likeButton = document.getElementById("like-button");
+      const bookmarkButton = document.getElementById("bookmark-button");
+
+      if (!currentUser) {
+        likeButton.disabled = true;
+        bookmarkButton.disabled = true;
+        likeButton.title = "Inicia sesión para dar Me gusta";
+        bookmarkButton.title = "Inicia sesión para guardar";
+        return;
+      }
+
+      const [likeResult, bookmarkResult] = await Promise.all([
+        supabase
+          .from("post_likes")
+          .select("post_id")
+          .eq("post_id", postId)
+          .eq("user_id", currentUser.id)
+          .maybeSingle(),
+        supabase
+          .from("post_bookmarks")
+          .select("post_id")
+          .eq("post_id", postId)
+          .eq("user_id", currentUser.id)
+          .maybeSingle(),
+      ]);
+
+      if (likeResult.error) console.warn(likeResult.error.message);
+      if (bookmarkResult.error) console.warn(bookmarkResult.error.message);
+
+      setPressed(likeButton, Boolean(likeResult.data));
+      setPressed(bookmarkButton, Boolean(bookmarkResult.data));
+    }
+
+    document.getElementById("like-button").addEventListener("click", async (event) => {
+      if (!currentUser || !currentPost) {
+        showStatus("Inicia sesión para dar Me gusta.", true);
+        return;
+      }
+
+      const button = event.currentTarget;
+      const alreadyLiked = button.getAttribute("aria-pressed") === "true";
+      button.disabled = true;
+
+      const result = alreadyLiked
+        ? await supabase
+            .from("post_likes")
+            .delete()
+            .eq("post_id", postId)
+            .eq("user_id", currentUser.id)
+        : await supabase
+            .from("post_likes")
+            .insert({ post_id: postId });
+
+      button.disabled = false;
+
+      if (result.error) {
+        showStatus(`No se pudo actualizar el Me gusta: ${result.error.message}`, true);
+        return;
+      }
+
+      setPressed(button, !alreadyLiked);
+      currentLikeCount += alreadyLiked ? -1 : 1;
+      document.getElementById("like-count").textContent = String(currentLikeCount);
+      showStatus("");
+    });
+
+    document.getElementById("bookmark-button").addEventListener("click", async (event) => {
+      if (!currentUser || !currentPost) {
+        showStatus("Inicia sesión para guardar publicaciones.", true);
+        return;
+      }
+
+      const button = event.currentTarget;
+      const alreadySaved = button.getAttribute("aria-pressed") === "true";
+      button.disabled = true;
+
+      const result = alreadySaved
+        ? await supabase
+            .from("post_bookmarks")
+            .delete()
+            .eq("post_id", postId)
+            .eq("user_id", currentUser.id)
+        : await supabase
+            .from("post_bookmarks")
+            .insert({ post_id: postId });
+
+      button.disabled = false;
+
+      if (result.error) {
+        showStatus(`No se pudo actualizar el guardado: ${result.error.message}`, true);
+        return;
+      }
+
+      setPressed(button, !alreadySaved);
+      showStatus("");
+    });
+
+    commentsList.addEventListener("click", async (event) => {
+      const button = event.target.closest("[data-comment-like]");
+      if (!button) return;
+
+      if (!currentUser) {
+        showStatus("Inicia sesión para dar Me gusta a un comentario.", true);
+        return;
+      }
+
+      const commentId = button.dataset.commentLike;
+      const alreadyLiked = button.getAttribute("aria-pressed") === "true";
+      const countElement = button.querySelector(".comment-like-count");
+      const oldCount = Number.parseInt(countElement.textContent, 10) || 0;
+
+      button.disabled = true;
+
+      const result = alreadyLiked
+        ? await supabase
+            .from("comment_likes")
+            .delete()
+            .eq("comment_id", commentId)
+            .eq("user_id", currentUser.id)
+        : await supabase
+            .from("comment_likes")
+            .insert({ comment_id: commentId });
+
+      button.disabled = false;
+
+      if (result.error) {
+        showStatus(`No se pudo actualizar el Me gusta: ${result.error.message}`, true);
+        return;
+      }
+
+      setPressed(button, !alreadyLiked);
+      countElement.textContent = String(oldCount + (alreadyLiked ? -1 : 1));
+      showStatus("");
+    });
+
+    commentForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (!currentPost || !postId) {
+        showStatus("No se encontró una publicación válida.", true);
+        return;
+      }
+
+      if (!currentUser) {
+        showStatus("Inicia sesión para publicar un comentario.", true);
+        return;
+      }
+
+      const input = document.getElementById("comment-input");
+      const content = input.value.trim();
+
+      if (!content) return;
+
+      const submitButton = commentForm.querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+
+      const { error } = await supabase
+        .from("post_comments")
+        .insert({ post_id: postId, content });
+        
+      submitButton.disabled = false;
+      
+      if (error) {
+        showStatus(`No se pudo publicar el comentario: ${error.message}`, true);
+        return;
+      }
+      input.value = "";
+      showStatus("Comentario publicado.");
+      await loadComments();
+    });
+    window.toggleDrawer = function (open) {
+      const shouldOpen =
+        typeof open === "boolean"
+          ? open
+          : !document.body.classList.contains("drawer-open");
+      document.body.classList.toggle("drawer-open", shouldOpen);
+      document.body.classList.toggle("overflow-hidden", shouldOpen);
+    };
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") window.toggleDrawer(false);
+    });
+    window.addEventListener("scroll", () => {
+      document
+        .getElementById("app-header")
+        .classList.toggle("shadow-md", window.scrollY > 20);
+    });
+    async function init() {
+      if (!postId || !/^\d+$/.test(postId)) {
+        showStatus("Falta un ID válido en la URL. Ejemplo: post.html?id=26", true);
+        commentForm.hidden = true;
+        return;
+      }
+      try {
+        const { data, error } = await supabase.auth.getUser();
+        if (error) {
+          console.warn("No se pudo comprobar la sesión:", error.message);
+        }
+        currentUser = data?.user || null;
+        await loadPost();
+        await Promise.all([loadComments(), loadUserActions()]);
+      } catch (error) {
+        console.error(error);
+        commentForm.hidden = true;
+        showStatus(error.message || "No se pudo cargar la publicación.", true);
+      }
+    }
+    init();
+  
+</
+script
+>
+
+</
+body
+>
+
+</
+html
+>
