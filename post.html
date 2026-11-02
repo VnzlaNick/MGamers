@@ -182,25 +182,58 @@
  <body>
   <main class="container">
    <div class="header">
-    <a href="index.html">← Volver al foro</a> <a href="inres.html">Cuenta</a>
+    <a href="index.html">← Volver al foro</a>
+    <a href="inres.html">Cuenta</a>
    </div>
+
    <section class="card">
     <h1>Crear publicación</h1>
     <p class="subtitle">Comparte un tema con la comunidad gamer.</p>
     <p id="auth-status" class="auth-status">Verificando sesión…</p>
+
     <form id="form-post">
      <div class="field">
-      <label for="categoria">Categoría</label> <select id="categoria" required> <option value="">Selecciona una categoría</option> <option value="noticias">Noticias y Anuncios</option> <option value="torneos">Torneos</option> <option value="descargas-juegos">Descargas Juegos</option> <option value="servidores-mu">Servidores Mu</option> <option value="blood-strike">Blood Strike</option> <option value="free-fire">Free Fire</option> <option value="mobile-legends">Mobile Legends</option> <option value="brawl-star">Brawl Star</option> <option value="gounbound-m">Gounbound M</option> <option value="zona-pokemon">Zona Pokemon</option> <option value="minecraft">Minecraft</option> <option value="zona-dino">Zona Dino</option> <option value="zona-simuladores">Zona Simuladores</option> <option value="zona-libre">Zona Libre</option> <option value="guia-trucos">Guía, Trucos</option> </select>
+      <label for="categoria">Categoría</label>
+      <select id="categoria" required>
+       <option value="">Selecciona una categoría</option>
+       <option value="noticias">Noticias y Anuncios</option>
+       <option value="torneos">Torneos</option>
+       <option value="descargas-juegos">Descargas Juegos</option>
+       <option value="servidores-mu">Servidores Mu</option>
+       <option value="blood-strike">Blood Strike</option>
+       <option value="free-fire">Free Fire</option>
+       <option value="mobile-legends">Mobile Legends</option>
+       <option value="brawl-star">Brawl Star</option>
+       <option value="gounbound-m">Gounbound M</option>
+       <option value="zona-pokemon">Zona Pokemon</option>
+       <option value="minecraft">Minecraft</option>
+       <option value="zona-dino">Zona Dino</option>
+       <option value="zona-simuladores">Zona Simuladores</option>
+       <option value="zona-libre">Zona Libre</option>
+       <option value="guia-trucos">Guía, Trucos</option>
+      </select>
      </div>
+
      <div class="field">
-      <label for="tipo">Tipo de publicación</label> <select id="tipo"> <option value="General">General</option> <option value="Guías">Guías</option> <option value="Builds">Builds</option> <option value="Bugs">Bugs</option> </select>
+      <label for="tipo">Tipo de publicación</label>
+      <select id="tipo">
+       <option value="General">General</option>
+       <option value="Guías">Guías</option>
+       <option value="Builds">Builds</option>
+       <option value="Bugs">Bugs</option>
+      </select>
      </div>
+
      <div class="field">
-      <label for="titulo">Título</label> <input id="titulo" type="text" maxlength="160" placeholder="Ej.: Busco equipo para el torneo" required>
+      <label for="titulo">Título</label>
+      <input id="titulo" type="text" maxlength="160" placeholder="Ej.: Busco equipo para el torneo" required>
      </div>
+
      <div class="field">
-      <label for="contenido">Contenido</label> <textarea id="contenido" maxlength="10000" placeholder="Escribe los detalles de tu publicación…" required></textarea>
+      <label for="contenido">Contenido</label>
+      <textarea id="contenido" maxlength="10000" placeholder="Escribe los detalles de tu publicación…" required></textarea>
      </div>
+
      <div class="field">
       <label for="imagen">Imagen (opcional)</label>
       <div class="image-picker">
@@ -209,11 +242,13 @@
       </div>
       <img id="preview" class="preview" alt="Vista previa de la imagen">
      </div>
+
      <div id="message" class="message" role="status" aria-live="polite"></div>
      <button id="submit-button" class="submit" type="submit">Publicar tema</button>
     </form>
    </section>
   </main>
+
   <script type="module">
     import { supabase } from './conexion.js';
 
@@ -347,7 +382,7 @@
           imageUrl = publicData.publicUrl;
         }
 
-        const { error: insertError } = await supabase
+        const { data: postData, error: insertError } = await supabase
           .from('posts')
           .insert({
             titulo,
@@ -355,22 +390,17 @@
             'categoría': categoria,
             tipo: tipo || null,
             image_url: imageUrl
-          });
+          })
+          .select('id')
+          .single();
 
         if (insertError) throw insertError;
 
-        form.reset();
-        preview.removeAttribute('src');
-        preview.style.display = 'none';
+        if (!postData?.id) {
+          throw new Error('La publicación se guardó, pero no se recibió su identificador.');
+        }
 
-        showMessage('¡Publicación creada correctamente! Puedes volver al foro.', 'success');
-
-        const backLink = document.createElement('a');
-        backLink.href = 'index.html';
-        backLink.textContent = 'Volver al foro';
-        backLink.className = 'success-link';
-        message.appendChild(document.createElement('br'));
-        message.appendChild(backLink);
+        window.location.href = `ficha.html?id=${encodeURIComponent(postData.id)}`;
       } catch (error) {
         if (uploadedPath) {
           await supabase.storage.from(BUCKET).remove([uploadedPath]);
