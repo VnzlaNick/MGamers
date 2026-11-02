@@ -140,11 +140,13 @@
   <section class="p-2">
    <div class="bg-white border border-portal-border rounded-xl p-2 shadow-sm">
     <div class="flex items-center gap-5 mb-1">
+    
      <!-- Contenedor con la imagen en lugar del icono -->
      <div class="w-10 h-10 rounded-full overflow-hidden border border-portal-blue/20 flex-shrink-0">
       <img src="https://img.wpfc.ml/30d/sh/d6v83r.jpg" alt="Foto de perfil" class="w-full h-full object-cover">
      </div>
      <main class="max-w-md mx-0 px-container-margin py-stack-gap">
+     
       <!-- Registration Invitation Card (Replacing Welcome Stats) -->
       <div class="flex items-center gap-stack-0 mb-22">
        <div class="w-11 h-11 bg-primary-7 rounded-xl flex items-center justify-center">
@@ -162,6 +164,7 @@
     </div>
    </div>
   </section>
+  
   <!-- Sección 1: Perfil -->
   <main class="px-4 space-y-5">
    <div class="overflow-hidden rounded-xl border border-portal-border shadow-sm bg-white">
@@ -207,50 +210,77 @@
     </div>
   </div>
 </a>
-     </a> <!-- Sección: Torneos -->
-     <a href="sub.html?categoria=torneos&amp;nombre=Torneos&amp;imagen=https://img.wpfc.ml/30d/sn/dzx8d1.jpg" class="forum-row p-4 flex gap-4 hover:bg-portal-blue/5 transition-colors block"> 
-      <div class="flex-shrink-0">
-       <div class="w-10 h-10 rounded-lg bg-portal-blue/10 flex items-center justify-center border border-portal-blue/20">
-        <span class="material-symbols-outlined text-portal-blue">brush</span>
-       </div>
-      </div> 
-      <div class="flex-grow">
-       <div class="flex justify-between items-start">
-        <h3 class="font-bold text-sm text-portal-text hover:text-portal-blue">Torneos</h3>
-        <div class="text-[10px] text-portal-text-muted text-right leading-tight">
-         <p class="font-semibold text-portal-text" data-post-count="torneos">0</p>
-         <p>posts</p>
-        </div>
-       </div>
-       <p class="text-[11px] text-portal-text-muted mt-0.5 leading-normal">Todo lo que ocurre de interesante sobre la Comunidad y en el mundo.</p>
-       <div class="mt-2.5 flex items-center gap-2 text-[10px] text-portal-text-muted bg-portal-bg rounded-md p-2 border border-portal-border/50">
-        <span class="material-symbols-outlined text-[14px]">chat_bubble</span> <span id="feed-torneos" class="truncate">Cargando publicación...</span>
-       </div>
-      </div> 
-     </a> <!-- Sección: Descargas -->
-     <a href="sub.html?categoria=descargas-juegos&amp;nombre=Descargas%20de%20Juegos&amp;imagen=https://ibb.co/Z1v6h6nX" class="forum-row p-4 flex gap-4 hover:bg-portal-blue/5 transition-colors block"> 
-      <div class="flex-shrink-0">
-       <div class="w-10 h-10 rounded-lg bg-portal-blue/10 flex items-center justify-center border border-portal-blue/20">
-        <span class="material-symbols-outlined text-portal-blue">download</span>
-       </div>
-      </div> 
-      <div class="flex-grow">
-       <div class="flex justify-between items-start">
-        <h3 class="font-bold text-sm text-portal-text hover:text-portal-blue">Descargas de Juegos</h3>
-        <div class="text-[10px] text-portal-text-muted text-right leading-tight">
-         <p class="font-semibold text-portal-text" data-post-count="descargas-juegos">0</p>
-         <p>posts</p>
-        </div>
-       </div>
-       <p class="text-[11px] text-portal-text-muted mt-0.5">Crea o pide firmas, avatares o userbars. Muéstranos tus obras de arte.</p>
-       <div class="mt-2.5 flex items-center gap-2 text-[10px] text-portal-text-muted bg-portal-bg rounded-md p-2 border border-portal-border/50">
-        <span class="material-symbols-outlined text-[14px]">chat_bubble</span> <span id="feed-descargas-juegos" class="truncate">Cargando publicación...</span>
-       </div>
-      </div> 
-     </a>
+
+<!-- Sección: Torneos -->
+
+<a href="sub.html?categoria=torneos&amp;nombre=Torneos&amp;imagen=https://img.wpfc.ml/30d/sn/dzx8d1.jpg"
+  class="forum-row flex w-full min-w-0 gap-4 p-4 transition-colors hover:bg-portal-blue/5"
+>
+  <div class="shrink-0">
+    <div class="flex h-10 w-10 items-center justify-center rounded-lg border border-portal-blue/20 bg-portal-blue/10">
+      <span class="material-symbols-outlined text-portal-blue">brush</span>
+    </div>
+  </div>
+
+  <div class="min-w-0 flex-1">
+    <div class="flex min-w-0 items-start justify-between gap-2">
+      <h3 class="min-w-0 flex-1 break-words text-sm font-bold text-portal-text hover:text-portal-blue">
+        Torneos
+      </h3>
+
+      <div class="shrink-0 text-right text-[10px] leading-tight text-portal-text-muted">
+        <p class="font-semibold text-portal-text" data-post-count="torneos">0</p>
+        <p>posts</p>
+      </div>
+    </div>
+
+    <p class="mt-0.5 break-words text-[11px] leading-normal text-portal-text-muted">
+      Todo lo que ocurre de interesante sobre la Comunidad y en el mundo.
+    </p>
+
+    <div class="mt-2.5 flex w-full min-w-0 items-center gap-2 overflow-hidden rounded-md border border-portal-border/50 bg-portal-bg p-2 text-[10px] text-portal-text-muted">
+      <span class="material-symbols-outlined shrink-0 text-[14px]">chat_bubble</span>
+      <span id="feed-torneos" class="min-w-0 flex-1 truncate">Cargando publicación...</span>
+    </div>
+  </div>
+</a>
+ <!-- Sección: Descargas -->
+<a
+  href="sub.html?categoria=descargas-juegos&amp;nombre=Descargas%20de%20Juegos&amp;imagen=https://ibb.co/Z1v6h6nX"
+  class="forum-row flex w-full min-w-0 gap-4 p-4 transition-colors hover:bg-portal-blue/5"
+>
+  <div class="shrink-0">
+    <div class="flex h-10 w-10 items-center justify-center rounded-lg border border-portal-blue/20 bg-portal-blue/10">
+      <span class="material-symbols-outlined text-portal-blue">download</span>
+    </div>
+  </div>
+
+  <div class="min-w-0 flex-1">
+    <div class="flex min-w-0 items-start justify-between gap-2">
+      <h3 class="min-w-0 flex-1 break-words text-sm font-bold text-portal-text hover:text-portal-blue">
+        Descargas de Juegos
+      </h3>
+
+      <div class="shrink-0 text-right text-[10px] leading-tight text-portal-text-muted">
+        <p class="font-semibold text-portal-text" data-post-count="descargas-juegos">0</p>
+        <p>posts</p>
+      </div>
+    </div>
+
+    <p class="mt-0.5 break-words text-[11px] leading-normal text-portal-text-muted">
+      Crea o pide firmas, avatares o userbars. Muéstranos tus obras de arte.
+    </p>
+
+    <div class="mt-2.5 flex w-full min-w-0 items-center gap-2 overflow-hidden rounded-md border border-portal-border/50 bg-portal-bg p-2 text-[10px] text-portal-text-muted">
+      <span class="material-symbols-outlined shrink-0 text-[14px]">chat_bubble</span>
+      <span id="feed-descargas-juegos" class="min-w-0 flex-1 truncate">Cargando publicación...</span>
+    </div>
+  </div>
+</a>
     </div>
    </div>
   </main>
+  
   <!-- Sección 1: Juegos-->
   <main class="px-4 space-y-5">
    <div class="overflow-hidden rounded-xl border border-portal-border shadow-sm bg-white">
@@ -572,7 +602,7 @@
           <div class="w-6 h-6 rounded-full bg-green-100 border border-green-600 flex items-center justify-center flex-shrink-0">
            <span class="material-symbols-outlined text-green-600 text-lg">person</span>
           </div>
-          <span class="text-xs text-on-surface truncate max-w-[70px]">Libre</span>
+          <span class="text-xs text-on-surface truncate max-w-[70px]">Nick</span>
          </div>
          <div class="flex items-center gap-3 select-text">
           <div class="w-6 h-6 rounded-full bg-green-100 border border-green-600 flex items-center justify-center flex-shrink-0">
@@ -608,7 +638,9 @@
     <p class="font-label-md text-label-1 text-on-surface-variant/20 mt-1">© 2026 MGamers mobile. Precision in play.</p>
    </div>
   </footer>
+  
   <!-- Bottom Barra de Navegación -->
+  
   <nav class="fixed bottom-0 left-4 right-4 bg-blue backdrop-blur-md border-t border-poral-border px-2 py-1 flex justify-between items-center z-[80] pb-2">
   
    <a href="index.html" class="flex flex-col items-center gap-1 text-portal-text-muted"> <span class="material-symbols-outlined text-[24px]">home</span> <span class="text-[10px] font-bold">Inicio</span>
@@ -624,9 +656,13 @@
  
    <script type="module" src="conexion.js"></script>
    <script type="module" src="main.js"></script>
+   
    <!-- Importar cliente oficial de Supabase -->
+   
    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+   
    <!-- Tu script de lógica (asegúrate de que vaya abajo de la librería) -->
+   
    <script src="js/app.js"></script>
    <!-- ======================================================== -->
    <!-- 🛠️ EL FORMULARIO FLOTANTE (MODAL NEÓN) PARA CREAR POSTS -->
