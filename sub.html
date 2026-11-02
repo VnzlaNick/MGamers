@@ -297,6 +297,34 @@
       );
     }
 
+    async function togglePinned(post) {
+      if (!currentUserIsAdmin) {
+        window.alert("Solo un administrador puede fijar publicaciones.");
+        return;
+      }
+
+      const nextPinnedState = !post.fijado;
+
+      const { data, error } = await supabase
+        .from("posts")
+        .update({ fijado: nextPinnedState })
+        .eq("id", post.id)
+        .select("id, fijado");
+
+      if (error) {
+        console.error("Error cambiando el estado fijado:", error);
+        window.alert("No se pudo cambiar el estado de la publicación.");
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        window.alert("No se modificó la publicación. Revisa tus permisos.");
+        return;
+      }
+
+      await loadPosts();
+    }
+
     async function editPost(post) {
       const title = window.prompt("Editar título:", post.titulo || "");
       if (title === null) return;
@@ -424,13 +452,26 @@
           makeElement("p", "font-body-sm text-[11px] text-outline", timeAgo(post.created_at))
         );
 
+        if (post.fijado) {
+          const pinnedBadge = makeElement(
+            "span",
+            "inline-flex shrink-0 items-center gap-1 rounded-md bg-primary/10 px-2 py-1 text-[9px] font-label-bold text-primary"
+          );
+          pinnedBadge.appendChild(
+            makeElement("span", "material-symbols-outlined text-[14px]", "push_pin")
+          );
+          pinnedBadge.appendChild(makeElement("span", "", "FIJADA"));
+          authorRow.append(avatarFrame, authorInfo, pinnedBadge);
+        } else {
+          authorRow.append(avatarFrame, authorInfo);
+        }
+
         const tag = makeElement(
           "span",
-          "shrink-0 rounded-md bg-secondary-container px-2 py-0.5 text-[9px] font-label-bold text-on-secondary-container",
+          "ml-auto shrink-0 rounded-md bg-secondary-container px-2 py-0.5 text-[9px] font-label-bold text-on-secondary-container",
           typeLabels[post.tipo] || "PUBLICACIÓN"
         );
-
-        authorRow.append(avatarFrame, authorInfo, tag);
+        authorRow.appendChild(tag);
 
         const heading = makeElement(
           "h3",
@@ -470,26 +511,44 @@
         link.appendChild(article);
         card.appendChild(link);
 
-        if (canManagePost(post)) {
+        if (canManagePost(post) || currentUserIsAdmin) {
           const actions = makeElement("div", "flex justify-end gap-2");
 
-          const editButton = makeElement(
-            "button",
-            "rounded-lg border border-outline-variant px-3 py-2 font-label-bold text-label-bold text-primary",
-            "Editar"
-          );
-          editButton.type = "button";
-          editButton.addEventListener("click", () => editPost(post));
+          if (currentUserIsAdmin) {
+            const pinButton = makeElement(
+              "button",
+              "inline-flex items-center gap-1 rounded-lg border border-outline-variant px-3 py-2 font-label-bold text-label-bold text-primary transition-colors hover:bg-primary/5",
+              post.fijado ? "Desfijar" : "Fijar"
+            );
+            pinButton.type = "button";
+            pinButton.setAttribute(
+              "aria-label",
+              post.fijado ? "Desfijar publicación" : "Fijar publicación"
+            );
+            pinButton.addEventListener("click", () => togglePinned(post));
+            actions.appendChild(pinButton);
+          }
 
-          const deleteButton = makeElement(
-            "button",
-            "rounded-lg border border-red-200 px-3 py-2 font-label-bold text-label-bold text-error",
-            "Eliminar"
-          );
-          deleteButton.type = "button";
-          deleteButton.addEventListener("click", () => deletePost(post));
+          if (canManagePost(post)) {
+            const editButton = makeElement(
+              "button",
+              "rounded-lg border border-outline-variant px-3 py-2 font-label-bold text-label-bold text-primary",
+              "Editar"
+            );
+            editButton.type = "button";
+            editButton.addEventListener("click", () => editPost(post));
 
-          actions.append(editButton, deleteButton);
+            const deleteButton = makeElement(
+              "button",
+              "rounded-lg border border-red-200 px-3 py-2 font-label-bold text-label-bold text-error",
+              "Eliminar"
+            );
+            deleteButton.type = "button";
+            deleteButton.addEventListener("click", () => deletePost(post));
+
+            actions.append(editButton, deleteButton);
+          }
+
           card.appendChild(actions);
         }
 
@@ -528,8 +587,9 @@
 
       let query = supabase
         .from("posts")
-        .select("id, created_at, titulo, contenido, tipo, like_count, comment_count, author_id")
+        .select("id, created_at, titulo, contenido, tipo, like_count, comment_count, author_id, fijado")
         .eq("categoría", category)
+        .order("fijado", { ascending: false })
         .order("created_at", { ascending: false });
 
       if (selectedType) {
