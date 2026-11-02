@@ -609,27 +609,35 @@
         .getElementById("app-header")
         .classList.toggle("shadow-md", window.scrollY > 20);
     });
-    async function init() {
-      if (!postId || !/^\d+$/.test(postId)) {
-        showStatus("Falta un ID válido en la URL. Ejemplo: post.html?id=26", true);
-        commentForm.hidden = true;
-        return;
-      }
-      try {
-        const { data, error } = await supabase.auth.getUser();
-        if (error) {
-          console.warn("No se pudo comprobar la sesión:", error.message);
-        }
-        currentUser = data?.user || null;
-        await loadPost();
-        await Promise.all([loadComments(), loadUserActions()]);
-      } catch (error) {
-        console.error(error);
-        commentForm.hidden = true;
-        showStatus(error.message || "No se pudo cargar la publicación.", true);
-      }
+async function init() {
+  if (!postId || !/^\d+$/.test(postId)) {
+    showStatus(
+      "Falta un ID válido en la URL. Ejemplo: ficha.html?id=26",
+      true
+    );
+    commentForm.hidden = true;
+    return;
+  }
+
+  try {
+    const { data, error } = await supabase.auth.getUser();
+
+    if (error) {
+      console.warn("No se pudo comprobar la sesión:", error.message);
     }
-    init();
+
+    currentUser = data?.user || null;
+
+    await loadPost();
+    await Promise.all([loadComments(), loadUserActions()]);
+  } catch (error) {
+    console.error(error);
+    commentForm.hidden = true;
+    showStatus(error.message || "No se pudo cargar la publicación.", true);
+  }
+}
+
+init();
   
 </script>
 
