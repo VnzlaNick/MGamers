@@ -81,36 +81,17 @@
       opacity: 1;
       pointer-events: auto;
     }
-
-    /* Evita que palabras o enlaces largos se salgan de los márgenes. */
-    #subcategory-title,
-    #subcategory-description,
-    #post-list h3,
-    #post-list p {
-      min-width: 0;
-      max-width: 100%;
-      overflow-wrap: anywhere;
-      word-break: normal;
-    }
-
-    #post-list > a,
-    #post-list article {
-      min-width: 0;
-      max-width: 100%;
-    }
   </style>
 </head>
 
 <body class="bg-background text-on-surface font-body-md min-h-screen pb-24">
 
-  <!-- Fondo del menú -->
   <div
     id="drawer-backdrop"
     class="fixed inset-0 z-[60] bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300"
     onclick="toggleDrawer()">
   </div>
 
-  <!-- Menú lateral -->
   <aside
     id="side-drawer"
     class="fixed top-0 left-0 z-[70] flex h-full w-[280px] -translate-x-full flex-col bg-white shadow-2xl transition-transform duration-300 ease-in-out">
@@ -160,7 +141,6 @@
     </div>
   </aside>
 
-  <!-- Barra superior -->
   <header class="fixed top-0 z-50 w-full border-b border-outline-variant bg-white">
     <div class="mx-auto flex h-16 w-full max-w-screen-xl items-center justify-between px-container-margin">
       <button
@@ -178,31 +158,20 @@
 
   <main class="mx-auto max-w-md px-6 pt-20">
     <section class="mb-6">
-      <!-- Encabezado de la subcategoría -->
       <div class="relative mb-4 h-40 overflow-hidden rounded-xl">
         <img
           id="subcategory-image"
           class="h-full w-full object-cover"
-          src="https://img.wpfc.ml/30d/sh/d6v83r.jpg"
+          src="https://img.wpfc.ml/24h/apm9c6.jpg"
           alt="Imagen de la subcategoría"/>
-
         <div class="absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-4">
-          <div class="min-w-0 w-full">
-            <h2
-              id="subcategory-title"
-              class="max-w-full font-headline-md text-headline-md text-white">
-              Servidores Mu
-            </h2>
-            <p
-              id="subcategory-description"
-              class="max-w-full font-body-sm text-body-sm text-white/80">
-              Comunidad Oficial de Jugadores
-            </p>
+          <div>
+            <h2 id="subcategory-title" class="font-headline-md text-headline-md text-white">Servidores Mu</h2>
+            <p id="subcategory-description" class="font-body-sm text-body-sm text-white/80">Comunidad Oficial de Jugadores</p>
           </div>
         </div>
       </div>
 
-      <!-- Búsqueda y filtros -->
       <div class="space-y-4">
         <div class="relative">
           <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
@@ -230,7 +199,6 @@
     <div id="post-list" class="space-y-4"></div>
   </main>
 
-  <!-- Barra inferior de navegación -->
   <nav class="fixed bottom-0 left-4 right-4 z-[80] flex items-center justify-between border-t border-outline-variant bg-white/95 px-2 pb-2 pt-1 backdrop-blur-md" aria-label="Navegación inferior">
     <a href="index.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
       <span class="material-symbols-outlined text-[24px]">home</span>
@@ -304,7 +272,7 @@
     }
 
     imageElement.addEventListener("error", () => {
-      if (imageElement.src !== DEFAULT_IMAGE) {
+      if (!imageElement.src.endsWith(DEFAULT_IMAGE)) {
         imageElement.src = DEFAULT_IMAGE;
       }
     });
@@ -336,6 +304,34 @@
       return element;
     }
 
+    function getInitial(name) {
+      return Array.from((name || "Jugador").trim())[0]?.toLocaleUpperCase("es") || "J";
+    }
+
+    function renderAvatar(avatarFrame, profile, authorName) {
+      const avatarUrl = profile?.avatar_url?.trim();
+
+      if (!avatarUrl) {
+        avatarFrame.appendChild(
+          makeElement("span", "text-sm font-bold text-white", getInitial(authorName))
+        );
+        return;
+      }
+
+      const avatarImage = makeElement("img", "h-full w-full object-cover");
+      avatarImage.src = avatarUrl;
+      avatarImage.alt = `Foto de perfil de ${authorName}`;
+      avatarImage.loading = "lazy";
+
+      avatarImage.addEventListener("error", () => {
+        avatarFrame.replaceChildren(
+          makeElement("span", "text-sm font-bold text-white", getInitial(authorName))
+        );
+      }, { once: true });
+
+      avatarFrame.appendChild(avatarImage);
+    }
+
     function renderPosts() {
       postList.replaceChildren();
 
@@ -363,25 +359,27 @@
       };
 
       visiblePosts.forEach((post) => {
-        const link = makeElement("a", "group block min-w-0 max-w-full no-underline");
+        const link = makeElement("a", "group block no-underline");
         link.href = `ficha.html?id=${encodeURIComponent(post.id)}`;
 
         const article = makeElement(
           "article",
-          "w-full min-w-0 rounded-xl border border-outline-variant bg-white p-4 transition-transform active:scale-[0.98]"
+          "rounded-xl border border-outline-variant bg-white p-4 transition-transform active:scale-[0.98]"
         );
 
         const authorRow = makeElement("div", "mb-3 flex items-center gap-3");
+        const profile = post.authorProfile;
+        const authorName = profile?.username?.trim() || "Jugador";
 
         const avatarFrame = makeElement(
           "div",
-          "flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-outline-variant bg-primary"
+          "flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-outline-variant bg-primary"
         );
-        avatarFrame.appendChild(makeElement("span", "text-sm font-bold text-white", "J"));
+        renderAvatar(avatarFrame, profile, authorName);
 
         const authorInfo = makeElement("div", "min-w-0 flex-1");
         authorInfo.appendChild(
-          makeElement("p", "font-label-bold text-label-bold text-on-surface", "Jugador")
+          makeElement("p", "truncate font-label-bold text-label-bold text-on-surface", authorName)
         );
         authorInfo.appendChild(
           makeElement("p", "font-body-sm text-[11px] text-outline", timeAgo(post.created_at))
@@ -397,13 +395,13 @@
 
         const heading = makeElement(
           "h3",
-          "mb-2 min-w-0 max-w-full break-words font-headline-md text-headline-md text-primary group-hover:underline",
+          "mb-2 font-headline-md text-headline-md text-primary group-hover:underline",
           post.titulo || "Publicación sin título"
         );
 
         const content = makeElement(
           "p",
-          "mb-4 min-w-0 max-w-full break-words font-body-md text-body-sm text-on-surface-variant line-clamp-2",
+          "mb-4 line-clamp-2 font-body-md text-body-sm text-on-surface-variant",
           post.contenido || ""
         );
 
@@ -450,7 +448,7 @@
 
       let query = supabase
         .from("posts")
-        .select("id, created_at, titulo, contenido, tipo, like_count, comment_count")
+        .select("id, created_at, titulo, contenido, tipo, like_count, comment_count, author_id")
         .eq("categoría", category)
         .order("created_at", { ascending: false });
 
@@ -458,17 +456,42 @@
         query = query.eq("tipo", selectedType);
       }
 
-      const { data, error } = await query;
+      const { data: posts, error: postsError } = await query;
 
       if (currentRequest !== requestVersion) return;
 
-      if (error) {
-        console.error("Error cargando publicaciones:", error);
+      if (postsError) {
+        console.error("Error cargando publicaciones:", postsError);
         setStatus("No se pudieron cargar las publicaciones. Revisa la conexión y las políticas RLS de Supabase.");
         return;
       }
 
-      allPosts = data || [];
+      const postRows = posts || [];
+      const authorIds = [...new Set(postRows.map((post) => post.author_id).filter(Boolean))];
+      const profilesById = new Map();
+
+      if (authorIds.length > 0) {
+        const { data: profiles, error: profilesError } = await supabase
+          .from("usuarios_foro")
+          .select("auth_user_id, username, avatar_url")
+          .in("auth_user_id", authorIds);
+
+        if (currentRequest !== requestVersion) return;
+
+        if (profilesError) {
+          console.error("Error cargando perfiles:", profilesError);
+        } else {
+          for (const profile of profiles || []) {
+            profilesById.set(profile.auth_user_id, profile);
+          }
+        }
+      }
+
+      allPosts = postRows.map((post) => ({
+        ...post,
+        authorProfile: profilesById.get(post.author_id) || null
+      }));
+
       renderPosts();
     }
 
