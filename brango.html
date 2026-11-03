@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rangos del foro</title>
+  <style>
+    :root {
+      font-family: system-ui, sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+    }
+
+    body {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 32px 20px;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+      color: #111827;
+    }
+
+    .intro {
+      color: #5b6472;
+      margin-top: 0;
+      margin-bottom: 24px;
+    }
+
+    #lista-rangos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .rango-card {
+      padding: 20px;
+      border: 1px solid #e1e5ec;
+      border-radius: 14px;
+      background: #ffffff;
+      box-shadow: 0 3px 12px rgb(31 41 55 / 6%);
+    }
+
+    .rango-card h2 {
+      margin: 0 0 12px;
+      color: #111827;
+      font-size: 1.2rem;
+    }
+
+    .rango-etiqueta {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #e8efff;
+      color: #294c9b;
+      font-size: 0.85rem;
+    }
+
+    .rango-descripcion {
+      color: #374151;
+      line-height: 1.5;
+    }
+
+    .rango-autoridad {
+      color: #5b6472;
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .estado {
+      color: #5b6472;
+    }
+
+    .error {
+      color: #b42318;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Rangos del foro</h1>
+    <p class="intro">Jerarquía y responsabilidades de la comunidad.</p>
+
+    <section id="lista-rangos" aria-live="polite">
+      <p class="estado">Cargando rangos…</p>
+    </section>
+  </main>
+
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    const SUPABASE_URL = "https://zrrpjbqduwtaxsfbsuum.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_REEMPLAZA_CON_LA_CLAVE_DEL_PROYECTO";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+    const contenedor = document.querySelector("#lista-rangos");
+
+    async function cargarRangos() {
+      const { data, error } = await supabase
+        .from("rangos_foro")
+        .select("id, tier, nombre, descripcion, etiqueta, autoridad")
+        .eq("activo", true)
+        .order("id", { ascending: false });
+
+      if (error) {
+        const mensaje = document.createElement("p");
+        mensaje.className = "error";
+        mensaje.textContent =
+          "No se pudieron cargar los rangos. Revisa la URL y la publishable key.";
+        contenedor.replaceChildren(mensaje);
+        console.error("Error de Supabase:", error.message);
+        return;
+      }
+
+      if (!data?.length) {
+        const mensaje = document.createElement("p");
+        mensaje.className = "estado";
+        mensaje.textContent = "Todavía no hay rangos activos.";
+        contenedor.replaceChildren(mensaje);
+        return;
+      }
+
+      const tarjetas = data.map((rango) => {
+        const tarjeta = document.createElement("article");
+        tarjeta.className = "rango-card";
+
+        const titulo = document.createElement("h2");
+        titulo.textContent = `${rango.id} · ${rango.nombre}`;
+
+        const etiqueta = document.createElement("span");
+        etiqueta.className = "rango-etiqueta";
+        etiqueta.textContent = rango.etiqueta || `Tier ${rango.tier}`;
+
+        const descripcion = document.createElement("p");
+        descripcion.className = "rango-descripcion";
+        descripcion.textContent = rango.descripcion || "";
+
+        const autoridad = document.createElement("p");
+        autoridad.className = "rango-autoridad";
+        autoridad.textContent = rango.autoridad || "";
+
+        tarjeta.append(titulo, etiqueta, descripcion, autoridad);
+        return tarjeta;
+      });
+
+      contenedor.replaceChildren(...tarjetas);
+    }
+
+    cargarRangos();
+  </script>
+</body>
+</html>
