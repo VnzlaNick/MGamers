@@ -16,6 +16,7 @@
       --blue-light: #edf2ff;
       --gold-light: #fff5dc;
       --danger: #b42318;
+      --success: #18794e;
     }
 
     * { box-sizing: border-box; }
@@ -96,7 +97,8 @@
     }
 
     .cover-edit-button:disabled,
-    .avatar-edit-button:disabled {
+    .avatar-edit-button:disabled,
+    .signature-button:disabled {
       cursor: wait;
       opacity: .65;
     }
@@ -160,7 +162,8 @@
 
     .avatar-edit-button[hidden],
     .cover-edit-button[hidden],
-    .rank-emblem[hidden] {
+    .rank-emblem[hidden],
+    #signature-card[hidden] {
       display: none;
     }
 
@@ -236,14 +239,94 @@
       font-weight: 800;
     }
 
-    .achievements {
+    .signature-card {
       margin-top: 18px;
       padding: 22px;
     }
 
+    .signature-card h2,
     .achievements h2 {
-      margin: 0 0 14px;
+      margin: 0 0 8px;
       font-size: 1.2rem;
+    }
+
+    .signature-help {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .signature-form {
+      display: grid;
+      gap: 10px;
+    }
+
+    .signature-textarea {
+      width: 100%;
+      min-height: 110px;
+      resize: vertical;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: var(--text);
+      font: inherit;
+    }
+
+    .signature-textarea:focus {
+      border-color: var(--blue);
+      outline: 3px solid rgb(65 105 225 / 15%);
+    }
+
+    .signature-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .signature-counter {
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    .signature-button {
+      padding: 9px 15px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--blue);
+      color: white;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .signature-button:hover { background: #3153b8; }
+
+    .signature-preview {
+      margin-top: 18px;
+      padding: 14px;
+      border-left: 3px solid #cbd8ff;
+      border-radius: 8px;
+      background: #f8faff;
+    }
+
+    .signature-preview-label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-size: .82rem;
+      font-weight: 700;
+    }
+
+    .signature-preview-text {
+      margin: 0;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+    }
+
+    .achievements {
+      margin-top: 18px;
+      padding: 22px;
     }
 
     .achievement-list {
@@ -283,6 +366,7 @@
     }
 
     .status.error { color: var(--danger); }
+    .status.success { color: var(--success); }
 
     @media (max-width: 600px) {
       body { padding: 20px 12px; }
@@ -296,11 +380,17 @@
       }
 
       .achievement-list { grid-template-columns: 1fr; }
-      .achievements { padding: 18px; }
+      .achievements,
+      .signature-card { padding: 18px; }
 
       .cover-edit-button {
         top: 10px;
         right: 10px;
+      }
+
+      .signature-actions {
+        align-items: flex-start;
+        flex-direction: column;
       }
     }
   </style>
@@ -333,7 +423,6 @@
       <div class="profile">
         <div class="avatar-wrap">
           <span id="avatar-fallback">?</span>
-
           <img id="avatar" alt="" hidden>
 
           <button
@@ -365,17 +454,8 @@
     </section>
 
     <div id="image-controls" hidden>
-      <input
-        id="avatar-input"
-        type="file"
-        accept="image/jpeg,image/png,image/webp"
-      >
-
-      <input
-        id="cover-input"
-        type="file"
-        accept="image/jpeg,image/png,image/webp"
-      >
+      <input id="avatar-input" type="file" accept="image/jpeg,image/png,image/webp">
+      <input id="cover-input" type="file" accept="image/jpeg,image/png,image/webp">
     </div>
 
     <section class="stats" aria-label="Estadísticas del perfil">
@@ -390,12 +470,44 @@
       </div>
     </section>
 
+    <section class="card signature-card" id="signature-card" hidden>
+      <h2>Mi firma personal</h2>
+      <p class="signature-help">
+        Escribe el texto que quieres guardar como tu firma. Máximo 500 caracteres.
+      </p>
+
+      <form class="signature-form" id="signature-form">
+        <label for="signature-input">Firma</label>
+        <textarea
+          class="signature-textarea"
+          id="signature-input"
+          name="firma_personal"
+          maxlength="500"
+          placeholder="Escribe aquí tu firma personal…"
+        ></textarea>
+
+        <div class="signature-actions">
+          <span class="signature-counter" id="signature-counter">0/500</span>
+          <button class="signature-button" id="signature-button" type="submit">
+            Guardar firma
+          </button>
+        </div>
+      </form>
+
+      <div class="signature-preview">
+        <span class="signature-preview-label">Vista previa</span>
+        <p class="signature-preview-text" id="signature-preview">
+          Aún no has escrito una firma.
+        </p>
+      </div>
+    </section>
+
     <section class="card achievements">
       <h2>Logros</h2>
       <div class="achievement-list" id="achievement-list"></div>
     </section>
 
-    <p class="status" id="status" role="status"></p>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
   </main>
 
   <script type="module">
@@ -439,12 +551,27 @@
     const coverInput = document.getElementById("cover-input");
     const coverEditButton = document.getElementById("cover-edit-button");
 
+    const signatureCard = document.getElementById("signature-card");
+    const signatureForm = document.getElementById("signature-form");
+    const signatureInput = document.getElementById("signature-input");
+    const signatureCounter = document.getElementById("signature-counter");
+    const signaturePreview = document.getElementById("signature-preview");
+    const signatureButton = document.getElementById("signature-button");
+
     let currentUser = null;
     let currentProfile = null;
 
-    function showStatus(message, isError = false) {
+    function showStatus(message, type = "") {
       status.textContent = message;
-      status.classList.toggle("error", isError);
+      status.classList.toggle("error", type === "error");
+      status.classList.toggle("success", type === "success");
+    }
+
+    function updateSignaturePreview() {
+      const value = signatureInput.value;
+      signatureCounter.textContent = `${value.length}/500`;
+      signaturePreview.textContent =
+        value.trim() || "Aún no has escrito una firma.";
     }
 
     function showAvatar(url, username) {
@@ -513,14 +640,14 @@
       if (!extension) {
         showStatus(
           "El archivo debe ser JPEG, PNG o WebP. Si es una foto HEIC del móvil, conviértela a uno de esos formatos.",
-          true
+          "error"
         );
         input.value = "";
         return;
       }
 
       if (file.size > MAX_IMAGE_SIZE) {
-        showStatus("La imagen supera el límite de 3 MB.", true);
+        showStatus("La imagen supera el límite de 3 MB.", "error");
         input.value = "";
         return;
       }
@@ -606,18 +733,63 @@
         showStatus(
           isAvatar
             ? "La foto de perfil se actualizó correctamente."
-            : "La imagen de portada se actualizó correctamente."
+            : "La imagen de portada se actualizó correctamente.",
+          "success"
         );
       } catch (error) {
         console.error("Error subiendo la imagen:", error);
         showStatus(
           "No se pudo subir la imagen. Revisa la sesión y vuelve a intentarlo.",
-          true
+          "error"
         );
       } finally {
         button.disabled = false;
         button.textContent = originalButtonText;
         input.value = "";
+      }
+    }
+
+    async function saveSignature(event) {
+      event.preventDefault();
+
+      if (!currentUser || !currentProfile) {
+        showStatus("No se pudo identificar tu perfil.", "error");
+        return;
+      }
+
+      const signature = signatureInput.value.trim();
+
+      if (signature.length > 500) {
+        showStatus("La firma no puede superar los 500 caracteres.", "error");
+        return;
+      }
+
+      signatureButton.disabled = true;
+      signatureButton.textContent = "Guardando…";
+
+      try {
+        const { data, error } = await supabase
+          .from("usuarios_foro")
+          .update({ firma_personal: signature || null })
+          .eq("auth_user_id", currentUser.id)
+          .select("firma_personal")
+          .single();
+
+        if (error) throw error;
+
+        currentProfile.firma_personal = data.firma_personal;
+        signatureInput.value = data.firma_personal || "";
+        updateSignaturePreview();
+        showStatus("Tu firma personal se guardó correctamente.", "success");
+      } catch (error) {
+        console.error("Error guardando la firma:", error);
+        showStatus(
+          "No se pudo guardar la firma. Comprueba tu sesión y vuelve a intentarlo.",
+          "error"
+        );
+      } finally {
+        signatureButton.disabled = false;
+        signatureButton.textContent = "Guardar firma";
       }
     }
 
@@ -636,6 +808,9 @@
     coverInput.addEventListener("change", () => {
       uploadProfileImage(coverInput.files?.[0], "cover");
     });
+
+    signatureInput.addEventListener("input", updateSignaturePreview);
+    signatureForm.addEventListener("submit", saveSignature);
 
     async function loadProfile() {
       try {
@@ -659,7 +834,9 @@
         const [profileResult, postsResult] = await Promise.all([
           supabase
             .from("usuarios_foro")
-            .select("username, avatar_url, cover_url, registrado_el")
+            .select(
+              "username, avatar_url, cover_url, registrado_el, firma_personal"
+            )
             .eq("auth_user_id", user.id)
             .maybeSingle(),
 
@@ -683,6 +860,7 @@
         imageControls.hidden = false;
         avatarEditButton.hidden = false;
         coverEditButton.hidden = false;
+        signatureCard.hidden = false;
 
         const username = currentProfile.username || "Jugador";
         const postCount = postsResult.count ?? 0;
@@ -692,6 +870,9 @@
 
         showAvatar(currentProfile.avatar_url, username);
         showCover(currentProfile.cover_url);
+
+        signatureInput.value = currentProfile.firma_personal || "";
+        updateSignaturePreview();
 
         if (currentProfile.registrado_el) {
           const date = new Intl.DateTimeFormat("es", {
@@ -778,7 +959,7 @@
         usernameElement.textContent = "No se pudo cargar el perfil";
         showStatus(
           "Revisa la sesión y la configuración de Supabase.",
-          true
+          "error"
         );
       }
     }
