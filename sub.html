@@ -1,12 +1,14 @@
 <!doctype html>
 <html class="light" lang="es">
- <head>
+<head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Subcategoría | Modelo Base</title>
+
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+
   <script>
     tailwind.config = {
       darkMode: "class",
@@ -56,6 +58,7 @@
       }
     };
   </script>
+
   <style>
     .material-symbols-outlined {
       font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -79,138 +82,140 @@
       pointer-events: auto;
     }
   </style>
- </head>
+</head>
 
- <body class="bg-background text-on-surface font-body-md min-h-screen pb-24">
+<body class="min-h-screen bg-background pb-24 font-body-md text-on-surface">
   <div
-   id="drawer-backdrop"
-   class="fixed inset-0 z-[60] bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300"
-   onclick="toggleDrawer()"
+    id="drawer-backdrop"
+    class="pointer-events-none fixed inset-0 z-[60] bg-black/50 opacity-0 transition-opacity duration-300"
+    onclick="toggleDrawer()"
   ></div>
 
   <aside
-   id="side-drawer"
-   class="fixed top-0 left-0 z-[70] flex h-full w-[280px] -translate-x-full flex-col bg-white shadow-2xl transition-transform duration-300 ease-in-out"
+    id="side-drawer"
+    class="fixed left-0 top-0 z-[70] flex h-full w-[280px] -translate-x-full flex-col bg-white shadow-2xl transition-transform duration-300 ease-in-out"
   >
-   <div class="flex items-center justify-between border-b border-outline-variant bg-primary/10 p-6">
-    <h2 class="font-display-lg text-display-lg tracking-tighter text-primary">MGamers</h2>
-    <button
-     type="button"
-     class="rounded-full p-2 transition-colors hover:bg-surface-container-low"
-     aria-label="Cerrar menú"
-     onclick="toggleDrawer()"
-    >
-     <span class="material-symbols-outlined text-on-surface-variant">close</span>
-    </button>
-   </div>
+    <div class="flex items-center justify-between border-b border-outline-variant bg-primary/10 p-6">
+      <h2 class="font-display-lg text-display-lg tracking-tighter text-primary">MGamers</h2>
+      <button
+        type="button"
+        class="rounded-full p-2 transition-colors hover:bg-surface-container-low"
+        aria-label="Cerrar menú"
+        onclick="toggleDrawer()"
+      >
+        <span class="material-symbols-outlined text-on-surface-variant">close</span>
+      </button>
+    </div>
 
-   <nav class="flex-1 space-y-2 overflow-y-auto p-4" aria-label="Menú principal">
-    <a class="flex items-center gap-4 rounded-xl bg-primary/10 p-4 font-title-sm text-primary" href="index.html">
-     <span class="material-symbols-outlined">newspaper</span> Inicio
-    </a>
-    <a class="flex items-center gap-4 rounded-xl p-4 font-title-sm text-on-surface-variant transition-colors hover:bg-surface-container-low" href="#">
-     <span class="material-symbols-outlined">sports_esports</span> Torneos
-    </a>
-    <a class="flex items-center gap-4 rounded-xl p-4 font-title-sm text-on-surface-variant transition-colors hover:bg-surface-container-low" href="#">
-     <span class="material-symbols-outlined">groups</span> Comunidad
-    </a>
-    <a class="flex items-center gap-4 rounded-xl p-4 font-title-sm text-on-surface-variant transition-colors hover:bg-surface-container-low" href="#">
-     <span class="material-symbols-outlined">leaderboard</span> Ranking
-    </a>
-    <a class="flex items-center gap-4 rounded-xl p-4 font-title-sm text-on-surface-variant transition-colors hover:bg-surface-container-low" href="#">
-     <span class="material-symbols-outlined">person</span> Mi Perfil
-    </a>
-   </nav>
+    <nav class="flex-1 space-y-2 overflow-y-auto p-4" aria-label="Menú principal">
+      <a class="flex items-center gap-4 rounded-xl bg-primary/10 p-4 font-title-sm text-primary" href="index.html">
+        <span class="material-symbols-outlined">newspaper</span> Inicio
+      </a>
+      <a class="flex items-center gap-4 rounded-xl p-4 font-title-sm text-on-surface-variant transition-colors hover:bg-surface-container-low" href="#">
+        <span class="material-symbols-outlined">sports_esports</span> Torneos
+      </a>
+      <a class="flex items-center gap-4 rounded-xl p-4 font-title-sm text-on-surface-variant transition-colors hover:bg-surface-container-low" href="#">
+        <span class="material-symbols-outlined">groups</span> Comunidad
+      </a>
+      <a class="flex items-center gap-4 rounded-xl p-4 font-title-sm text-on-surface-variant transition-colors hover:bg-surface-container-low" href="#">
+        <span class="material-symbols-outlined">leaderboard</span> Ranking
+      </a>
+      <a class="flex items-center gap-4 rounded-xl p-4 font-title-sm text-on-surface-variant transition-colors hover:bg-surface-container-low" href="#">
+        <span class="material-symbols-outlined">person</span> Mi Perfil
+      </a>
+    </nav>
 
-   <div class="border-t border-outline-variant p-4">
-    <button
-     type="button"
-     class="flex w-full items-center justify-center gap-2 rounded-lg p-3 font-title-sm text-error transition-colors hover:bg-red-50"
-     onclick="toggleDrawer()"
-    >
-     <span class="material-symbols-outlined">logout</span> Cerrar
-    </button>
-   </div>
+    <div class="border-t border-outline-variant p-4">
+      <button
+        type="button"
+        class="flex w-full items-center justify-center gap-2 rounded-lg p-3 font-title-sm text-error transition-colors hover:bg-red-50"
+        onclick="toggleDrawer()"
+      >
+        <span class="material-symbols-outlined">logout</span> Cerrar
+      </button>
+    </div>
   </aside>
 
   <header class="fixed top-0 z-50 w-full border-b border-outline-variant bg-white">
-   <div class="mx-auto flex h-16 w-full max-w-screen-xl items-center justify-between px-container-margin">
-    <button
-     type="button"
-     class="rounded-full p-2 transition-transform hover:bg-surface-container-low active:scale-95"
-     aria-label="Abrir menú"
-     onclick="toggleDrawer()"
-    >
-     <span class="material-symbols-outlined text-primary">menu</span>
-    </button>
-    <h1 class="font-display-lg text-display-lg tracking-tighter text-primary">Movil Gamers</h1>
-    <span class="w-10" aria-hidden="true"></span>
-   </div>
+    <div class="mx-auto flex h-16 w-full max-w-screen-xl items-center justify-between px-container-margin">
+      <button
+        type="button"
+        class="rounded-full p-2 transition-transform hover:bg-surface-container-low active:scale-95"
+        aria-label="Abrir menú"
+        onclick="toggleDrawer()"
+      >
+        <span class="material-symbols-outlined text-primary">menu</span>
+      </button>
+      <h1 class="font-display-lg text-display-lg tracking-tighter text-primary">Movil Gamers</h1>
+      <span class="w-10" aria-hidden="true"></span>
+    </div>
   </header>
 
   <main class="mx-auto max-w-md px-6 pt-20">
-   <section class="mb-6">
-    <div class="relative mb-4 h-40 overflow-hidden rounded-xl">
-     <img
-      id="subcategory-image"
-      class="h-full w-full object-cover"
-      src="https://img.wpfc.ml/24h/apm9c6.jpg"
-      alt="Imagen de la subcategoría"
-     >
-     <div class="absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-4">
-      <div>
-       <h2 id="subcategory-title" class="font-headline-md text-headline-md text-white">Servidores Mu</h2>
-       <p id="subcategory-description" class="font-body-sm text-body-sm text-white/80">Comunidad Oficial de Jugadores</p>
+    <section class="mb-6">
+      <div class="relative mb-4 h-40 overflow-hidden rounded-xl">
+        <img
+          id="subcategory-image"
+          class="h-full w-full object-cover"
+          src="https://img.wpfc.ml/24h/apm9c6.jpg"
+          alt="Imagen de la subcategoría"
+        >
+        <div class="absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-4">
+          <div>
+            <h2 id="subcategory-title" class="font-headline-md text-headline-md text-white">Servidores Mu</h2>
+            <p id="subcategory-description" class="font-body-sm text-body-sm text-white/80">Comunidad Oficial de Jugadores</p>
+          </div>
+        </div>
       </div>
-     </div>
-    </div>
 
-    <div class="space-y-4">
-     <div class="relative">
-      <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
-      <input
-       id="post-search"
-       class="w-full rounded-xl border border-outline-variant bg-white py-3 pl-10 pr-4 font-body-md text-body-md outline-none focus:border-transparent focus:ring-2 focus:ring-primary"
-       placeholder="Buscar publicaciones..."
-       type="search"
-      >
-     </div>
+      <div class="space-y-4">
+        <div class="relative">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+          <input
+            id="post-search"
+            class="w-full rounded-xl border border-outline-variant bg-white py-3 pl-10 pr-4 font-body-md text-body-md outline-none focus:border-transparent focus:ring-2 focus:ring-primary"
+            placeholder="Buscar publicaciones..."
+            type="search"
+          >
+        </div>
 
-     <div id="type-filters" class="hide-scrollbar flex gap-2 overflow-x-auto pb-2">
-      <button type="button" data-type="" class="filter-button whitespace-nowrap rounded-full bg-primary px-4 py-1.5 font-label-bold text-label-bold text-white">Todo</button>
-      <button type="button" data-type="Guías" class="filter-button whitespace-nowrap rounded-full border border-outline-variant bg-white px-4 py-1.5 font-label-bold text-label-bold text-on-surface-variant">Guías</button>
-      <button type="button" data-type="Builds" class="filter-button whitespace-nowrap rounded-full border border-outline-variant bg-white px-4 py-1.5 font-label-bold text-label-bold text-on-surface-variant">Builds</button>
-      <button type="button" data-type="Bugs" class="filter-button whitespace-nowrap rounded-full border border-outline-variant bg-white px-4 py-1.5 font-label-bold text-label-bold text-on-surface-variant">Bugs</button>
-      <button type="button" data-type="General" class="filter-button whitespace-nowrap rounded-full border border-outline-variant bg-white px-4 py-1.5 font-label-bold text-label-bold text-on-surface-variant">General</button>
-     </div>
-    </div>
-   </section>
+        <div id="type-filters" class="hide-scrollbar flex gap-2 overflow-x-auto pb-2">
+          <button type="button" data-type="" class="filter-button whitespace-nowrap rounded-full bg-primary px-4 py-1.5 font-label-bold text-label-bold text-white">Todo</button>
+          <button type="button" data-type="Guías" class="filter-button whitespace-nowrap rounded-full border border-outline-variant bg-white px-4 py-1.5 font-label-bold text-label-bold text-on-surface-variant">Guías</button>
+          <button type="button" data-type="Builds" class="filter-button whitespace-nowrap rounded-full border border-outline-variant bg-white px-4 py-1.5 font-label-bold text-label-bold text-on-surface-variant">Builds</button>
+          <button type="button" data-type="Bugs" class="filter-button whitespace-nowrap rounded-full border border-outline-variant bg-white px-4 py-1.5 font-label-bold text-label-bold text-on-surface-variant">Bugs</button>
+          <button type="button" data-type="General" class="filter-button whitespace-nowrap rounded-full border border-outline-variant bg-white px-4 py-1.5 font-label-bold text-label-bold text-on-surface-variant">General</button>
+        </div>
+      </div>
+    </section>
 
-   <p id="post-status" class="py-3 text-center font-body-sm text-body-sm text-on-surface-variant" aria-live="polite">Cargando publicaciones…</p>
-   <div id="post-list" class="space-y-4"></div>
+    <p id="post-status" class="py-3 text-center font-body-sm text-body-sm text-on-surface-variant" aria-live="polite">
+      Cargando publicaciones…
+    </p>
+    <div id="post-list" class="space-y-4"></div>
   </main>
 
   <nav class="fixed bottom-0 left-4 right-4 z-[80] flex items-center justify-between border-t border-outline-variant bg-white/95 px-2 pb-2 pt-1 backdrop-blur-md" aria-label="Navegación inferior">
-   <a href="index.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
-    <span class="material-symbols-outlined text-[24px]">home</span>
-    <span class="text-[10px] font-bold">Inicio</span>
-   </a>
-   <a href="bdona.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
-    <span class="material-symbols-outlined text-[24px]">volunteer_activism</span>
-    <span class="text-[10px] font-bold">Donar</span>
-   </a>
-   <a href="post.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
-    <span class="material-symbols-outlined text-[24px]">edit_square</span>
-    <span class="text-[10px] font-bold">Nuevo</span>
-   </a>
-   <a href="mant.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
-    <span class="material-symbols-outlined text-[24px]">notifications</span>
-    <span class="text-[10px] font-bold">Nota</span>
-   </a>
-   <a href="inres.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
-    <span class="material-symbols-outlined text-[24px]">person</span>
-    <span class="text-[10px] font-bold">Ingreso</span>
-   </a>
+    <a href="index.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
+      <span class="material-symbols-outlined text-[24px]">home</span>
+      <span class="text-[10px] font-bold">Inicio</span>
+    </a>
+    <a href="bdona.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
+      <span class="material-symbols-outlined text-[24px]">volunteer_activism</span>
+      <span class="text-[10px] font-bold">Donar</span>
+    </a>
+    <a href="post.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
+      <span class="material-symbols-outlined text-[24px]">edit_square</span>
+      <span class="text-[10px] font-bold">Nuevo</span>
+    </a>
+    <a href="mant.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
+      <span class="material-symbols-outlined text-[24px]">notifications</span>
+      <span class="text-[10px] font-bold">Nota</span>
+    </a>
+    <a href="inres.html" class="flex flex-col items-center gap-1 text-on-surface-variant">
+      <span class="material-symbols-outlined text-[24px]">person</span>
+      <span class="text-[10px] font-bold">Ingreso</span>
+    </a>
   </nav>
 
   <script type="module">
@@ -329,32 +334,40 @@
       );
     }
 
-    async function togglePinned(post) {
+    async function togglePinned(post, button) {
       if (!currentUserIsAdmin) {
         window.alert("Solo un administrador puede fijar publicaciones.");
         return;
       }
 
-      const nextPinnedState = !post.fijado;
-
-      const { data, error } = await supabase
-        .from("posts")
-        .update({ fijado: nextPinnedState })
-        .eq("id", post.id)
-        .select("id, fijado");
-
-      if (error) {
-        console.error("Error cambiando el estado fijado:", error);
-        window.alert("No se pudo cambiar el estado de la publicación.");
-        return;
+      if (button) {
+        button.disabled = true;
       }
 
-      if (!data || data.length === 0) {
-        window.alert("No se modificó la publicación. Revisa tus permisos.");
-        return;
-      }
+      try {
+        const { data, error } = await supabase
+          .from("posts")
+          .update({ fijado: !post.fijado })
+          .eq("id", post.id)
+          .select("id, fijado");
 
-      await loadPosts();
+        if (error) {
+          console.error("Error cambiando el estado fijado:", error);
+          window.alert(`No se pudo cambiar el estado: ${error.message}`);
+          return;
+        }
+
+        if (!data || data.length === 0) {
+          window.alert("No se modificó la publicación. Revisa tus permisos.");
+          return;
+        }
+
+        await loadPosts();
+      } finally {
+        if (button?.isConnected) {
+          button.disabled = false;
+        }
+      }
     }
 
     async function editPost(post) {
@@ -390,7 +403,7 @@
 
       if (error) {
         console.error("Error editando publicación:", error);
-        window.alert("No se pudo editar la publicación. Revisa tus permisos.");
+        window.alert(`No se pudo editar la publicación: ${error.message}`);
         return;
       }
 
@@ -400,6 +413,76 @@
       }
 
       await loadPosts();
+    }
+
+    async function movePost(post, button) {
+      if (!currentUserId || !canManagePost(post)) {
+        window.alert("No tienes permiso para mover esta publicación.");
+        return;
+      }
+
+      const currentCategory = post["categoría"] || "";
+      const destination = window.prompt(
+        "Escribe el nombre exacto de la subcategoría destino:",
+        currentCategory
+      );
+
+      if (destination === null) return;
+
+      const destinationCategory = destination.trim();
+
+      if (!destinationCategory) {
+        window.alert("Debes escribir una subcategoría de destino.");
+        return;
+      }
+
+      if (destinationCategory === currentCategory) {
+        window.alert("La publicación ya está en esa subcategoría.");
+        return;
+      }
+
+      const confirmed = window.confirm(
+        `¿Mover esta publicación de "${currentCategory}" a "${destinationCategory}"?`
+      );
+
+      if (!confirmed) return;
+
+      const originalText = button?.textContent;
+
+      if (button) {
+        button.disabled = true;
+        button.textContent = "Moviendo…";
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from("posts")
+          .update({ "categoría": destinationCategory })
+          .eq("id", post.id)
+          .select("id, categoría");
+
+        if (error) {
+          console.error("Error moviendo publicación:", error);
+          window.alert(`No se pudo mover la publicación: ${error.message}`);
+          return;
+        }
+
+        if (!data || data.length === 0) {
+          window.alert("No se movió la publicación. Revisa tus permisos.");
+          return;
+        }
+
+        window.alert(`Publicación movida a "${destinationCategory}".`);
+        await loadPosts();
+      } catch (error) {
+        console.error("Error inesperado moviendo publicación:", error);
+        window.alert("Ocurrió un error inesperado al mover la publicación.");
+      } finally {
+        if (button?.isConnected) {
+          button.disabled = false;
+          button.textContent = originalText || "Mover";
+        }
+      }
     }
 
     async function deletePost(post, button) {
@@ -504,6 +587,18 @@
         authorInfo.appendChild(
           makeElement("p", "truncate font-label-bold text-label-bold text-on-surface", authorName)
         );
+
+        const signature = profile?.firma_personal?.trim();
+        if (signature) {
+          const signatureElement = makeElement(
+            "p",
+            "mt-0.5 line-clamp-2 font-body-sm text-[11px] text-on-surface-variant",
+            signature
+          );
+          signatureElement.title = signature;
+          authorInfo.appendChild(signatureElement);
+        }
+
         authorInfo.appendChild(
           makeElement("p", "font-body-sm text-[11px] text-outline", timeAgo(post.created_at))
         );
@@ -568,12 +663,12 @@
         card.appendChild(link);
 
         if (canManagePost(post)) {
-          const actions = makeElement("div", "flex justify-end gap-2");
+          const actions = makeElement("div", "flex flex-wrap justify-end gap-1.5");
 
           if (currentUserIsAdmin) {
             const pinButton = makeElement(
               "button",
-              "inline-flex items-center gap-1 rounded-lg border border-outline-variant px-3 py-2 font-label-bold text-label-bold text-primary transition-colors hover:bg-primary/5",
+              "inline-flex items-center gap-1 rounded-md border border-outline-variant px-2 py-1 text-[11px] font-label-bold text-primary transition-colors hover:bg-primary/5",
               post.fijado ? "Desfijar" : "Fijar"
             );
             pinButton.type = "button";
@@ -581,27 +676,35 @@
               "aria-label",
               post.fijado ? "Desfijar publicación" : "Fijar publicación"
             );
-            pinButton.addEventListener("click", () => togglePinned(post));
+            pinButton.addEventListener("click", () => togglePinned(post, pinButton));
             actions.appendChild(pinButton);
           }
 
           const editButton = makeElement(
             "button",
-            "rounded-lg border border-outline-variant px-3 py-2 font-label-bold text-label-bold text-primary",
+            "rounded-md border border-outline-variant px-2 py-1 text-[11px] font-label-bold text-primary transition-colors hover:bg-primary/5",
             "Editar"
           );
           editButton.type = "button";
           editButton.addEventListener("click", () => editPost(post));
 
+          const moveButton = makeElement(
+            "button",
+            "rounded-md border border-outline-variant px-2 py-1 text-[11px] font-label-bold text-on-surface-variant transition-colors hover:bg-surface-container-low",
+            "Mover"
+          );
+          moveButton.type = "button";
+          moveButton.addEventListener("click", () => movePost(post, moveButton));
+
           const deleteButton = makeElement(
             "button",
-            "rounded-lg border border-red-200 px-3 py-2 font-label-bold text-label-bold text-error",
+            "rounded-md border border-red-200 px-2 py-1 text-[11px] font-label-bold text-error transition-colors hover:bg-red-50",
             "Eliminar"
           );
           deleteButton.type = "button";
           deleteButton.addEventListener("click", () => deletePost(post, deleteButton));
 
-          actions.append(editButton, deleteButton);
+          actions.append(editButton, moveButton, deleteButton);
           card.appendChild(actions);
         }
 
@@ -640,7 +743,7 @@
 
       let query = supabase
         .from("posts")
-        .select("id, created_at, titulo, contenido, tipo, like_count, comment_count, author_id, fijado")
+        .select("id, created_at, titulo, contenido, tipo, like_count, comment_count, author_id, fijado, categoría")
         .eq("categoría", category)
         .order("fijado", { ascending: false })
         .order("created_at", { ascending: false });
@@ -666,13 +769,13 @@
       if (authorIds.length > 0) {
         const { data: profiles, error: profilesError } = await supabase
           .from("usuarios_foro")
-          .select("auth_user_id, username, avatar_url")
+          .select("auth_user_id, username, avatar_url, firma_personal")
           .in("auth_user_id", authorIds);
 
         if (currentRequest !== requestVersion) return;
 
         if (profilesError) {
-          console.error("Error cargando perfiles:", profilesError);
+          console.error("Error cargando perfiles y firmas:", profilesError);
         } else {
           for (const profile of profiles || []) {
             profilesById.set(profile.auth_user_id, profile);
@@ -728,5 +831,5 @@
       header.classList.toggle("shadow-md", window.scrollY > 20);
     });
   </script>
- </body>
+</body>
 </html>
