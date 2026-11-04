@@ -36,7 +36,6 @@
       pointer-events: auto;
     }
 
-    /* Evita que elementos anchos generen desbordamiento horizontal. */
     main,
     article,
     #post-title,
@@ -47,7 +46,6 @@
       min-width: 0;
     }
 
-    /* Parte palabras, nombres y enlaces largos que no tengan espacios. */
     #post-title,
     #post-content,
     #post-author,
@@ -308,7 +306,8 @@
     async function loadProfiles(userIds) {
       const ids = [...new Set(userIds.filter(Boolean))];
 
-      if (!currentUser || ids.length === 0) return new Map();
+      // Los perfiles públicos también deben cargarse cuando no hay sesión.
+      if (ids.length === 0) return new Map();
 
       const { data, error } = await supabase
         .from("usuarios_foro")
@@ -355,6 +354,7 @@
         image.alt = data.titulo || "Imagen de la publicación";
         imageContainer.hidden = false;
       } else {
+        image.removeAttribute("src");
         imageContainer.hidden = true;
       }
     }
@@ -507,7 +507,7 @@
             .eq("user_id", currentUser.id)
         : await supabase
             .from("post_likes")
-            .insert({ post_id: postId });
+            .insert({ post_id: postId, user_id: currentUser.id });
 
       button.disabled = false;
 
@@ -517,7 +517,10 @@
       }
 
       setPressed(button, !alreadyLiked);
-      currentLikeCount += alreadyLiked ? -1 : 1;
+      currentLikeCount = Math.max(
+        0,
+        currentLikeCount + (alreadyLiked ? -1 : 1)
+      );
       document.getElementById("like-count").textContent = String(currentLikeCount);
       showStatus("");
     });
@@ -540,7 +543,7 @@
             .eq("user_id", currentUser.id)
         : await supabase
             .from("post_bookmarks")
-            .insert({ post_id: postId });
+            .insert({ post_id: postId, user_id: currentUser.id });
 
       button.disabled = false;
 
@@ -577,7 +580,7 @@
             .eq("user_id", currentUser.id)
         : await supabase
             .from("comment_likes")
-            .insert({ comment_id: commentId });
+            .insert({ comment_id: commentId, user_id: currentUser.id });
 
       button.disabled = false;
 
@@ -587,7 +590,9 @@
       }
 
       setPressed(button, !alreadyLiked);
-      countElement.textContent = String(oldCount + (alreadyLiked ? -1 : 1));
+      countElement.textContent = String(
+        Math.max(0, oldCount + (alreadyLiked ? -1 : 1))
+      );
       showStatus("");
     });
 
@@ -614,7 +619,11 @@
 
       const { error } = await supabase
         .from("post_comments")
-        .insert({ post_id: postId, content });
+        .insert({
+          post_id: postId,
+          author_id: currentUser.id,
+          content,
+        });
 
       submitButton.disabled = false;
 
@@ -625,7 +634,13 @@
 
       input.value = "";
       showStatus("Comentario publicado.");
-      await loadComments();
+
+      try {
+        await loadComments();
+      } catch (loadError) {
+        console.error(loadError);
+        showStatus("El comentario se publicó, pero no se pudo actualizar la lista.", true);
+      }
     });
 
     window.toggleDrawer = function (open) {
