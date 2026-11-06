@@ -380,8 +380,11 @@
       }
 
       .achievement-list { grid-template-columns: 1fr; }
+
       .achievements,
-      .signature-card { padding: 18px; }
+      .signature-card {
+        padding: 18px;
+      }
 
       .cover-edit-button {
         top: 10px;
@@ -454,8 +457,16 @@
     </section>
 
     <div id="image-controls" hidden>
-      <input id="avatar-input" type="file" accept="image/jpeg,image/png,image/webp">
-      <input id="cover-input" type="file" accept="image/jpeg,image/png,image/webp">
+      <input
+        id="avatar-input"
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+      >
+      <input
+        id="cover-input"
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+      >
     </div>
 
     <section class="stats" aria-label="Estadísticas del perfil">
@@ -574,9 +585,62 @@
         value.trim() || "Aún no has escrito una firma.";
     }
 
-    function showAvatar(url, username) {
+    function getOwnStoragePath(value, userId) {
+      if (!value || !userId) return null;
+
+      try {
+        let candidate = value;
+
+        if (/^https?:\/\//i.test(value)) {
+          const parsedUrl = new URL(value);
+          const projectOrigin = new URL(SUPABASE_URL).origin;
+          const publicPrefix =
+            `/storage/v1/object/public/${STORAGE_BUCKET}/`;
+
+          if (parsedUrl.origin !== projectOrigin) return null;
+          if (!parsedUrl.pathname.startsWith(publicPrefix)) return null;
+
+          candidate = parsedUrl.pathname.slice(publicPrefix.length);
+        }
+
+        const decodedPath = decodeURIComponent(candidate)
+          .replace(/^\/+/, "");
+
+        const segments = decodedPath.split("/");
+
+        if (segments.length < 2) return null;
+        if (segments[0] !== userId) return null;
+        if (segments.some(segment => segment === "." || segment === "..")) {
+          return null;
+        }
+
+        return decodedPath;
+      } catch {
+        return null;
+      }
+    }
+
+    function getDisplayImageUrl(value) {
+      if (!value) return null;
+
+      const ownPath = getOwnStoragePath(value, currentUser?.id);
+
+      if (ownPath) {
+        const { data } = supabase.storage
+          .from(STORAGE_BUCKET)
+          .getPublicUrl(ownPath);
+
+        return data.publicUrl;
+      }
+
+      // Mantiene compatibilidad con URLs existentes que no sean de este bucket.
+      return value;
+    }
+
+    function showAvatar(value, username) {
       const fallback = document.getElementById("avatar-fallback");
       const avatar = document.getElementById("avatar");
+      const imageUrl = getDisplayImageUrl(value);
 
       fallback.textContent = username.charAt(0).toUpperCase();
 
@@ -585,16 +649,24 @@
         fallback.hidden = false;
       };
 
+      if (!imageUrl) {
+        avatar.removeAttribute("src");
+        avatar.hidden = true;
+        fallback.hidden = false;
+        return;
+      }
+
       avatar.alt = `Avatar de ${username}`;
-      avatar.src = url || DEFAULT_AVATAR_URL;
+      avatar.src = imageUrl;
       avatar.hidden = false;
       fallback.hidden = true;
     }
 
-    function showCover(url) {
+    function showCover(value) {
       const coverImage = document.getElementById("cover-image");
+      const imageUrl = getDisplayImageUrl(value);
 
-      if (!url) {
+      if (!imageUrl) {
         coverImage.removeAttribute("src");
         coverImage.hidden = true;
         return;
@@ -604,22 +676,8 @@
         coverImage.hidden = true;
       };
 
-      coverImage.src = url;
+      coverImage.src = imageUrl;
       coverImage.hidden = false;
-    }
-
-    function getOwnStoragePath(publicUrl, userId) {
-      const prefix =
-        `${SUPABASE_URL}/storage/v1/object/public/${STORAGE_BUCKET}/`;
-
-      if (!publicUrl?.startsWith(prefix)) return null;
-
-      try {
-        const path = decodeURIComponent(publicUrl.slice(prefix.length));
-        return path.startsWith(`${userId}/`) ? path : null;
-      } catch {
-        return null;
-      }
     }
 
     async function uploadProfileImage(file, type) {
@@ -659,6 +717,8 @@
       button.disabled = true;
       button.textContent = "Subiendo…";
 
+      let uploadedPath = null;
+
       try {
         const column = isAvatar ? "avatar_url" : "cover_url";
         const oldPath = getOwnStoragePath(
@@ -669,11 +729,12 @@
         const filePrefix = isAvatar ? "" : "cover-";
         const fileName =
           `${filePrefix}${crypto.randomUUID()}.${extension}`;
-        const storagePath = `${currentUser.id}/${fileName}`;
+
+        uploadedPath = `${currentUser.id}/${fileName}`;
 
         const { error: uploadError } = await supabase.storage
           .from(STORAGE_BUCKET)
-          .upload(storagePath, file, {
+          .upload(uploadedPath, file, {
             cacheControl: "3600",
             contentType: file.type,
             upsert: false
@@ -686,27 +747,18 @@
           : "forum_set_my_cover_path";
 
         const rpcArgument = isAvatar
-          ? { p_avatar_path: storagePath }
-          : { p_cover_path: storagePath };
+          ? { p_avatar_path: uploadedPath }
+          : { p_cover_path: uploadedPath };
 
         const { error: updateError } = await supabase.rpc(
           rpcName,
           rpcArgument
         );
 
-        if (updateError) {
-          await supabase.storage
-            .from(STORAGE_BUCKET)
-            .remove([storagePath]);
+        if (updateError) throw updateError;
 
-          throw updateError;
-        }
-
-        const { data: publicUrlData } = supabase.storage
-          .from(STORAGE_BUCKET)
-          .getPublicUrl(storagePath);
-
-        currentProfile[column] = publicUrlData.publicUrl;
+        // Se guarda localmente la ruta; showAvatar/showCover aceptan tanto ruta como URL.
+        currentProfile[column] = uploadedPath;
 
         if (isAvatar) {
           showAvatar(
@@ -717,7 +769,7 @@
           showCover(currentProfile.cover_url);
         }
 
-        if (oldPath && oldPath !== storagePath) {
+        if (oldPath && oldPath !== uploadedPath) {
           const { error: removeError } = await supabase.storage
             .from(STORAGE_BUCKET)
             .remove([oldPath]);
@@ -738,8 +790,22 @@
         );
       } catch (error) {
         console.error("Error subiendo la imagen:", error);
+
+        if (uploadedPath) {
+          const { error: cleanupError } = await supabase.storage
+            .from(STORAGE_BUCKET)
+            .remove([uploadedPath]);
+
+          if (cleanupError) {
+            console.warn(
+              "No se pudo limpiar el archivo subido:",
+              cleanupError
+            );
+          }
+        }
+
         showStatus(
-          "No se pudo subir la imagen. Revisa la sesión y vuelve a intentarlo.",
+          "No se pudo subir la imagen. Revisa la sesión, las políticas de Storage y la función RPC.",
           "error"
         );
       } finally {
@@ -780,17 +846,69 @@
         currentProfile.firma_personal = data.firma_personal;
         signatureInput.value = data.firma_personal || "";
         updateSignaturePreview();
+
         showStatus("Tu firma personal se guardó correctamente.", "success");
       } catch (error) {
         console.error("Error guardando la firma:", error);
         showStatus(
-          "No se pudo guardar la firma. Comprueba tu sesión y vuelve a intentarlo.",
+          "No se pudo guardar la firma. Comprueba tu sesión y las políticas RLS.",
           "error"
         );
       } finally {
         signatureButton.disabled = false;
         signatureButton.textContent = "Guardar firma";
       }
+    }
+
+    function getFallbackRank(postCount) {
+      if (postCount >= 50) return { name: "Leyenda", emblem: "🏆" };
+      if (postCount >= 20) return { name: "Veterano", emblem: "🛡️" };
+      if (postCount >= 5) return { name: "Participante", emblem: "⭐" };
+      if (postCount >= 1) return { name: "Explorador", emblem: "🧭" };
+
+      return { name: "Novato", emblem: "🌱" };
+    }
+
+    function renderAchievements(postCount) {
+      const achievements = [
+        {
+          name: "Primer post",
+          description: "Crear tu primera publicación",
+          goal: 1,
+          icon: "✍️"
+        },
+        {
+          name: "Conversador",
+          description: "Crear 10 publicaciones",
+          goal: 10,
+          icon: "💬"
+        },
+        {
+          name: "Veterano",
+          description: "Crear 50 publicaciones",
+          goal: 50,
+          icon: "🏆"
+        }
+      ];
+
+      document.getElementById("achievement-list").innerHTML =
+        achievements.map(item => {
+          const unlocked = postCount >= item.goal;
+
+          return `
+            <article class="achievement ${unlocked ? "unlocked" : ""}">
+              <span class="achievement-icon">
+                ${unlocked ? item.icon : "🔒"}
+              </span>
+              <strong>${item.name}</strong>
+              <p>${item.description}</p>
+              <p>${unlocked
+                ? "Desbloqueado"
+                : `Progreso: ${postCount}/${item.goal}`}
+              </p>
+            </article>
+          `;
+        }).join("");
     }
 
     avatarEditButton.addEventListener("click", () => {
@@ -831,23 +949,31 @@
 
         currentUser = user;
 
-        const [profileResult, postsResult] = await Promise.all([
-          supabase
-            .from("usuarios_foro")
-            .select(
-              "username, avatar_url, cover_url, registrado_el, firma_personal"
-            )
-            .eq("auth_user_id", user.id)
-            .maybeSingle(),
+        const [profileResult, postsResult, assignedRankResult] =
+          await Promise.all([
+            supabase
+              .from("usuarios_foro")
+              .select(
+                "username, avatar_url, cover_url, registrado_el, firma_personal"
+              )
+              .eq("auth_user_id", user.id)
+              .maybeSingle(),
 
-          supabase
-            .from("posts")
-            .select("id", { count: "exact", head: true })
-            .eq("author_id", user.id)
-        ]);
+            supabase
+              .from("posts")
+              .select("id", { count: "exact", head: true })
+              .eq("author_id", user.id),
+
+            supabase
+              .from("usuarios_rangos_foro")
+              .select("rango:rangos_foro(nombre, icono, etiqueta)")
+              .eq("auth_user_id", user.id)
+              .maybeSingle()
+          ]);
 
         if (profileResult.error) throw profileResult.error;
         if (postsResult.error) throw postsResult.error;
+        if (assignedRankResult.error) throw assignedRankResult.error;
 
         currentProfile = profileResult.data;
 
@@ -886,19 +1012,14 @@
             "Perfil del foro";
         }
 
-        let rankInfo;
+        const assignedRank = assignedRankResult.data?.rango;
 
-        if (postCount >= 50) {
-          rankInfo = { name: "Leyenda", emblem: "🏆" };
-        } else if (postCount >= 20) {
-          rankInfo = { name: "Veterano", emblem: "🛡️" };
-        } else if (postCount >= 5) {
-          rankInfo = { name: "Participante", emblem: "⭐" };
-        } else if (postCount >= 1) {
-          rankInfo = { name: "Explorador", emblem: "🧭" };
-        } else {
-          rankInfo = { name: "Novato", emblem: "🌱" };
-        }
+        const rankInfo = assignedRank?.nombre
+          ? {
+              name: assignedRank.etiqueta || assignedRank.nombre,
+              emblem: assignedRank.icono || "🏅"
+            }
+          : getFallbackRank(postCount);
 
         const rankEmblem = document.getElementById("rank-emblem");
         rankEmblem.textContent = rankInfo.emblem;
@@ -913,52 +1034,13 @@
           `Rango: ${rankInfo.name}`;
         document.getElementById("rank-stat").textContent = rankInfo.name;
 
-        const achievements = [
-          {
-            name: "Primer post",
-            description: "Crear tu primera publicación",
-            goal: 1,
-            icon: "✍️"
-          },
-          {
-            name: "Conversador",
-            description: "Crear 10 publicaciones",
-            goal: 10,
-            icon: "💬"
-          },
-          {
-            name: "Veterano",
-            description: "Crear 50 publicaciones",
-            goal: 50,
-            icon: "🏆"
-          }
-        ];
-
-        document.getElementById("achievement-list").innerHTML =
-          achievements.map(item => {
-            const unlocked = postCount >= item.goal;
-
-            return `
-              <article class="achievement ${unlocked ? "unlocked" : ""}">
-                <span class="achievement-icon">
-                  ${unlocked ? item.icon : "🔒"}
-                </span>
-                <strong>${item.name}</strong>
-                <p>${item.description}</p>
-                <p>${unlocked
-                  ? "Desbloqueado"
-                  : `Progreso: ${postCount}/${item.goal}`}
-                </p>
-              </article>
-            `;
-          }).join("");
-
+        renderAchievements(postCount);
         showStatus("");
       } catch (error) {
         console.error("Error cargando el perfil:", error);
         usernameElement.textContent = "No se pudo cargar el perfil";
         showStatus(
-          "Revisa la sesión y la configuración de Supabase.",
+          "Revisa la sesión, las políticas RLS y la configuración de Supabase.",
           "error"
         );
       }
